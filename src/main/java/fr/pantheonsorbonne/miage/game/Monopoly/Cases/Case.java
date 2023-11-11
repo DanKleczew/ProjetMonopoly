@@ -1,0 +1,15 @@
+package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
+
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
+
+public abstract class Case {
+
+    protected String nameCase;
+
+    public Case(String name){
+        this.nameCase = name;
+    }
+
+    protected abstract void doCaseEffect(Player joueur) throws IsBankruptException;
+}
