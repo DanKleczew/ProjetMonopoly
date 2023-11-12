@@ -11,5 +11,10 @@ public abstract class Case {
         this.nameCase = name;
     }
 
+    @Override
+    public String toString(){
+        return nameCase;
+    }
+    
     protected abstract void doCaseEffect(Player joueur) throws IsBankruptException;
 }

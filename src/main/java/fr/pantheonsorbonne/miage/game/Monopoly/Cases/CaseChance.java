@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.PhysicalGame;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CaseChance extends Case {
@@ -10,9 +12,8 @@ public class CaseChance extends Case {
     }
 
     @Override
-    protected void doCaseEffect(Player joueur) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'doCaseEffect'");
+    protected void doCaseEffect(Player joueur) throws IsBankruptException {
+        PhysicalGame.deckChance.piocher().cardEffect(joueur);
     }
 
 }

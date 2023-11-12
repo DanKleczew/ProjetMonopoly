@@ -8,14 +8,13 @@ public abstract class CaseAchetable extends Case{
 
     public int prixAchat;
     protected Player possesseur = null;
+    protected TypePropriete typeOuCouleur;
 
     public CaseAchetable(String name, int prixAchat, TypePropriete typeOuCouleur) {
         super(name);
-        //TODO Auto-generated constructor stub
+        this.prixAchat = prixAchat;
+        this.typeOuCouleur = typeOuCouleur;
     }    
-
-
-
 
     public boolean isBuyable(){
         return (Objects.isNull(possesseur));
