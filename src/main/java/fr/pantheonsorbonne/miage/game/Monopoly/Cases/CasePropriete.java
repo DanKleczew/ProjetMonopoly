@@ -4,8 +4,8 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CasePropriete extends CaseAchetable{
 
-    public CasePropriete(String name, int prixAchat) {
-        super(name, prixAchat);
+    public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
+        super(name, prixAchat, couleur);
     }
 
     @Override

@@ -5,7 +5,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public class CaseGare extends CaseAchetable {
 
     public CaseGare(String name) {
-        super(name, 200);
+        super(name, 200, TypePropriete.GARE);
         //TODO Auto-generated constructor stub
     }
 

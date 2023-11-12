@@ -9,7 +9,7 @@ public abstract class CaseAchetable extends Case{
     public int prixAchat;
     protected Player possesseur = null;
 
-    public CaseAchetable(String name, int prixAchat) {
+    public CaseAchetable(String name, int prixAchat, TypePropriete typeOuCouleur) {
         super(name);
         //TODO Auto-generated constructor stub
     }    
