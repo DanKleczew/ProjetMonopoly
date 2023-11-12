@@ -11,4 +11,5 @@ public enum TypePropriete {
     TypePropriete(int nbProprietes){
         this.nombreProprietesDeCeType = nbProprietes;
     }
+    
 }
