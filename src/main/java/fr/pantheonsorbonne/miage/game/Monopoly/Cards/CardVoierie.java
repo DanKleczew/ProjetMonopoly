@@ -19,8 +19,8 @@ public class CardVoierie implements Card{
     @Override
     public void cardEffect(Player joueur) throws IsBankruptException {
         int[] nombreImmobilier = Board.getNombreMaisonsHotels(joueur);
-
-        joueur.bankAccountModify(-(nombreImmobilier[1]*prixParHotel + nombreImmobilier[0]*prixParMaison));
+        int prixAPayer = nombreImmobilier[1]*prixParHotel + nombreImmobilier[0]*prixParMaison;
+        joueur.bankAccountModify(-prixAPayer);
     }
     
 }
