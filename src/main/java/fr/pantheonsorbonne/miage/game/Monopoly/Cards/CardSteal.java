@@ -33,6 +33,4 @@ public class CardSteal implements Card {
             }
         }
     }
-
-    // ALERTE PROBLEME SI BANKRUPT ICI A GERER
 }

@@ -19,16 +19,6 @@ public class CasePropriete extends CaseAchetable{
     }
 
     @Override
-    protected void doCaseEffect(Player joueur) {
-        if (this.isBuyable()){
-            joueur.askBuyProperty();
-        }
-        else {
-            pay(joueur);
-        }
-    }
-
-    @Override
     protected void pay(Player joueur) {
         
         
