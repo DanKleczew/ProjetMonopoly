@@ -28,4 +28,8 @@ public enum TypePropriete {
     public int[] getEchelleDeLoyer() {
         return echelleDeLoyer;
     }
+
+    public int getNbProprieteDeCeType(){
+        return nombreProprietesDeCeType;
+    }
 }

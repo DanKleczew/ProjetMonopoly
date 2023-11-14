@@ -15,22 +15,15 @@ public class CardSteal implements Card {
         this.stealAmount = stealAmount;
     }
 
-    private boolean verifMoneyEnough(Player joueur, int moneyNeeded) {
-        return (joueur.getBankAccount() >= moneyNeeded);
-    }
     @Override
     public void cardEffect(Player joueurGagnant) throws IsBankruptException {
         // Joueur piochant la carte gagne son argent
         // Autres joueurs perdent de l'argent
-        for (Player joueur : Board.getListeJoueurs()) {
-            if (!joueurGagnant.equals(joueur)) {
-                if (verifMoneyEnough(joueur, stealAmount)) {
-                    joueurGagnant.bankAccountModify(stealAmount);
-                } else {
-                    joueurGagnant.bankAccountModify(joueur.getBankAccount());
-                }
-                joueur.bankAccountModify(-stealAmount);
+        for (Player joueurCourrant : Board.getListeJoueurs()) {
+            if (!joueurGagnant.equals(joueurCourrant)) {
+                joueurCourrant.transaction(joueurGagnant, stealAmount);
             }
+
         }
     }
 }

@@ -1,7 +1,9 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
@@ -10,6 +12,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCaisseDeCommunaute;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCompagnie;
@@ -78,6 +81,8 @@ public class Board {
     final private static Queue<Player> listeJoueurs = new ArrayDeque<Player>();
     private static Map<Player, Integer> positionJoueurs = new HashMap<>();
 
+    private static int sumDiceThisRound;
+
     public Board(int nbJoueurs) {
         for (int i = 1; i <= nbJoueurs; i++) {
             listeJoueurs.add(new Manual(i));
@@ -105,6 +110,15 @@ public class Board {
 
     public static int getPositionJoueur(Player joueur) {
         return positionJoueurs.get(joueur);
+    }
+
+    //Appelée à chaque lancer de dés (Voir Player.throwDice())
+    public static void setSommeDesThisRound(int somme){
+        sumDiceThisRound = somme;
+    }
+
+    public static int getSommeDesThisRound(){
+        return sumDiceThisRound;
     }
 
     public static void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
@@ -142,5 +156,17 @@ public class Board {
     }
     public static void setNewHouse(TypePropriete couleur, int nombreMaison){
 
+    }
+
+    public static List<CaseAchetable> getOwnedProperties(Player joueur) {
+        List<CaseAchetable> listeProprietes = new ArrayList<>();
+        for (Case caseActuelle : plateau) {
+            if (caseActuelle instanceof CaseAchetable) {
+                if (((CaseAchetable) caseActuelle).getOwner().equals(joueur)){
+                    listeProprietes.add((CaseAchetable) caseActuelle);
+                }                
+            }
+        }
+        return listeProprietes;
     }
 }
