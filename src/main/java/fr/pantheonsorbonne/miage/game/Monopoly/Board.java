@@ -1,5 +1,14 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import java.util.ArrayDeque;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Queue;
+
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCaisseDeCommunaute;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseChance;
@@ -10,12 +19,25 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseNeutre;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseTaxe;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.Manual;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class Board {
-    final private Case[] plateau;
+    private static Case[] plateau;
+    final private static Deck deckCaisse = new DeckCaisse();
+    final private static Deck deckChance = new DeckChance();
+    final private static Queue<Player> listeJoueurs = new ArrayDeque<Player>();
+    private static Map<Player, Integer> positionJoueurs = new HashMap<>();
 
-    public Board() {
-        this.plateau = new Case[] {
+    public Board(int nbJoueurs) {
+         for (int i = 1; i <= nbJoueurs; i++){
+            listeJoueurs.add(new Manual(i));
+        }
+        for (Player joueur : listeJoueurs){
+            positionJoueurs.put(joueur, 0);
+        }
+        plateau = new Case[] {
                 new CaseNeutre("Départ"),
                 new CasePropriete("Boulevard de Belleville", 60, TypePropriete.MARRON),
                 new CaseCaisseDeCommunaute("CDC1"),
@@ -60,7 +82,50 @@ public class Board {
 
     }
 
-    public Case[] getBoard() {
-        return this.plateau;
+    public static int getNombreJoueurs(){
+        return listeJoueurs.size();
     }
+    public static Queue<Player> getListeJoueurs(){
+        return listeJoueurs;
+    }
+    public static Card pickAChanceCard(){
+        return(deckChance.piocher());
+    }
+
+    public static Card pickACaisseCard(){
+        return(deckCaisse.piocher());
+    }
+
+    public static int getPositionJoueur(Player joueur){
+        return positionJoueurs.get(joueur);
+    }
+
+    public static void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException{
+        if (indiceCase < positionJoueurs.get(joueur)) //C'est à dire on est passé par la case départ
+            joueur.bankAccountModify(200);
+             
+        positionJoueurs.put(joueur, indiceCase);
+    }
+
+    public static int getIndiceNextGare(Player joueur){
+        for (int i = getPositionJoueur(joueur); ; i++, i%=40){
+            if (plateau[i] instanceof CaseGare){
+                return i;
+            }
+        }
+    }
+
+    public static int[] getNombreMaisonsHotels(Player joueur){
+        int nombreMaisons = 0; int nombreHotels = 0;
+        for (Case caseParticuliere : plateau){
+            if (caseParticuliere instanceof CasePropriete && ((CasePropriete) caseParticuliere).getOwner().equals(joueur)){
+                nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
+                if (((CasePropriete) caseParticuliere).hasHotel()){
+                    nombreHotels++;
+                }
+            }
+        }
+        return new int[] {nombreMaisons, nombreHotels};
+    }
+    
 }

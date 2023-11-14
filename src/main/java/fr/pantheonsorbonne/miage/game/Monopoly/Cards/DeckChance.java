@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DeckChance extends Deck {
-    private final static List<Card> DECK_ARRAY = new ArrayList<Card>(Arrays.asList(
+    private final static List<Card> DECK_ARRAY_CHANCE = new ArrayList<Card>(Arrays.asList(
             new CardDeplacement("rue de la Paix"),
             new CardDeplacement("case départ"),
             new CardDeplacement("l'Avenue Henr-Martin"),
@@ -24,6 +24,6 @@ public class DeckChance extends Deck {
             new CardWinLose(150)));
 
     public DeckChance() {
-        super(DECK_ARRAY);
+        super(DECK_ARRAY_CHANCE);
     }
 }
