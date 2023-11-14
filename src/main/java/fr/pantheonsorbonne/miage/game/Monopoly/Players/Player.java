@@ -4,7 +4,7 @@ import java.util.Random;
 
 public abstract class Player {
 
-    protected int bankAccount = 1500;
+    private int bankAccount = 1500;
     final protected int ID;
     protected int timeOut = 0;
 
@@ -20,6 +20,9 @@ public abstract class Player {
             throw new IsBankruptException();
         }
         
+    }
+    public int getBankAccount(){
+        return this.bankAccount;
     }
 
     public void setTimeOut(){
