@@ -9,11 +9,6 @@ public class CaseCompagnie extends CaseAchetable {
         //TODO Auto-generated constructor stub
     }
 
-    @Override
-    protected void doCaseEffect(Player joueur) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'doCaseEffect'");
-    }
     
     @Override
     protected void pay(Player joueurQuiPaye) {
