@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cards;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -23,21 +23,21 @@ public class CardDeplacement implements Card {
     }
 
     @Override
-    public void cardEffect(Player joueur) throws IsBankruptException {
+    public void cardEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException {
         int indiceDestination; //La destination à calculer selon le constructeur qui a été appellé
 
         if (indiceDestinationPrecise != -1){
             indiceDestination = indiceDestinationPrecise;
         }
         else if (nombreDeCases != -1){
-            indiceDestination = Board.getPositionJoueur(joueur) + nombreDeCases;
+            indiceDestination = plateauComplet.getPositionJoueur(joueur) + nombreDeCases;
         }
         else {
 
-            indiceDestination = Board.getIndiceNextGare(joueur);
+            indiceDestination = plateauComplet.getIndiceNextGare(joueur);
         }
 
-        Board.assignNewPosition(joueur, indiceDestination);
+        plateauComplet.assignNewPosition(joueur, indiceDestination);
         }
         
     

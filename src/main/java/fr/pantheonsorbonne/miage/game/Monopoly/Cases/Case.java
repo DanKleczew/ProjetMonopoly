@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -16,5 +17,7 @@ public abstract class Case {
         return nameCase;
     }
     
-    protected abstract void doCaseEffect(Player joueur) throws IsBankruptException;
+    public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException{
+        System.out.println(this.toString());
+    }
 }

@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cards;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -16,10 +16,10 @@ public class CardSteal implements Card {
     }
 
     @Override
-    public void cardEffect(Player joueurGagnant) throws IsBankruptException {
+    public void cardEffect(Player joueurGagnant, PerfectBoard plateauComplet) throws IsBankruptException {
         // Joueur piochant la carte gagne son argent
         // Autres joueurs perdent de l'argent
-        for (Player joueurCourrant : Board.getListeJoueurs()) {
+        for (Player joueurCourrant : plateauComplet.getListeJoueurs()) {
             if (!joueurGagnant.equals(joueurCourrant)) {
                 joueurCourrant.transaction(joueurGagnant, stealAmount);
             }
