@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PhysicalGame;
+import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -13,7 +13,7 @@ public class CaseChance extends Case {
 
     @Override
     protected void doCaseEffect(Player joueur) throws IsBankruptException {
-        PhysicalGame.deckChance.piocher().cardEffect(joueur);
+        Board.pickAChanceCard().cardEffect(joueur);
     }
 
 }
