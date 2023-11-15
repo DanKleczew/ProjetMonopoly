@@ -1,43 +1,45 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cards;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PhysicalGame;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseGare;
+import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CardDeplacement implements Card {
     
-    private int indiceDestination = -1;
+    private int indiceDestinationPrecise = -1;
     private int nombreDeCases = -1;
 
+    //Constructeur appelé en cas de téléportation ("Rendez-vous Rue de la Paix" par exemple)
     public CardDeplacement(String nomDestinationCase, int indiceDestinationCase){
-        this.indiceDestination = indiceDestinationCase;
+        this.indiceDestinationPrecise = indiceDestinationCase;
     }
+    //Constructeur appelé en cas d'avancée / reculée d'un nombre défini de case ("Reculez de 3 cases" par exemple)
     public CardDeplacement(int nombreDeCase) {
         this.nombreDeCases = nombreDeCase;
     }
+    //Constructeur appelé en cas d'avancée "jusqu'à la prochaine gare"
     public CardDeplacement(String nomDestinationCase){
 
     }
 
     @Override
     public void cardEffect(Player joueur) throws IsBankruptException {
-        if (indiceDestination != -1){
-            PhysicalGame.positionJoueurs.replace(joueur, indiceDestination);
+        int indiceDestination; //La destination à calculer selon le constructeur qui a été appellé
+
+        if (indiceDestinationPrecise != -1){
+            indiceDestination = indiceDestinationPrecise;
         }
         else if (nombreDeCases != -1){
-            int positionActuelle = PhysicalGame.positionJoueurs.get(joueur);
-            PhysicalGame.positionJoueurs.replace(joueur, positionActuelle + nombreDeCases);
+            indiceDestination = Board.getPositionJoueur(joueur) + nombreDeCases;
         }
         else {
-            int positionActuelle = PhysicalGame.positionJoueurs.get(joueur);
-            for (int i = positionActuelle; ; i++, i%=40){
-                if (PhysicalGame.plateau.getBoard()[i] instanceof CaseGare){
-                    PhysicalGame.positionJoueurs.replace(joueur, i);
-                    break;
-                }
-            }
+
+            indiceDestination = Board.getIndiceNextGare(joueur);
         }
-    }
+
+        Board.assignNewPosition(joueur, indiceDestination);
+        }
+        
+    
     
 }
