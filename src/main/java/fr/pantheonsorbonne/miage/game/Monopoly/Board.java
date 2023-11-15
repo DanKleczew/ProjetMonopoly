@@ -86,6 +86,10 @@ public abstract class Board {
 
         positionJoueurs.put(joueur, indiceCase);
         plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
+        /*On pourrait placer cette méthode dans PerfectBoard mais on préfère que les méthodes qui influent sur 
+        le plateau physique ou la position des joueurs sur celui-ci soient dans cette classe.
+        PerfectBoard étant la seule classe héritée de Board et Board étant abstract, le downcasting est sans risque
+        */
     }
 
     public void walk(Player joueur, int nombreCase) throws IsBankruptException{
