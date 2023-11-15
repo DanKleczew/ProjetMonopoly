@@ -6,7 +6,7 @@ import java.util.List;
 
 public class DeckCaisse extends Deck {
     private final static List<Card> DECK_ARRAY_CAISSE = new ArrayList<Card>(Arrays.asList(
-            new CardDeplacement("depart",0),
+            new CardDeplacement("Départ",0),
             new CardWinLose(200),
             new CardWinLose(-50),
             new CardWinLose(50),

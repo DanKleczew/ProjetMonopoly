@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cards;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -17,8 +17,8 @@ public class CardVoierie implements Card{
     }
 
     @Override
-    public void cardEffect(Player joueur) throws IsBankruptException {
-        int[] nombreImmobilier = Board.getNombreMaisonsHotels(joueur);
+    public void cardEffect(Player joueur, PerfectBoard plateau) throws IsBankruptException {
+        int[] nombreImmobilier = plateau.getNombreMaisonsHotels(joueur);
         int prixAPayer = nombreImmobilier[1]*prixParHotel + nombreImmobilier[0]*prixParMaison;
         joueur.bankAccountModify(-prixAPayer);
     }

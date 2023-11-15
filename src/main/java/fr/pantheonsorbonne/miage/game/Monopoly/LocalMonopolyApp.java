@@ -1,11 +1,13 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+
+
 public final class LocalMonopolyApp {
 
-    static final Board plateau = new Board(2);
+    private static PerfectBoard plateauComplet = new PerfectBoard();
 
     public static void main(String... args) {
-        
-
+        System.out.println(plateauComplet);
     }
+
 }

@@ -1,16 +1,11 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import java.util.ArrayDeque;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCaisseDeCommunaute;
@@ -23,11 +18,10 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseTaxe;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Manual;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
-public class Board {
-    private static final Case[] plateau = new Case[] {
+public abstract class Board {
+    protected final Case[] plateau = new Case[] {
         new CaseNeutre("Départ"),
         new CasePropriete("Boulevard de Belleville", 60, TypePropriete.MARRON),
         new CaseCaisseDeCommunaute("CDC1"),
@@ -76,59 +70,29 @@ public class Board {
         new CaseTaxe("Taxe de Luxe", 150),
         new CasePropriete("Rue de la Paix", 400, TypePropriete.BLEU, new int[] { 50, 200, 600, 1400, 1700, 2000 })
     };
-    final private static Deck deckCaisse = new DeckCaisse();
-    final private static Deck deckChance = new DeckChance();
-    final private static Queue<Player> listeJoueurs = new ArrayDeque<Player>();
-    private static Map<Player, Integer> positionJoueurs = new HashMap<>();
 
-    private static int sumDiceThisRound;
+    protected Map<Player, Integer> positionJoueurs = new HashMap<>();
 
-    public Board(int nbJoueurs) {
-        for (int i = 1; i <= nbJoueurs; i++) {
-            listeJoueurs.add(new Manual(i));
-        }
-        for (Player joueur : listeJoueurs) {
-            positionJoueurs.put(joueur, 0);
-        }
-    }
 
-    public static int getNombreJoueurs() {
-        return listeJoueurs.size();
-    }
-
-    public static Queue<Player> getListeJoueurs() {
-        return listeJoueurs;
-    }
-
-    public static Card pickAChanceCard() {
-        return (deckChance.piocher());
-    }
-
-    public static Card pickACaisseCard() {
-        return (deckCaisse.piocher());
-    }
-
-    public static int getPositionJoueur(Player joueur) {
+    public int getPositionJoueur(Player joueur) {
         return positionJoueurs.get(joueur);
     }
-
-    //Appelée à chaque lancer de dés (Voir Player.throwDice())
-    public static void setSommeDesThisRound(int somme){
-        sumDiceThisRound = somme;
+    public void setInitialPosition(Player joueur){
+        positionJoueurs.put(joueur, 0);
     }
-
-    public static int getSommeDesThisRound(){
-        return sumDiceThisRound;
-    }
-
-    public static void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
+    public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
         if (indiceCase < positionJoueurs.get(joueur)) // C'est à dire on est passé par la case départ
             joueur.bankAccountModify(200);
 
         positionJoueurs.put(joueur, indiceCase);
+        plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
     }
 
-    public static int getIndiceNextGare(Player joueur) {
+    public void walk(Player joueur, int nombreCase) throws IsBankruptException{
+        this.assignNewPosition(joueur, positionJoueurs.get(joueur) + nombreCase);
+    }
+
+    public int getIndiceNextGare(Player joueur) {
         for (int i = getPositionJoueur(joueur);; i++, i %= 40) {
             if (plateau[i] instanceof CaseGare) {
                 return i;
@@ -136,7 +100,7 @@ public class Board {
         }
     }
 
-    public static int[] getNombreMaisonsHotels(Player joueur) {
+    public int[] getNombreMaisonsHotels(Player joueur) {
         int nombreMaisons = 0;
         int nombreHotels = 0;
         for (Case caseParticuliere : plateau) {
@@ -151,14 +115,14 @@ public class Board {
         return new int[] { nombreMaisons, nombreHotels };
     }
 
-    public static Case[] getPlateau(){
+    public Case[] getPlateau(){
         return plateau;
     }
-    public static void setNewHouse(TypePropriete couleur, int nombreMaison){
+    public void setNewHouse(TypePropriete couleur, int nombreMaison){
 
     }
 
-    public static List<CaseAchetable> getOwnedProperties(Player joueur) {
+    public List<CaseAchetable> getOwnedProperties(Player joueur) {
         List<CaseAchetable> listeProprietes = new ArrayList<>();
         for (Case caseActuelle : plateau) {
             if (caseActuelle instanceof CaseAchetable) {

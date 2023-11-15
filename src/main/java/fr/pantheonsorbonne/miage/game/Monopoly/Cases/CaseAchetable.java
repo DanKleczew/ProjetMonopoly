@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
 import java.util.Objects;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -18,11 +19,13 @@ public abstract class CaseAchetable extends Case {
     }
 
     @Override
-    protected void doCaseEffect(Player joueur) throws IsBankruptException {
+    public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException {
+        super.doCaseEffect(joueur, plateauComplet);
+
         if (this.isBuyable()) {
             joueur.askBuyProperty();
         } else {
-            this.makePay(joueur);
+            this.makePay(joueur, plateauComplet);
         }
     }
 
@@ -46,5 +49,5 @@ public abstract class CaseAchetable extends Case {
         return this.typeOuCouleur;
     }
 
-    protected abstract void makePay(Player joueur) throws IsBankruptException;
+    protected abstract void makePay(Player joueur, PerfectBoard plateau) throws IsBankruptException;
 }

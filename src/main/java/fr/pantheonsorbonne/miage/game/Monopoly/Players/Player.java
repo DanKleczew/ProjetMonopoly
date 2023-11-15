@@ -3,7 +3,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 import java.util.List;
 import java.util.Random;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
@@ -36,12 +36,12 @@ public abstract class Player {
 
     public abstract boolean askBuyProperty();
 
-    public int[] throwDice() {
+    public int[] throwDice(PerfectBoard plateauComplet) {
         int[] table = new int[2];
         Random aleatoire = new Random();
         table[0] = aleatoire.nextInt(6) + 1;
         table[1] = aleatoire.nextInt(6) + 1;
-        Board.setSommeDesThisRound(table[0] + table[1]);
+        plateauComplet.setSommeDesThisRound(table[0] + table[1]);
         return table;
     }
 

@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -21,7 +21,7 @@ public class CasePropriete extends CaseAchetable {
     }
 
     @Override
-    protected void makePay(Player joueurQuiPaye) throws IsBankruptException {
+    protected void makePay(Player joueurQuiPaye, PerfectBoard plateauComplet) throws IsBankruptException {
         Player owner = this.getOwner();
         TypePropriete couleur = this.getTypeOuCouleur();
 
@@ -29,7 +29,7 @@ public class CasePropriete extends CaseAchetable {
             return;
         } else {
             int aPayer;
-            if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur, Board.getOwnedProperties(owner)) && nombreMaisons == 0){
+            if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur, plateauComplet.getOwnedProperties(owner)) && nombreMaisons == 0){
                 //Si le nombre de propriétés qu'il existe de cette couleur == nombre de propriétés de cette couleur possédée par l'owner
                 //C'est à dire l'owner possède toutes les propriétés de cette couleur
                 aPayer = 2 * (this.getEchelleDeLoyer()[0]);

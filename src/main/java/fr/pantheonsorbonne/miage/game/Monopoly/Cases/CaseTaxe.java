@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -13,7 +14,8 @@ public class CaseTaxe extends Case{
     }
 
     @Override
-    protected void doCaseEffect(Player joueur) throws IsBankruptException{
+    public void doCaseEffect(Player joueur, PerfectBoard plateau) throws IsBankruptException{
+        super.doCaseEffect(joueur, plateau);
         joueur.bankAccountModify(-valeurTaxe);
     }
 
