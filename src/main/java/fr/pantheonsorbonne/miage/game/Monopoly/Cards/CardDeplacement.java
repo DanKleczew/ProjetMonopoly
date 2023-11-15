@@ -31,7 +31,7 @@ public class CardDeplacement implements Card {
         }
         else {
             int positionActuelle = PhysicalGame.positionJoueurs.get(joueur);
-            for (int i = positionActuelle; ; i++){
+            for (int i = positionActuelle; ; i++, i%=40){
                 if (PhysicalGame.plateau.getBoard()[i] instanceof CaseGare){
                     PhysicalGame.positionJoueurs.replace(joueur, i);
                     break;
