@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.Deque;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
@@ -14,7 +14,7 @@ public class PerfectBoard extends Board {
 
     final private Deck deckCaisse = new DeckCaisse();
     final private Deck deckChance = new DeckChance();
-    final private Queue<Player> listeJoueurs = new ArrayDeque<Player>();
+    final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
     
     private int sumDiceThisRound;
 
@@ -30,7 +30,7 @@ public class PerfectBoard extends Board {
     }
     
     
-    public Queue<Player> getListeJoueurs() {
+    public Deque<Player> getListeJoueurs() {
         return listeJoueurs;
     }
     public Card pickAChanceCard() {
@@ -52,6 +52,10 @@ public class PerfectBoard extends Board {
         Player nextPlayer;
         listeJoueurs.add(nextPlayer = listeJoueurs.poll());
         return nextPlayer;
+    }
+    
+    public boolean isGameFinished(){
+        return listeJoueurs.size() == 1;
     }
 }
 
