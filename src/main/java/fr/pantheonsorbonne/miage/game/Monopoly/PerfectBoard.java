@@ -47,5 +47,11 @@ public class PerfectBoard extends Board {
     public int getSommeDesThisRound(){
         return sumDiceThisRound;
     }
+
+    public Player getNextPlayer() {
+        Player nextPlayer;
+        listeJoueurs.add(nextPlayer = listeJoueurs.poll());
+        return nextPlayer;
+    }
 }
 
