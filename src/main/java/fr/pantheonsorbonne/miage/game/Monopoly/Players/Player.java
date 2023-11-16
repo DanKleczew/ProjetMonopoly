@@ -1,9 +1,11 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
@@ -21,7 +23,7 @@ public abstract class Player {
         if (this.bankAccount + gainOuPerte > 0) {
             this.bankAccount += gainOuPerte;
         } else {
-            throw new IsBankruptException();
+            throw new IsBankruptException(this);
         }
 
     }
@@ -34,8 +36,6 @@ public abstract class Player {
         this.timeOut = 3;
     }
 
-    public abstract boolean askBuyProperty();
-
     public int[] throwDice(PerfectBoard plateauComplet) {
         int[] table = new int[2];
         Random aleatoire = new Random();
@@ -45,8 +45,8 @@ public abstract class Player {
         return table;
     }
 
-    public int getNumberSpecificTypeProperty(TypePropriete type, List<CaseAchetable> OwnedProperties) { 
-        //Renvoie le nombre de propriétés de (this) d'un TypePropriete particulier
+    public int getNumberSpecificTypeProperty(TypePropriete type, List<CaseAchetable> OwnedProperties) {
+        // Renvoie le nombre de propriétés de (this) d'un TypePropriete particulier
         int countTypePropiete = 0;
         for (CaseAchetable caseAchete : OwnedProperties) {
             if (caseAchete.getTypeOuCouleur() == type) {
@@ -56,17 +56,17 @@ public abstract class Player {
         return countTypePropiete;
     }
 
+    // Le Player sur lequel est appelée la méthode doit une sommeAPayer au Player
+    // gagnant.
+    // Cette méthode s'assure que le perdant paie son dû sans pour autant donner de
+    // l'argent en trop en cas de faillite
+    // Si par exemple il doit 2000€ mais n'en a que 1200 il ne donnera que 1200 à
+    // son adversaire
+    public void transaction(Player gagnant, int sommeAPayer) throws IsBankruptException {
+        if (this.verifMoneyEnough(sommeAPayer)) {
 
-
-    //Le Player sur lequel est appelée la méthode doit une sommeAPayer au Player gagnant.
-    //Cette méthode s'assure que le perdant paie son dû sans pour autant donner de l'argent en trop en cas de faillite
-    //Si par exemple il doit 2000€ mais n'en a que 1200 il ne donnera que 1200 à son adversaire
-    public void transaction(Player gagnant, int sommeAPayer) throws IsBankruptException{
-        if (this.verifMoneyEnough(sommeAPayer)){
-                
             gagnant.bankAccountModify(sommeAPayer);
-        }
-        else {
+        } else {
             gagnant.bankAccountModify(this.getBankAccount());
         }
         this.bankAccountModify(-sommeAPayer);
@@ -74,5 +74,26 @@ public abstract class Player {
 
     private boolean verifMoneyEnough(int moneyNeeded) {
         return (this.getBankAccount() >= moneyNeeded);
+    }
+
+    public abstract boolean askBuyProperty();
+
+    // Renvoie un dictionnaire (potentiellement vide) des couleurs sur lesquelles le
+    // joueur veut mettre des maisons et combien
+    protected abstract HashMap<TypePropriete, Integer> thinkAboutHouses();
+
+    // Renvoie un Array de cases propriétés du joueur que celui ci veut hypothéquer
+    protected abstract Case[] thinkAboutSellingProprietes();
+
+    // Renvoie un Array de cases propriétés du joueur que celui ci veut transformer
+    // en prisons
+    protected abstract Case[] thinkAboutCreatingJails();
+
+    public void think() {
+        // Encore faut-il leur faire faire quelque chose !!!!!
+        // TODO : Make them do something
+        thinkAboutHouses();
+        thinkAboutSellingProprietes();
+        thinkAboutCreatingJails();
     }
 }
