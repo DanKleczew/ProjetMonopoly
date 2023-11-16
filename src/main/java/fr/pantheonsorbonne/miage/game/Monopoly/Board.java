@@ -122,6 +122,11 @@ public abstract class Board {
     public Case[] getPlateau(){
         return plateau;
     }
+
+    public Case getCase(int indice){
+        return plateau[indice];
+    }
+    
     public void setNewHouse(TypePropriete couleur, int nombreMaison){
 
     }

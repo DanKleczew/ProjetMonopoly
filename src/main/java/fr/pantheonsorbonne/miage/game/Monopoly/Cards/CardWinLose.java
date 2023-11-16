@@ -14,6 +14,12 @@ public class CardWinLose implements Card{
 
     @Override
     public void cardEffect(Player joueur, PerfectBoard plateau) throws IsBankruptException {
+        if (gainOuPerte > 0){
+            System.out.println("Vous gagnez " + gainOuPerte + " $ !");
+        }
+        else{
+            System.out.println("Vous perdez " + gainOuPerte + "$.");
+        }
         joueur.bankAccountModify(gainOuPerte);
         
     }
