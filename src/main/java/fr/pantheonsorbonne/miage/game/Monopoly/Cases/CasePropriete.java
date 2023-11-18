@@ -7,17 +7,40 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public class CasePropriete extends CaseAchetable {
     private int[] echelleDeLoyer;
     private int nombreMaisons = 0;
-    private boolean hotel = false;
+    private int prixMaisonUnitaire = 0;
+    private boolean estHypothequee = false;
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
         this.echelleDeLoyer = couleur.getEchelleDeLoyer();
-
+        this.prixMaisonUnitaire = assignPrixMaisonUnitaire(couleur);
     }
+
+    
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur, int[] echelleDeLoyer) {
         super(name, prixAchat, couleur);
         this.echelleDeLoyer = echelleDeLoyer;
+        this.prixMaisonUnitaire = assignPrixMaisonUnitaire(couleur);
+    }
+
+    private int assignPrixMaisonUnitaire(TypePropriete couleur) {
+        switch (couleur.ordinal()) {
+            case 0:
+            case 1:
+                return 50;
+            case 2:
+            case 3:
+                return 100;
+            case 4:
+            case 5:
+                return 150;
+            case 6:
+            case 7:
+                return 200;
+            default: 
+                return 0;   
+        }
     }
 
     @Override
@@ -44,6 +67,22 @@ public class CasePropriete extends CaseAchetable {
 
     }
 
+    public boolean getInfoHypotheque(){
+        return estHypothequee;
+    }
+
+    public void switchHypothequeStatus() throws IsBankruptException{
+        //Si elle est hypothéquée et on veut la faire redevenir normale
+        if (estHypothequee){
+            this.possesseur.bankAccountModify(- (this.prixAchat/2 + (1/10)*prixAchat));
+        }
+        //Si elle est normale et on veut l'hypothéquer
+        else{
+            this.possesseur.bankAccountModify(this.prixAchat/2);
+        }
+        estHypothequee = !estHypothequee;
+    }
+
     public int[] getEchelleDeLoyer() {
         return echelleDeLoyer;
     }
@@ -53,7 +92,18 @@ public class CasePropriete extends CaseAchetable {
     }
 
     public boolean hasHotel() {
-        return this.hotel;
+        return this.nombreMaisons == 5;
+    }
+    
+    public void addHouse() throws IsBankruptException{
+        System.out.println(this.prixMaisonUnitaire);
+        this.possesseur.bankAccountModify(-prixMaisonUnitaire);
+        this.nombreMaisons++;
+    }
+
+    public void sellHouse() throws IsBankruptException{
+        this.possesseur.bankAccountModify(prixMaisonUnitaire / 2);
+        this.nombreMaisons--;
     }
 
 }
