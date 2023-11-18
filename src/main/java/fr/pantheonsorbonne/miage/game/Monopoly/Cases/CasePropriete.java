@@ -8,15 +8,12 @@ public class CasePropriete extends CaseAchetable {
     private int[] echelleDeLoyer;
     private int nombreMaisons = 0;
     private int prixMaisonUnitaire = 0;
-    
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
         this.echelleDeLoyer = couleur.getEchelleDeLoyer();
         this.prixMaisonUnitaire = assignPrixMaisonUnitaire(couleur);
     }
-
-    
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur, int[] echelleDeLoyer) {
         super(name, prixAchat, couleur);
@@ -38,8 +35,8 @@ public class CasePropriete extends CaseAchetable {
             case 6:
             case 7:
                 return 200;
-            default: 
-                return 0;   
+            default:
+                return 0;
         }
     }
 
@@ -52,22 +49,22 @@ public class CasePropriete extends CaseAchetable {
             return;
         } else {
             int aPayer;
-            if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur, plateauComplet.getOwnedProperties(owner)) && nombreMaisons == 0){
-                //Si le nombre de propriétés qu'il existe de cette couleur == nombre de propriétés de cette couleur possédée par l'owner
-                //C'est à dire l'owner possède toutes les propriétés de cette couleur
+            if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur,
+                    plateauComplet.getOwnedProperties(owner)) && nombreMaisons == 0) {
+                // Si le nombre de propriétés qu'il existe de cette couleur == nombre de
+                // propriétés de cette couleur possédée par l'owner
+                // C'est à dire l'owner possède toutes les propriétés de cette couleur
                 aPayer = 2 * (this.getEchelleDeLoyer()[0]);
-            }
-            else {
+            } else {
                 aPayer = this.getEchelleDeLoyer()[nombreMaisons];
             }
-            
+
             joueurQuiPaye.transaction(owner, aPayer);
 
         }
 
     }
 
-    
     public int[] getEchelleDeLoyer() {
         return echelleDeLoyer;
     }
@@ -79,14 +76,14 @@ public class CasePropriete extends CaseAchetable {
     public boolean hasHotel() {
         return this.nombreMaisons == 5;
     }
-    
-    public void addHouse() throws IsBankruptException{
+
+    public void addHouse() throws IsBankruptException {
         System.out.println(this.prixMaisonUnitaire);
         this.possesseur.bankAccountModify(-prixMaisonUnitaire);
         this.nombreMaisons++;
     }
 
-    public void sellHouse() throws IsBankruptException{
+    public void sellHouse() throws IsBankruptException {
         this.possesseur.bankAccountModify(prixMaisonUnitaire / 2);
         this.nombreMaisons--;
     }
