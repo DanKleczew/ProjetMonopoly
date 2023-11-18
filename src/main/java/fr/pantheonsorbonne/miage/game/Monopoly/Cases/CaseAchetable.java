@@ -26,6 +26,7 @@ public abstract class CaseAchetable extends Case {
         if (this.isBuyable()) {
             joueur.askBuyProperty();
         } else {
+            if (!estHypothequee)
             this.makePay(joueur, plateauComplet);
         }
     }
