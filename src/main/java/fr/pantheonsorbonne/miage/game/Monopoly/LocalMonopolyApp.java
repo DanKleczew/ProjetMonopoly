@@ -20,7 +20,7 @@ public final class LocalMonopolyApp {
                 
                 try {
                     plateauComplet.walk(currentPlayer, sumDes(des));
-                    currentPlayer.think();
+                    currentPlayer.thinkAndDo(plateauComplet);
 
                 } catch (IsBankruptException e) {
                     // TODO: handle exception

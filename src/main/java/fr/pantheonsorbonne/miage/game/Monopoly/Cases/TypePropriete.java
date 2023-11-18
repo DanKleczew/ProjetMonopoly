@@ -12,7 +12,7 @@ public enum TypePropriete {
     GARE(4),
     COMPAGNIE(2);
 
-    public final int nombreProprietesDeCeType;
+    private final int nombreProprietesDeCeType;
     private final int[] echelleDeLoyer;
 
     TypePropriete(int nbProprietes) {
