@@ -16,7 +16,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public class PerfectBoardTest {
     @Test
     void testGetListeJoueurs() {
-        assertTrue(true);
     }
 
     @Test
@@ -50,7 +49,7 @@ public class PerfectBoardTest {
     }
 
     @Test
-    void testAddNumerpisHouses() throws IsBankruptException{
+    void testAddNumerousHouses() throws IsBankruptException{
         Player Thierry = new Manual(1);
         PerfectBoard plateau = new PerfectBoard();
         for (Case currCase : plateau.getPlateau()){

@@ -11,6 +11,7 @@ public abstract class CaseAchetable extends Case {
     public int prixAchat;
     protected Player possesseur = null;
     protected TypePropriete typeOuCouleur;
+    private boolean estHypothequee = false;
 
     public CaseAchetable(String name, int prixAchat, TypePropriete typeOuCouleur) {
         super(name);
@@ -48,6 +49,23 @@ public abstract class CaseAchetable extends Case {
     public TypePropriete getTypeOuCouleur() {
         return this.typeOuCouleur;
     }
+
+    public boolean getInfoHypotheque(){
+        return estHypothequee;
+    }
+
+    public void switchHypothequeStatus() throws IsBankruptException{
+        //Si elle est hypothéquée et on veut la faire redevenir normale
+        if (estHypothequee){
+            this.possesseur.bankAccountModify(- (this.prixAchat/2 + (1/10)*prixAchat));
+        }
+        //Si elle est normale et on veut l'hypothéquer
+        else{
+            this.possesseur.bankAccountModify(this.prixAchat/2);
+        }
+        estHypothequee = !estHypothequee;
+    }
+
 
     protected abstract void makePay(Player joueur, PerfectBoard plateau) throws IsBankruptException;
 }

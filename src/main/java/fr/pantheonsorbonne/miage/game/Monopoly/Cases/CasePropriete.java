@@ -8,7 +8,7 @@ public class CasePropriete extends CaseAchetable {
     private int[] echelleDeLoyer;
     private int nombreMaisons = 0;
     private int prixMaisonUnitaire = 0;
-    private boolean estHypothequee = false;
+    
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
@@ -67,22 +67,7 @@ public class CasePropriete extends CaseAchetable {
 
     }
 
-    public boolean getInfoHypotheque(){
-        return estHypothequee;
-    }
-
-    public void switchHypothequeStatus() throws IsBankruptException{
-        //Si elle est hypothéquée et on veut la faire redevenir normale
-        if (estHypothequee){
-            this.possesseur.bankAccountModify(- (this.prixAchat/2 + (1/10)*prixAchat));
-        }
-        //Si elle est normale et on veut l'hypothéquer
-        else{
-            this.possesseur.bankAccountModify(this.prixAchat/2);
-        }
-        estHypothequee = !estHypothequee;
-    }
-
+    
     public int[] getEchelleDeLoyer() {
         return echelleDeLoyer;
     }
