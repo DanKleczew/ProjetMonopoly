@@ -11,6 +11,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -36,6 +37,17 @@ public class PerfectBoard extends Board {
 
     public Deque<Player> getListeJoueurs() {
         return listeJoueurs;
+    }
+
+    
+    public void deletePlayer(IsBankruptException exception) {
+        for (Case currCase : plateau){
+            if (currCase instanceof CaseAchetable && ((CaseAchetable) currCase).getOwner() == exception.getPerdant()){
+                ((CaseAchetable) currCase).setOwner(exception.getGagnant());
+            }
+        }
+
+        listeJoueurs.remove(exception.getPerdant());
     }
 
     public Card pickAChanceCard() {

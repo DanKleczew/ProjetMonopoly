@@ -23,7 +23,9 @@ public final class LocalMonopolyApp {
                     currentPlayer.thinkAndDo(plateauComplet);
 
                 } catch (IsBankruptException e) {
-                    // TODO: handle exception
+                    //Si l'exception est thrown pendant le .walk (par exemple tombé sur une propriété adverse)
+                    //Le joueur n'aura pas le loisir de .thinkAndDo
+                    plateauComplet.deletePlayer(e);
                 }
 
             } while (des[0] == des[1] && compteurRepetitionTour < 3);

@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne;
 
-
 import java.util.HashMap;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
@@ -34,4 +33,5 @@ public class tests {
                 }
             }  
     }
+
 }

@@ -66,6 +66,7 @@ public abstract class Player {
     // Si par exemple il doit 2000€ mais n'en a que 1200 il ne donnera que 1200 à
     // son adversaire
     public void transaction(Player gagnant, int sommeAPayer) throws IsBankruptException {
+        
         if (this.verifMoneyEnough(sommeAPayer)) {
 
             gagnant.bankAccountModify(sommeAPayer);
@@ -73,6 +74,7 @@ public abstract class Player {
             gagnant.bankAccountModify(this.getBankAccount());
         }
         this.bankAccountModify(-sommeAPayer);
+        
     }
 
     private boolean verifMoneyEnough(int moneyNeeded) {
