@@ -13,7 +13,7 @@ public abstract class Player {
 
     private int bankAccount = 1500;
     final protected int ID;
-    protected int timeOut = 0;
+    private int timeOut = 0;    //peut etre protected
 
     public Player(int ID) {
         this.ID = ID;
@@ -34,6 +34,9 @@ public abstract class Player {
 
     public void setTimeOut() {
         this.timeOut = 3;
+    }
+    public int getTimeOut(){
+        return this.timeOut;
     }
 
     public int[] throwDice(PerfectBoard plateauComplet) {
