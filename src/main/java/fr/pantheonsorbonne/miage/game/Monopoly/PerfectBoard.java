@@ -11,7 +11,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Manual;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class PerfectBoard extends Board {
