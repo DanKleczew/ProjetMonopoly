@@ -19,13 +19,15 @@ public abstract class Player {
         this.ID = ID;
     }
 
+    public int getID(){
+        return this.ID;
+    }
     public void bankAccountModify(int gainOuPerte) throws IsBankruptException {
         if (this.bankAccount + gainOuPerte > 0) {
             this.bankAccount += gainOuPerte;
         } else {
             throw new IsBankruptException(this);
         }
-
     }
 
     public int getBankAccount() {
@@ -103,7 +105,7 @@ public abstract class Player {
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses());
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses());
         this.sellProprietes(thinkAboutHypothequeProprietes());
-        thinkAboutCreatingJails();
+        //thinkAboutCreatingJails();
     }
 
     private void sellProprietes(CasePropriete[] listeProprietesAHypothequer) throws IsBankruptException {
