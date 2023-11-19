@@ -1,13 +1,16 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -19,9 +22,8 @@ public class PerfectBoard extends Board {
     final private Deck deckChance = new DeckChance();
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
     private int sumDiceThisRound;
-    
 
-    public PerfectBoard(Player ... tableJoueur) {
+    public PerfectBoard(Player... tableJoueur) {
         // Crée deux bots identiques (à modifier)
         for (Player joueur : tableJoueur) {
             listeJoueurs.add(joueur);
@@ -40,11 +42,9 @@ public class PerfectBoard extends Board {
         return (deckChance.piocher());
     }
 
-
     public Card pickACaisseCard() {
         return (deckCaisse.piocher());
     }
-
 
     // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
     public void setSommeDesThisRound(int somme) {
@@ -65,52 +65,118 @@ public class PerfectBoard extends Board {
         return listeJoueurs.size() == 1;
     }
 
+    //Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
     public void addNumerousHouses(HashMap<TypePropriete, Integer> housesCouleurNumber) throws IsBankruptException {
         // On parcourt la HashMap
         for (TypePropriete couleur : housesCouleurNumber.keySet()) {
-            // On parcourt autant de fois que nécessaire le plateau pour bien ajouter les
-            // maisons
-            // une par une dans l'ordre dans lequel sont disposées les propriétés
-            for (int i = 0;; i++, i %= 40) {
-                // Si la case est une case de la bonne couleur on rajoute une maison dessus
-                // Et on modifie la HashMap pour réduire le nombre de maisons à placer
-                if (plateau[i] instanceof CasePropriete && ((CasePropriete) plateau[i]).getTypeOuCouleur() == couleur) {
-                    ((CasePropriete) plateau[i]).addHouse();
-                    housesCouleurNumber.replace(couleur, housesCouleurNumber.get(couleur) - 1);
-                }
-                // Si le nombre de maisons à placer sur une couleur atteint Zéro on passe à
-                // l'entrée suivante dans la HashMap.
-                if (housesCouleurNumber.get(couleur) == 0) {
-                    break;
+            // On crée une Liste pour stocker les cases correspondant à la couleur
+            List<CasePropriete> listeDeCaseDeCetteCouleur = new ArrayList<>();
+
+            // Et un int pour le nombre de maisons à placer
+            int nombreMaisonsAPlacer = housesCouleurNumber.get(couleur);
+
+            // On parcourt le plateau à la recherche des bonnes cases
+            for (Case currCase : plateau) {
+                if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == couleur) {
+                    // On append la liste des trois ou deux bonnes cases
+                    listeDeCaseDeCetteCouleur.add((CasePropriete) currCase);
                 }
             }
+
+            addNumerousHousesComplexWay(listeDeCaseDeCetteCouleur, nombreMaisonsAPlacer);
         }
     }
 
+    // Permet de placer n maisons sur des propriétés d'une couleur à condition que
+    // toutes les propriétés aient initialement le
+    // même nombre de maisons
+    private void addNumerousHousesSimpleWay(List<CasePropriete> listeDeCases, int nombreMaisonsAPlacer)
+            throws IsBankruptException {
+        int i = 0;
+        while (nombreMaisonsAPlacer != 0) {
+            listeDeCases.get(i).addHouse();
+            i++;
+            i %= 3;
+            nombreMaisonsAPlacer--;
+        }
+    }
+
+    // Permet de placer n maisons sur des propriétés d'une même couleur, même si
+    // elles n'ont pas le même nombre de maisons sur chaque
+    private void addNumerousHousesComplexWay(List<CasePropriete> listeDeCases, int nombreMaisonsAPlacer)
+            throws IsBankruptException {
+        int nombreInitialMaisons = listeDeCases.get(0).getNombreMaisons();
+        for (CasePropriete currCase : listeDeCases) {
+            if (currCase.getNombreMaisons() != nombreInitialMaisons) {
+                currCase.addHouse();
+                nombreMaisonsAPlacer--;
+            }
+            if (nombreMaisonsAPlacer == 0)
+                return;
+        }
+        if (nombreMaisonsAPlacer > 0) {
+            addNumerousHousesSimpleWay(listeDeCases, nombreMaisonsAPlacer);
+        } else {
+            return;
+        }
+    }
+
+    //Retire n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
     public void sellNumerousHouses(HashMap<TypePropriete, Integer> housesCouleurNumber) throws IsBankruptException {
-        // On parcourt la HashMap
         for (TypePropriete couleur : housesCouleurNumber.keySet()) {
-            // On parcourt autant de fois que nécessaire le plateau pour bien retirer les
-            // maisons
-            // une par une dans l'ordre inverse de celui dans lequel sont disposées les
-            // propriétés
-            for (int i = 39;; i--) {
-                // Petit if pour ne pas sortir de l'Array
-                if (i == -1) {
-                    i = 39;
-                }
-                // Si la case est une case de la bonne couleur on enlève une maison dessus
-                // Et on modifie la HashMap pour réduire le nombre de maisons à enlever
+            // On crée une Liste pour stocker les cases correspondant à la couleur
+            List<CasePropriete> listeDeCaseDeCetteCouleur = new ArrayList<>();
+
+            // Et un int pour le nombre de maisons à retirer
+            int nombreMaisonsARetirer = housesCouleurNumber.get(couleur);
+
+            // On crée la liste à l'envers pour pouvoir retirer les maisons dans l'ordre
+            // inverse d'apparition
+            for (int i = 39; i >= 0; i--) {
                 if (plateau[i] instanceof CasePropriete && ((CasePropriete) plateau[i]).getTypeOuCouleur() == couleur) {
-                    ((CasePropriete) plateau[i]).sellHouse();
-                    housesCouleurNumber.replace(couleur, housesCouleurNumber.get(couleur) - 1);
-                }
-                // Si le nombre de maisons à placer sur une couleur atteint Zéro on passe à
-                // l'entrée suivante dans la HashMap.
-                if (housesCouleurNumber.get(couleur) == 0) {
-                    break;
+                    listeDeCaseDeCetteCouleur.add((CasePropriete) plateau[i]);
                 }
             }
+
+            sellNumerousHousesComplexWay(listeDeCaseDeCetteCouleur, nombreMaisonsARetirer);
+
+        }
+    }
+
+    //Permet de retirer n maisons sur des propriétés d'une même couleur, même si
+    // elles n'ont pas le même nombre de maisons sur chaque
+    private void sellNumerousHousesComplexWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
+            throws IsBankruptException {
+
+        int nombreInitialMaisons = listeDeCases.get(listeDeCases.size() - 1).getNombreMaisons();
+
+        for (int i = listeDeCases.size() - 1; i >= 0; i--) {
+            if (listeDeCases.get(i).getNombreMaisons() != nombreInitialMaisons) {
+                listeDeCases.get(i).sellHouse();
+                nombreMaisonsARetirer--;
+            }
+            if (nombreMaisonsARetirer == 0)
+                return;
+        }
+        if (nombreMaisonsARetirer > 0) {
+            sellNumerousHousesSimpleWay(listeDeCases, nombreMaisonsARetirer);
+        } else {
+            return;
+        }
+    }
+
+    //Retire n maisons sur des propriétés d'une même couleur ayant toutes le même nombre de maisons
+    private void sellNumerousHousesSimpleWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
+            throws IsBankruptException {
+
+        int i = listeDeCases.size() - 1;
+
+        while (nombreMaisonsARetirer > 0) {
+            listeDeCases.get(i).sellHouse();
+            i--;
+            nombreMaisonsARetirer--;
+            if (i == -1)
+                i = listeDeCases.size() - 1;
         }
     }
 
