@@ -16,15 +16,20 @@ public class CardSteal implements Card {
     }
 
     @Override
-    public void cardEffect(Player joueurGagnant, PerfectBoard plateauComplet) throws IsBankruptException {
+    public void cardEffect(Player joueurGagnant, PerfectBoard plateauComplet) {
         // Joueur piochant la carte gagne son argent
         // Autres joueurs perdent de l'argent
         System.out.println("Tout le monde vous doit " + stealAmount + " $ !");
         for (Player joueurCourrant : plateauComplet.getListeJoueurs()) {
+            try {
             if (!joueurGagnant.equals(joueurCourrant)) {
                 joueurCourrant.transaction(joueurGagnant, stealAmount);
             }
-
+            }
+            catch (IsBankruptException exception){
+                exception.setGagnant(joueurGagnant);
+                plateauComplet.deletePlayer(exception);
+            }
         }
     }
 }
