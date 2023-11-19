@@ -19,13 +19,13 @@ public class PerfectBoard extends Board {
     final private Deck deckCaisse = new DeckCaisse();
     final private Deck deckChance = new DeckChance();
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
-
     private int sumDiceThisRound;
+    
 
-    public PerfectBoard() {
+    public PerfectBoard(Player ... tableJoueur) {
         // Crée deux bots identiques (à modifier)
-        for (int i = 1; i <= 2; i++) {
-            listeJoueurs.add(new Manual(i));
+        for (Player joueur : tableJoueur) {
+            listeJoueurs.add(joueur);
         }
         // Pose les joueurs sur la case départ
         for (Player joueur : listeJoueurs) {
@@ -41,9 +41,11 @@ public class PerfectBoard extends Board {
         return (deckChance.piocher());
     }
 
+
     public Card pickACaisseCard() {
         return (deckCaisse.piocher());
     }
+
 
     // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
     public void setSommeDesThisRound(int somme) {
