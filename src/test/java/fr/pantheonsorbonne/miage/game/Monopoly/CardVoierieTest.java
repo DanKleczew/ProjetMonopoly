@@ -2,14 +2,14 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import org.junit.jupiter.api.Test;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 public class CardVoierieTest{
     
     //Card Voierie = Cartes qui demandent de payer un certain montant pour chaque maison et chaque hôtel du joueur
 
-    private int prixParMaison;
-    private int prixParHotel;
+    //private int prixParMaison;
+    //private int prixParHotel;
 
     @Test
     public void testCardEffect() throws IsBankruptException {
