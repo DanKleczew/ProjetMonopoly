@@ -13,8 +13,12 @@ public abstract class Deck {
         melangeDeck(deckArray);
     }
     
+    public Card premierCarte(){
+        return this.deck.poll();
+    }
+    
     public Card piocher(){
-        Card firstCard = this.deck.poll();
+        Card firstCard = premierCarte();
         this.deck.offer(firstCard);
         return firstCard;
     };

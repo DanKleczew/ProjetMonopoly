@@ -10,6 +10,7 @@ public class CardGoToPrison implements Card {
     public void cardEffect(Player joueur, PerfectBoard plateau) throws IsBankruptException {
         //System.out.println("Rendez-vous en prison");
         joueur.setTimeOut();
+        plateau.goToPrison(joueur);
     }
     
 }
