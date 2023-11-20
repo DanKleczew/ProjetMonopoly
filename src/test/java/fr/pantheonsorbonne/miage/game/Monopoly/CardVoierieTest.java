@@ -2,9 +2,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import org.junit.jupiter.api.Test;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CardVoierieTest{
     

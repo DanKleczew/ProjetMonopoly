@@ -1,23 +1,13 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.junit.jupiter.api.Test;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Manual;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 public class PerfectBoardTest {
     @Test
@@ -32,8 +22,8 @@ public class PerfectBoardTest {
 
     @Test
     void testGetSommeDesThisRound() {
-        Player Thierry = new Manual(1);
-        PerfectBoard plateau = new PerfectBoard();
+        // Player Thierry = new Manual(1);
+        // PerfectBoard plateau = new PerfectBoard();
         // hmm c'est du random donc peut pas vraiment tester ...
     }
 

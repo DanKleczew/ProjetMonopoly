@@ -1,12 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Queue;
-
 import org.junit.jupiter.api.Test;
-
-import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.CardSteal;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
