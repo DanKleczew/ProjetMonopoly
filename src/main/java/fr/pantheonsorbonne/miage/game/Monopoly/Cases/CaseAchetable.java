@@ -51,14 +51,14 @@ public abstract class CaseAchetable extends Case {
         return this.typeOuCouleur;
     }
 
-    public boolean getInfoHypotheque(){
+    public boolean isHypothequed(){
         return estHypothequee;
     }
 
     public void switchHypothequeStatus() throws IsBankruptException{
         //Si elle est hypothéquée et on veut la faire redevenir normale
         if (estHypothequee){
-            this.possesseur.bankAccountModify(- (this.prixAchat/2 + (1/10)*prixAchat));
+            this.possesseur.bankAccountModify(- (prixAchat/2 + (1/10)*prixAchat));
         }
         //Si elle est normale et on veut l'hypothéquer
         else{

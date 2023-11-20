@@ -7,7 +7,7 @@ public final class LocalMonopolyApp {
 
     private static PerfectBoard plateauComplet = new PerfectBoard();
 
-    public static void main(String... args) {
+    public static void main(String... args) throws IsBankruptException {
 
         while (! plateauComplet.isGameFinished()) {
             Player currentPlayer = plateauComplet.getNextPlayer();

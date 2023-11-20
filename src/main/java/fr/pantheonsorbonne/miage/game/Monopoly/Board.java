@@ -35,7 +35,7 @@ public abstract class Board {
         new CasePropriete("Avenue de la République", 120, TypePropriete.CYAN,
             new int[] { 8, 40, 100, 300, 450, 600 }),
         new CaseNeutre("Visite Simple"),
-        new CasePropriete("Boulevard de la Vilette", 140, TypePropriete.ROSE),
+        new CasePropriete("Boulevard de la Villette", 140, TypePropriete.ROSE),
         new CaseCompagnie("Compagnie de Disribution d'Électricité"),
         new CasePropriete("Avenue de Neuilly", 140, TypePropriete.ROSE),
         new CasePropriete("Rue de Paradis", 160, TypePropriete.ROSE, 
