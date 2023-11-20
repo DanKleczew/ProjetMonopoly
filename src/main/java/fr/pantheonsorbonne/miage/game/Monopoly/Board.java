@@ -82,7 +82,7 @@ public abstract class Board {
     }
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
         if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) // C'est à dire on est passé par la case départ 
-        //Le seul moyen de reculer de trois cases est de piocher la dite carte et on ne veut pas qu'il gagne de l'argent avec elle
+        //Le seul moyen de reculer de trois cases est de piocher la dite carte chance et on ne veut pas qu'il gagne de l'argent dans ce cas
             joueur.bankAccountModify(200);
 
             positionJoueurs.put(joueur, indiceCase);
@@ -112,25 +112,24 @@ public abstract class Board {
         for (Case caseParticuliere : plateau) {
             if (caseParticuliere instanceof CasePropriete
                     && ((CasePropriete) caseParticuliere).getOwner().equals(joueur)) {
-                nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
                 if (((CasePropriete) caseParticuliere).hasHotel()) {
                     nombreHotels++;
+                }
+                else{
+                    nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
                 }
             }
         }
         return new int[] { nombreMaisons, nombreHotels };
     }
 
+    //Pour les tests
     public Case[] getPlateau(){
         return plateau;
     }
 
     public Case getCase(int indice){
         return plateau[indice];
-    }
-    
-    public void setNewHouse(TypePropriete couleur, int nombreMaison){
-
     }
 
     public List<CaseAchetable> getOwnedProperties(Player joueur) {
