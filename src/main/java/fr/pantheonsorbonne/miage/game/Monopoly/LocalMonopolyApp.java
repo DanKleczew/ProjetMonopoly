@@ -1,11 +1,12 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.Dumb;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public final class LocalMonopolyApp {
 
-    private static PerfectBoard plateauComplet = new PerfectBoard();
+    private static PerfectBoard plateauComplet = new PerfectBoard(new Dumb(0), new Dumb(1));
 
     public static void main(String... args) throws IsBankruptException {
 
@@ -48,7 +49,7 @@ public final class LocalMonopolyApp {
                     //Quoi qu'il arrive si il était en prison au début du tour
                     //Il thinkAndDo un coup
                     currentPlayer.thinkAndDo(plateauComplet);
-                    //Impossible qu'il rejoue une deuxième fois
+                    //Mais impossible qu'il rejoue une deuxième fois (ou joue tout court si il a payé)
                     break tourJoueur;
                 }
 

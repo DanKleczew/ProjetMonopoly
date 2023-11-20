@@ -84,8 +84,8 @@ public abstract class Board {
         if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) // C'est à dire on est passé par la case départ 
         //Le seul moyen de reculer de trois cases est de piocher la dite carte chance et on ne veut pas qu'il gagne de l'argent dans ce cas
             joueur.bankAccountModify(200);
-
-            positionJoueurs.put(joueur, indiceCase);
+        //TODO
+            positionJoueurs.put(joueur, indiceCase);    
         
         plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
         /*On pourrait placer cette méthode dans PerfectBoard mais on préfère que les méthodes qui influent sur 
@@ -114,7 +114,7 @@ public abstract class Board {
         int nombreMaisons = 0;
         int nombreHotels = 0;
         for (Case caseParticuliere : plateau) {
-            if (caseParticuliere instanceof CasePropriete
+            if (caseParticuliere instanceof CasePropriete && ((CasePropriete) caseParticuliere).hasOwner()
                     && ((CasePropriete) caseParticuliere).getOwner().equals(joueur)) {
                 if (((CasePropriete) caseParticuliere).hasHotel()) {
                     nombreHotels++;
@@ -140,8 +140,20 @@ public abstract class Board {
         List<CaseAchetable> listeProprietes = new ArrayList<>();
         for (Case caseActuelle : plateau) {
             if (caseActuelle instanceof CaseAchetable) {
-                if (((CaseAchetable) caseActuelle).getOwner().equals(joueur)){
+                if (((CaseAchetable) caseActuelle).hasOwner() && ((CaseAchetable) caseActuelle).getOwner().equals(joueur)){
                     listeProprietes.add((CaseAchetable) caseActuelle);
+                }                
+            }
+        }
+        return listeProprietes;
+    }
+
+    public List<CasePropriete> getOwnedColoredProperties(Player joueur) {
+        List<CasePropriete> listeProprietes = new ArrayList<>();
+        for (Case caseActuelle : plateau) {
+            if (caseActuelle instanceof CasePropriete) {
+                if (((CasePropriete) caseActuelle).hasOwner() &&((CasePropriete) caseActuelle).getOwner().equals(joueur)){
+                    listeProprietes.add((CasePropriete) caseActuelle);
                 }                
             }
         }

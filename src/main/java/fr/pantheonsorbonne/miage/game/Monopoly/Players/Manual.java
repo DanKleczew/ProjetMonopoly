@@ -1,7 +1,9 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
-import java.util.HashMap;
+import java.util.Map;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
@@ -12,13 +14,7 @@ public class Manual extends Player{
     }
 
     @Override
-    public boolean askBuyProperty() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askBuyProperty'");
-    }
-
-    @Override
-    protected HashMap<TypePropriete, Integer> thinkAboutBuyingHouses() {
+    protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'thinkAboutHouses'");
     }
@@ -36,7 +32,7 @@ public class Manual extends Player{
     }
 
     @Override
-    protected HashMap<TypePropriete, Integer> thinkAboutSellingHouses() {
+    protected Map<TypePropriete, Integer> thinkAboutSellingHouses() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'thinkAboutSellingHouses'");
     }
@@ -45,6 +41,12 @@ public class Manual extends Player{
     public boolean askGetOutOfJail() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'askGetOutOfJail'");
+    }
+
+    @Override
+    public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'askBuyProperty'");
     }
     
 }

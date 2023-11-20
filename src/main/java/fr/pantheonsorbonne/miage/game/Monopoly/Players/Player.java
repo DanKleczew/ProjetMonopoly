@@ -1,7 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
@@ -98,18 +98,18 @@ public abstract class Player {
         return (this.getBankAccount() >= moneyNeeded);
     }
 
-    public abstract boolean askBuyProperty();
+    public abstract boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet);
 
     // Renvoie un dictionnaire (potentiellement vide) des couleurs sur lesquelles le
     // joueur veut mettre des maisons et combien
-    protected abstract HashMap<TypePropriete, Integer> thinkAboutBuyingHouses();
+    protected abstract Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet);
 
     // Renvoie un dictionnaire (potentiellement vide) des couleurs sur lesquelles le
     // joueur veut vendre des maisons et combien
-    protected abstract HashMap<TypePropriete, Integer> thinkAboutSellingHouses();
+    protected abstract Map<TypePropriete, Integer> thinkAboutSellingHouses();
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut hypothéquer
-    protected abstract CasePropriete[] thinkAboutHypothequeProprietes();
+    protected abstract CaseAchetable[] thinkAboutHypothequeProprietes();
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut transformer
     // en prisons
@@ -117,14 +117,14 @@ public abstract class Player {
 
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
         // TODO : Make them do something
-        plateauComplet.addNumerousHouses(thinkAboutBuyingHouses());
+        plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses());
         this.sellProprietes(thinkAboutHypothequeProprietes());
         //thinkAboutCreatingJails();
     }
 
-    private void sellProprietes(CasePropriete[] listeProprietesAHypothequer) throws IsBankruptException {
-        for (CasePropriete propriete : listeProprietesAHypothequer){
+    private void sellProprietes(CaseAchetable[] listeProprietesAHypothequer) throws IsBankruptException {
+        for (CaseAchetable propriete : listeProprietesAHypothequer){
             propriete.switchHypothequeStatus();
     }
 }

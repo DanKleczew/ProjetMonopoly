@@ -3,8 +3,8 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
@@ -82,14 +82,14 @@ public class PerfectBoard extends Board {
     }
 
     //Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
-    public void addNumerousHouses(HashMap<TypePropriete, Integer> housesCouleurNumber) throws IsBankruptException {
+    public void addNumerousHouses(Map<TypePropriete, Integer> map) throws IsBankruptException {
         // On parcourt la HashMap
-        for (TypePropriete couleur : housesCouleurNumber.keySet()) {
+        for (TypePropriete couleur : map.keySet()) {
             // On crée une Liste pour stocker les cases correspondant à la couleur
             List<CasePropriete> listeDeCaseDeCetteCouleur = new ArrayList<>();
 
             // Et un int pour le nombre de maisons à placer
-            int nombreMaisonsAPlacer = housesCouleurNumber.get(couleur);
+            int nombreMaisonsAPlacer = map.get(couleur);
 
             // On parcourt le plateau à la recherche des bonnes cases
             for (Case currCase : plateau) {
@@ -138,13 +138,13 @@ public class PerfectBoard extends Board {
     }
 
     //Retire n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
-    public void sellNumerousHouses(HashMap<TypePropriete, Integer> housesCouleurNumber) throws IsBankruptException {
-        for (TypePropriete couleur : housesCouleurNumber.keySet()) {
+    public void sellNumerousHouses(Map<TypePropriete, Integer> map) throws IsBankruptException {
+        for (TypePropriete couleur : map.keySet()) {
             // On crée une Liste pour stocker les cases correspondant à la couleur
             List<CasePropriete> listeDeCaseDeCetteCouleur = new ArrayList<>();
 
             // Et un int pour le nombre de maisons à retirer
-            int nombreMaisonsARetirer = housesCouleurNumber.get(couleur);
+            int nombreMaisonsARetirer = map.get(couleur);
 
             // On crée la liste à l'envers pour pouvoir retirer les maisons dans l'ordre
             // inverse d'apparition
