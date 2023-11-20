@@ -8,9 +8,9 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public abstract class CaseAchetable extends Case {
 
-    public int prixAchat;
-    protected Player possesseur = null;
-    protected TypePropriete typeOuCouleur;
+    private int prixAchat;
+    private Player possesseur = null;
+    private TypePropriete typeOuCouleur;
     private boolean estHypothequee = false;
 
     public CaseAchetable(String name, int prixAchat, TypePropriete typeOuCouleur) {
@@ -24,13 +24,17 @@ public abstract class CaseAchetable extends Case {
         super.doCaseEffect(joueur, plateauComplet);
 
         if (this.isBuyable()) {
-            joueur.askBuyProperty();
+            joueur.askBuyProperty(this, plateauComplet);
         } else {
             if (!estHypothequee)
             this.makePay(joueur, plateauComplet);
         }
     }
 
+    public int getPrixAchat(){
+        return this.prixAchat;
+    }
+    
     public boolean isBuyable() {
         return (Objects.isNull(possesseur));
     }
