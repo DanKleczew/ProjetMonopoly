@@ -34,9 +34,24 @@ public abstract class Player {
         return this.bankAccount;
     }
 
-    public void setTimeOut() {
+    public void setTimeOut() throws IsBankruptException {
         this.timeOut = 3;
+        this.resetTimeOut(this.askGetOutOfJail());
     }
+
+    public void timeOutReduction() {
+        this.timeOut -= 1;
+    }
+
+    public void resetTimeOut(boolean b) throws IsBankruptException{
+        if (b){
+            this.timeOut = 0;
+            this.bankAccountModify(-50);
+        }
+    }
+
+    public abstract boolean askGetOutOfJail();
+
     public int getTimeOut(){
         return this.timeOut;
     }
