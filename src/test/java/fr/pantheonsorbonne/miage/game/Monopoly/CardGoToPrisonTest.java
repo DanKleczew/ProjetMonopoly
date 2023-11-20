@@ -10,13 +10,15 @@ import org.junit.jupiter.api.Test;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CardGoToPrisonTest {
-    
+
     @Test
-    public void TestcardEffect() throws IsBankruptException {
+    public void TestCardEffect() throws IsBankruptException {
         Player Thierry = new Manual(1);
         PerfectBoard plateau2 = new PerfectBoard(Thierry);
         Card prison = new CardGoToPrison();
-        prison.cardEffect(Thierry,plateau2);
+        prison.cardEffect(Thierry, plateau2);
         assertEquals(3, Thierry.getTimeOut());
+        assertEquals(10, plateau2.getPositionJoueur(Thierry));
+
     }
 }

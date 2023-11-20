@@ -92,6 +92,10 @@ public abstract class Board {
         */
     }
 
+    public void goToPrison(Player joueur){
+        positionJoueurs.put(joueur, 10);
+    }
+
     public void walk(Player joueur, int nombreCase) throws IsBankruptException{
         this.assignNewPosition(joueur, positionJoueurs.get(joueur) + nombreCase);
     }
@@ -142,4 +146,6 @@ public abstract class Board {
         }
         return listeProprietes;
     }
+
+
 }
