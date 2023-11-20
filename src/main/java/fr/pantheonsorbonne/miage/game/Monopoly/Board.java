@@ -35,7 +35,7 @@ public abstract class Board {
         new CasePropriete("Avenue de la République", 120, TypePropriete.CYAN,
             new int[] { 8, 40, 100, 300, 450, 600 }),
         new CaseNeutre("Visite Simple"),
-        new CasePropriete("Boulevard de la Vilette", 140, TypePropriete.ROSE),
+        new CasePropriete("Boulevard de la Villette", 140, TypePropriete.ROSE),
         new CaseCompagnie("Compagnie de Disribution d'Électricité"),
         new CasePropriete("Avenue de Neuilly", 140, TypePropriete.ROSE),
         new CasePropriete("Rue de Paradis", 160, TypePropriete.ROSE, 
@@ -81,10 +81,12 @@ public abstract class Board {
         positionJoueurs.put(joueur, 0);
     }
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
-        if (indiceCase < positionJoueurs.get(joueur)) // C'est à dire on est passé par la case départ
+        if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) // C'est à dire on est passé par la case départ 
+        //Le seul moyen de reculer de trois cases est de piocher la dite carte chance et on ne veut pas qu'il gagne de l'argent dans ce cas
             joueur.bankAccountModify(200);
 
-        positionJoueurs.put(joueur, indiceCase);
+            positionJoueurs.put(joueur, indiceCase);
+        
         plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
         /*On pourrait placer cette méthode dans PerfectBoard mais on préfère que les méthodes qui influent sur 
         le plateau physique ou la position des joueurs sur celui-ci soient dans cette classe.
@@ -97,7 +99,7 @@ public abstract class Board {
     }
 
     public void walk(Player joueur, int nombreCase) throws IsBankruptException{
-        this.assignNewPosition(joueur, positionJoueurs.get(joueur) + nombreCase);
+        this.assignNewPosition(joueur, (positionJoueurs.get(joueur) + nombreCase)%40);
     }
 
     public int getIndiceNextGare(Player joueur) {
@@ -114,25 +116,24 @@ public abstract class Board {
         for (Case caseParticuliere : plateau) {
             if (caseParticuliere instanceof CasePropriete
                     && ((CasePropriete) caseParticuliere).getOwner().equals(joueur)) {
-                nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
                 if (((CasePropriete) caseParticuliere).hasHotel()) {
                     nombreHotels++;
+                }
+                else{
+                    nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
                 }
             }
         }
         return new int[] { nombreMaisons, nombreHotels };
     }
 
+    //Pour les tests
     public Case[] getPlateau(){
         return plateau;
     }
 
     public Case getCase(int indice){
         return plateau[indice];
-    }
-    
-    public void setNewHouse(TypePropriete couleur, int nombreMaison){
-
     }
 
     public List<CaseAchetable> getOwnedProperties(Player joueur) {

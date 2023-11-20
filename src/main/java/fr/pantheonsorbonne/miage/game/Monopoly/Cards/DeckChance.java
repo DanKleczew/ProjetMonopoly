@@ -6,10 +6,10 @@ import java.util.List;
 
 public class DeckChance extends Deck {
     private final static List<Card> DECK_ARRAY_CHANCE = new ArrayList<Card>(Arrays.asList(
-            new CardDeplacement("rue de la Paix"),
-            new CardDeplacement("case départ"),
-            new CardDeplacement("l'Avenue Henr-Martin"),
-            new CardDeplacement("Boulevard de La Vilette"),
+            new CardDeplacement("Rue de la Paix"),
+            new CardDeplacement("Case Départ"),
+            new CardDeplacement("Avenue Henri-Martin"),
+            new CardDeplacement("Boulevard de La Villette"),
             new CardVoierie(40, 115),
             new CardDeplacement("Gare de Lyon"),
             new CardWinLose(100),

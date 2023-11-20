@@ -40,5 +40,11 @@ public class Manual extends Player{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'thinkAboutSellingHouses'");
     }
+
+    @Override
+    public boolean askGetOutOfJail() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'askGetOutOfJail'");
+    }
     
 }
