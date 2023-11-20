@@ -3,9 +3,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
 //import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
 //import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
-
-import java.util.ArrayDeque;
-import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 
@@ -93,7 +90,7 @@ public abstract class DeckTest {
     }
 
 
-    private void melangeDeck(List<Card> deckArray){
+    public void melangeDeck(List<Card> deckArray){
         // Collections.shuffle(deckArray);
         // this.deck = new ArrayDeque<Card>();
         // this.deck.addAll(deckArray);

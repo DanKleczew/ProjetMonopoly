@@ -1,13 +1,10 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.CardGoToPrison;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Manual;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CardGoToPrisonTest {
 
