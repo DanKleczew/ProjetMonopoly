@@ -40,10 +40,14 @@ public class PerfectBoard extends Board {
     }
 
     
-    public void deletePlayer(IsBankruptException exception) {
+    public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
         for (Case currCase : plateau){
             if (currCase instanceof CaseAchetable && ((CaseAchetable) currCase).getOwner() == exception.getPerdant()){
                 ((CaseAchetable) currCase).setOwner(exception.getGagnant());
+                if (((CaseAchetable) currCase).isHypothequed()){
+                    ((CaseAchetable) currCase).switchHypothequeStatus();
+                    
+                }
             }
         }
 
