@@ -81,10 +81,12 @@ public abstract class Board {
         positionJoueurs.put(joueur, 0);
     }
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
-        if (indiceCase < positionJoueurs.get(joueur)) // C'est à dire on est passé par la case départ
+        if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) // C'est à dire on est passé par la case départ 
+        //Le seul moyen de reculer de trois cases est de piocher la dite carte et on ne veut pas qu'il gagne de l'argent avec elle
             joueur.bankAccountModify(200);
 
-        positionJoueurs.put(joueur, indiceCase);
+            positionJoueurs.put(joueur, indiceCase);
+        
         plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
         /*On pourrait placer cette méthode dans PerfectBoard mais on préfère que les méthodes qui influent sur 
         le plateau physique ou la position des joueurs sur celui-ci soient dans cette classe.
@@ -93,7 +95,7 @@ public abstract class Board {
     }
 
     public void walk(Player joueur, int nombreCase) throws IsBankruptException{
-        this.assignNewPosition(joueur, positionJoueurs.get(joueur) + nombreCase);
+        this.assignNewPosition(joueur, (positionJoueurs.get(joueur) + nombreCase)%40);
     }
 
     public int getIndiceNextGare(Player joueur) {
