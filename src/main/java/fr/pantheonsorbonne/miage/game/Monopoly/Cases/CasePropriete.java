@@ -78,7 +78,6 @@ public class CasePropriete extends CaseAchetable {
     }
 
     public void addHouse() throws IsBankruptException {
-        System.out.println(this.prixMaisonUnitaire);
         this.getOwner().bankAccountModify(-prixMaisonUnitaire);
         this.nombreMaisons++;
     }

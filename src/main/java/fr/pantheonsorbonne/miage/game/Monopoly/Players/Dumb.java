@@ -41,7 +41,7 @@ public class Dumb extends Player {
                 }
             }
             if (compt == typeProp.getNbProprieteDeCeType() && lastPropDeCetteCouleur.getNombreMaisons()<5){
-                listeDeSouhaits.put(typeProp, 3);
+                listeDeSouhaits.put(typeProp, 1);
             }
         }
 
