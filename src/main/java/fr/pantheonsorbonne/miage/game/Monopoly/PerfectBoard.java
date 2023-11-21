@@ -43,7 +43,7 @@ public class PerfectBoard extends Board {
     public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
         for (Case currCase : plateau){
             if (currCase instanceof CaseAchetable && ((CaseAchetable) currCase).getOwner() == exception.getPerdant()){
-                ((CaseAchetable) currCase).setOwner(exception.getGagnant());
+                ((CaseAchetable) currCase).setOwner(exception.getGagnant(), true);
                 if (((CaseAchetable) currCase).isHypothequed()){
                     ((CaseAchetable) currCase).switchHypothequeStatus();
                     
@@ -112,7 +112,7 @@ public class PerfectBoard extends Board {
         while (nombreMaisonsAPlacer != 0) {
             listeDeCases.get(i).addHouse();
             i++;
-            i %= 3;
+            i %= listeDeCases.size();
             nombreMaisonsAPlacer--;
         }
     }

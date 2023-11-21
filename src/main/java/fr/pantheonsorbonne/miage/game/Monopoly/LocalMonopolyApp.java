@@ -64,7 +64,6 @@ public final class LocalMonopolyApp {
                 try {
                     plateauComplet.walk(currentPlayer, sumDes(des));
                     currentPlayer.thinkAndDo(plateauComplet);
-
                 } catch (IsBankruptException e) {
                     //Si l'exception est thrown pendant le .walk (par exemple tombé sur une propriété adverse)
                     //Le joueur n'aura pas le loisir de .thinkAndDo
@@ -80,6 +79,7 @@ public final class LocalMonopolyApp {
         Player winner = plateauComplet.getNextPlayer();
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());
+        
     }
 
     private static int sumDes(int[] des) {

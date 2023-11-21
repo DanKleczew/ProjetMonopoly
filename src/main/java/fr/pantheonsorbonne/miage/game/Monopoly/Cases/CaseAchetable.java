@@ -24,7 +24,7 @@ public abstract class CaseAchetable extends Case {
         super.doCaseEffect(joueur, plateauComplet);
 
         if (this.isBuyable()) {
-            joueur.askBuyProperty(this, plateauComplet);
+            this.setOwner(joueur, joueur.askBuyProperty(this, plateauComplet));
         } else {
             if (!estHypothequee)
             this.makePay(joueur, plateauComplet);
@@ -43,7 +43,7 @@ public abstract class CaseAchetable extends Case {
         return this.possesseur;
     }
 
-    public void setOwner(Player joueur) {
+    public void setOwner(Player joueur, boolean choice) {
         this.possesseur = joueur;
     }
 

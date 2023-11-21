@@ -59,7 +59,7 @@ public class PerfectBoardTest {
         PerfectBoard plateau = new PerfectBoard();
         for (Case currCase : plateau.getPlateau()){
             if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU){
-                ((CasePropriete) currCase).setOwner(Thierry);
+                ((CasePropriete) currCase).setOwner(Thierry, true);
             }
         }
             HashMap<TypePropriete, Integer> map = new HashMap<>();

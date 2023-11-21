@@ -23,7 +23,7 @@ public class Dumb extends Player {
 
     @Override
     public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
-        return (this.getBankAccount() > proprieteLibre.getPrixAchat());
+        return (true);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class Dumb extends Player {
                 }
             }
             if (compt == typeProp.getNbProprieteDeCeType() && lastPropDeCetteCouleur.getNombreMaisons()<5){
-                listeDeSouhaits.put(typeProp, 10);
+                listeDeSouhaits.put(typeProp, 3);
             }
         }
 
