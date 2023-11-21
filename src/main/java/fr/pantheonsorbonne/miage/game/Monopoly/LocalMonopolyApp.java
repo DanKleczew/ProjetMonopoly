@@ -76,6 +76,7 @@ public final class LocalMonopolyApp {
 
 
         }
+        System.out.println("////////FIN DE PARTIE\\\\\\\\\\\\\\");
         Player winner = plateauComplet.getNextPlayer();
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());

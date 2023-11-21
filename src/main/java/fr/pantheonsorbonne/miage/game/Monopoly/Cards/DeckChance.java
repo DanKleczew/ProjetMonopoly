@@ -16,7 +16,7 @@ public class DeckChance extends Deck {
             new CardWinLose(50),
             // libere prison
             new CardDeplacement(-3),
-            new CardDeplacement("Prison"),
+            new CardGoToPrison(),
             new CardVoierie(25, 100),
             new CardWinLose(-15),
             new CardWinLose(-150),
