@@ -18,7 +18,7 @@ public class CardWinLose implements Card{
             System.out.println("Vous gagnez " + gainOuPerte + " $ !");
         }
         else{
-            System.out.println("Vous perdez " + gainOuPerte + "$.");
+            System.out.println("Vous perdez " + (-gainOuPerte) + "$.");
         }
         joueur.bankAccountModify(gainOuPerte);
         
