@@ -26,7 +26,7 @@ public class Manual extends Player{
     }
 
     @Override
-    protected CasePropriete[] thinkAboutCreatingJails() {
+    protected void thinkAboutCreatingJails() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'thinkAboutCreatingJails'");
     }

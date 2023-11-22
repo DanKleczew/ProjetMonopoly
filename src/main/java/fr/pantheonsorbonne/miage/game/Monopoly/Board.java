@@ -222,4 +222,21 @@ public abstract class Board {
         return randomPropriete;
     }
 
+    public double getNombrePrisons(){
+        int compt = 0;
+        for (CasePropriete propColoree : this.getAllColoredProprietes()){
+            if (propColoree.isAJail()){
+                compt++;
+            }
+        }
+        return compt;
+    }
+
+    public void renteDesPrisons() throws IsBankruptException {
+        for (CasePropriete propColoree : this.getAllColoredProprietes()){
+            if (propColoree.isAJail()){
+                propColoree.getOwner().bankAccountModify((int) (propColoree.getEchelleDeLoyer()[0] / 10) + 1);
+            }
+        }
+    }
 }

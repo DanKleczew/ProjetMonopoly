@@ -64,7 +64,7 @@ public class PerfectBoard extends Board {
 
     public void resetPlayingStatusAllPlayers() {
         for (Player joueur : listeJoueurs) {
-            joueur.switchplayingStatus();
+            joueur.switchPlayingStatus();
         }
     }
 
@@ -192,4 +192,48 @@ public class PerfectBoard extends Board {
         }
     }
 
+    private List<CasePropriete> findFirstHousedColor(Player joueur) {
+        List<CasePropriete> listeProprietesColoreesOwned = this.getOwnedColoredProperties(joueur);
+        List<CasePropriete> listeDeCasesDeCetteCouleur = new ArrayList<>();
+        TypePropriete couleur = null;
+
+        for (CasePropriete proprieteColoree : listeProprietesColoreesOwned) {
+            if (proprieteColoree.getNombreMaisons() > 0) {
+                couleur = proprieteColoree.getTypeOuCouleur();
+                break;
+            }
+        }
+
+        for (int i = listeProprietesColoreesOwned.size() - 1; i >= 0; i--) {
+            if (listeProprietesColoreesOwned.get(i).getTypeOuCouleur() == couleur) {
+
+                listeDeCasesDeCetteCouleur.add(listeProprietesColoreesOwned.get(i));
+            }
+        }
+        return listeDeCasesDeCetteCouleur;
+    }
+
+    public void houseBreak(Player joueur) throws IsBankruptException {
+        List<CasePropriete> casesUneCouleur = this.findFirstHousedColor(joueur);
+        this.sellNumerousHousesComplexWay(casesUneCouleur, 1);
+        joueur.bankAccountModify(-(casesUneCouleur.get(0).getPrixMaisonUnitaire() / 2));
+        //On se sert de sell pour ne pas avoir à recréer de méthode spécifique pour break
+        //Mais le joueur n'est pas censé gagner d'argent quand une de ses maisons se fait casser
+    }
+
+    public boolean hasHouses(Player joueur) {
+        for (CasePropriete proprieteColoree : this.getOwnedColoredProperties(joueur)) {
+            if (proprieteColoree.getNombreMaisons() > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double getLoyerDeBaseProprieteLaPlusChere(Player joueur){
+        return this.findFirstHousedColor(joueur).get(0).getEchelleDeLoyer()[0];
+        //.get(0) car la liste est construite à l'envers du plateau
+        //La propriété la plus chère et avec le loyer le plus cher arrive en premier
+    }
+    
 }

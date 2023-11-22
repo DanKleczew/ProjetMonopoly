@@ -3,7 +3,6 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 import java.util.Random;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Board;
-
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -13,6 +12,7 @@ public class CasePropriete extends CaseAchetable {
     private int prixMaisonUnitaire;
 
     private int toursRestantsSquat = 0;
+    private boolean isAJail = false;
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
@@ -45,6 +45,14 @@ public class CasePropriete extends CaseAchetable {
         }
     }
 
+    public boolean isAJail(){
+        return isAJail;
+    }
+
+    public void setAsJail(boolean playerChoice){
+        this.isAJail = true;
+    }
+
     @Override
     public int getLoyerAPayer(Board plateauComplet) {
         Player owner = this.getOwner();
@@ -58,11 +66,18 @@ public class CasePropriete extends CaseAchetable {
             aPayer = 2 * (this.getEchelleDeLoyer()[0]);
         } else {
             aPayer = this.getEchelleDeLoyer()[nombreMaisons];
+        //TODO : Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
+        //at fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete.getLoyerAPayer(CasePropriete.java:69)
+        //at fr.pantheonsorbonne.miage.game.Monopoly.Board.getSommeTotaleLoyerActuelle(Board.java:181)
+        //at fr.pantheonsorbonne.miage.game.Monopoly.LocalMonopolyApp.main(LocalMonopolyApp.java:25)
         }
         return toursRestantsSquat == 0 ? aPayer : 0;
         //Si la case est squattée, aPayer = 0
     }
 
+    public int getPrixMaisonUnitaire(){
+        return this.prixMaisonUnitaire;
+    }
     public void setSquat() {
         this.toursRestantsSquat = 8;
     }
