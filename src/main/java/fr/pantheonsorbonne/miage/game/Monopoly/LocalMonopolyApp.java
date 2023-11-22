@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Dumb;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
@@ -7,21 +8,31 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public final class LocalMonopolyApp {
 
     private static PerfectBoard plateauComplet = new PerfectBoard(new Dumb(0), new Dumb(1));
-    private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
+    private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00; 
+    //La probabilité qu'un squatteur apparaisse est de (Somme Totale des Loyers (voir getSommeTotaleLoyerActuelle() dans Board) / 20K ) 
+    //Cela permet en moyenne de faire apparaître un squatteur tous les 4 tours vers la fin de la partie.
 
     public static void main(String... args) throws IsBankruptException {
 
         while (! plateauComplet.isGameFinished()) {
             Player currentPlayer = plateauComplet.getNextPlayer();
 
-            if (currentPlayer == null){
-                //TODO : Consignes de fin de tour
-                plateauComplet.getNextPlayer();
+            if (currentPlayer.hasPlayed()){ //On retombe sur un joueur qui a déjà joué càd un tour est fini
+                plateauComplet.resetPlayingStatusAllPlayers(); //On remet en false le a joué
+
+                if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) { //Simule la proba des squatteurs
+                    CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
+                    randomProp.setSquat();
+                    randomProp.removeSquat(randomProp.getOwner().askRemoveInstantlySquat(randomProp, plateauComplet));
+                }
+                
+                plateauComplet.policeDoYourJob();
             }
 
             int compteurRepetitionTour = 0;
             int[] des;
-
+            currentPlayer.switchplayingStatus(); //Indique que le joueur joue 
+            
             tourJoueur:
             do {
                 //Si le joueur est en prison

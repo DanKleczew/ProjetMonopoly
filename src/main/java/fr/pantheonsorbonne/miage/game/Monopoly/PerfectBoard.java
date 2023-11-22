@@ -25,10 +25,8 @@ public class PerfectBoard extends Board {
     
 
     public PerfectBoard(Player... tableJoueur) {
-        // Crée deux bots identiques (à modifier)
         for (Player joueur : tableJoueur) {
             listeJoueurs.add(joueur);
-            listeJoueurs.add(null); //Un flag pour détecter la fin d'un tour
         }
         // Pose les joueurs sur la case départ
         for (Player joueur : listeJoueurs) {
@@ -69,8 +67,14 @@ public class PerfectBoard extends Board {
         return nextPlayer;
     }
 
+    public void resetPlayingStatusAllPlayers() {
+        for (Player joueur : listeJoueurs){
+            joueur.switchplayingStatus();
+        }
+    }
+
     public boolean isGameFinished() {
-        return listeJoueurs.size() == 2;
+        return listeJoueurs.size() == 1;
     }
 
     //Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
@@ -187,5 +191,7 @@ public class PerfectBoard extends Board {
                 i = listeDeCases.size() - 1;
         }
     }
+
+    
 
 }

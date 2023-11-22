@@ -48,5 +48,11 @@ public class Manual extends Player{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'askBuyProperty'");
     }
+
+    @Override
+    public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
+    }
     
 }

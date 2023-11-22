@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
@@ -215,4 +216,17 @@ public abstract class Board {
         }
         return proprietes;
     }
+
+    public CasePropriete getRandomOwnedPropriete() {
+        Random random = new Random();
+        List<CasePropriete> everyPropriete = this.getAllColoredProprietes();
+        CasePropriete randomPropriete;
+        do {
+            randomPropriete = everyPropriete.get(random.nextInt(everyPropriete.size()));
+        }
+        while(! randomPropriete.hasOwner());
+        
+        return randomPropriete;
+    }
+
 }

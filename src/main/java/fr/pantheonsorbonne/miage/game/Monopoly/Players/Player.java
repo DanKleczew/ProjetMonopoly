@@ -13,12 +13,20 @@ public abstract class Player {
 
     private int bankAccount = 1500;
     final protected int ID;
-    private int timeOut = 0;    //peut etre protected
+    private int timeOut = 0;
+    private boolean aJoue = false;
 
     public Player(int ID) {
         this.ID = ID;
     }
 
+    public boolean hasPlayed(){
+        return aJoue;
+    }
+
+    public void switchplayingStatus(){
+        aJoue = !aJoue;
+    }
     public int getID(){
         return this.ID;
     }
@@ -128,4 +136,7 @@ public abstract class Player {
             propriete.switchHypothequeStatus();
     }
 }
+
+    public abstract boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet);
+        
 }
