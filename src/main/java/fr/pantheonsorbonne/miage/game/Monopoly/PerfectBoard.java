@@ -10,7 +10,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
@@ -22,7 +21,6 @@ public class PerfectBoard extends Board {
     final private Deck deckCaisse = new DeckCaisse();
     final private Deck deckChance = new DeckChance();
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
-    
 
     public PerfectBoard(Player... tableJoueur) {
         for (Player joueur : tableJoueur) {
@@ -38,15 +36,12 @@ public class PerfectBoard extends Board {
         return listeJoueurs;
     }
 
-    
     public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
-        for (Case currCase : plateau){
-            if (currCase instanceof CaseAchetable && ((CaseAchetable) currCase).getOwner() == exception.getPerdant()){
-                ((CaseAchetable) currCase).setOwner(exception.getGagnant(), true);
-                if (((CaseAchetable) currCase).isHypothequed()){
-                    ((CaseAchetable) currCase).switchHypothequeStatus();
-                    
-                }
+        List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
+        for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
+            proprieteDuPerdant.setOwner(exception.getGagnant(), true);
+            if (proprieteDuPerdant.isHypothequed()) {
+                proprieteDuPerdant.switchHypothequeStatus();
             }
         }
 
@@ -68,7 +63,7 @@ public class PerfectBoard extends Board {
     }
 
     public void resetPlayingStatusAllPlayers() {
-        for (Player joueur : listeJoueurs){
+        for (Player joueur : listeJoueurs) {
             joueur.switchplayingStatus();
         }
     }
@@ -77,7 +72,8 @@ public class PerfectBoard extends Board {
         return listeJoueurs.size() == 1;
     }
 
-    //Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
+    // Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs
+    // que nécessaire
     public void addNumerousHouses(Map<TypePropriete, Integer> map) throws IsBankruptException {
         // On parcourt la HashMap
         for (TypePropriete couleur : map.keySet()) {
@@ -87,11 +83,11 @@ public class PerfectBoard extends Board {
             // Et un int pour le nombre de maisons à placer
             int nombreMaisonsAPlacer = map.get(couleur);
 
-            // On parcourt le plateau à la recherche des bonnes cases
-            for (Case currCase : plateau) {
-                if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == couleur) {
+            // On parcourt les proprietes colorees
+            for (CasePropriete currProp : this.getAllColoredProprietes()) {
+                if (currProp.getTypeOuCouleur() == couleur) {
                     // On append la liste des trois ou deux bonnes cases
-                    listeDeCaseDeCetteCouleur.add((CasePropriete) currCase);
+                    listeDeCaseDeCetteCouleur.add(currProp);
                 }
             }
 
@@ -133,7 +129,8 @@ public class PerfectBoard extends Board {
         }
     }
 
-    //Retire n maisons sur les propriétés d'une couleur donnée, autant de couleurs que nécessaire
+    // Retire n maisons sur les propriétés d'une couleur donnée, autant de couleurs
+    // que nécessaire
     public void sellNumerousHouses(Map<TypePropriete, Integer> map) throws IsBankruptException {
         for (TypePropriete couleur : map.keySet()) {
             // On crée une Liste pour stocker les cases correspondant à la couleur
@@ -142,11 +139,13 @@ public class PerfectBoard extends Board {
             // Et un int pour le nombre de maisons à retirer
             int nombreMaisonsARetirer = map.get(couleur);
 
+            List<CasePropriete> listeDeToutesCasesDeCouleur = this.getAllColoredProprietes();
+
             // On crée la liste à l'envers pour pouvoir retirer les maisons dans l'ordre
             // inverse d'apparition
-            for (int i = 39; i >= 0; i--) {
-                if (plateau[i] instanceof CasePropriete && ((CasePropriete) plateau[i]).getTypeOuCouleur() == couleur) {
-                    listeDeCaseDeCetteCouleur.add((CasePropriete) plateau[i]);
+            for (int i = listeDeToutesCasesDeCouleur.size() - 1; i >= 0; i--) {
+                if (listeDeToutesCasesDeCouleur.get(i).getTypeOuCouleur() == couleur) {
+                    listeDeCaseDeCetteCouleur.add(listeDeToutesCasesDeCouleur.get(i));
                 }
             }
 
@@ -155,7 +154,7 @@ public class PerfectBoard extends Board {
         }
     }
 
-    //Permet de retirer n maisons sur des propriétés d'une même couleur, même si
+    // Permet de retirer n maisons sur des propriétés d'une même couleur, même si
     // elles n'ont pas le même nombre de maisons sur chaque
     private void sellNumerousHousesComplexWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
             throws IsBankruptException {
@@ -177,7 +176,8 @@ public class PerfectBoard extends Board {
         }
     }
 
-    //Retire n maisons sur des propriétés d'une même couleur ayant toutes le même nombre de maisons
+    // Retire n maisons sur des propriétés d'une même couleur ayant toutes le même
+    // nombre de maisons
     private void sellNumerousHousesSimpleWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
             throws IsBankruptException {
 
@@ -191,7 +191,5 @@ public class PerfectBoard extends Board {
                 i = listeDeCases.size() - 1;
         }
     }
-
-    
 
 }
