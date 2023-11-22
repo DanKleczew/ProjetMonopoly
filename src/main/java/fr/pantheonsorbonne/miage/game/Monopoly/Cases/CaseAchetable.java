@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
 import java.util.Objects;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
@@ -69,7 +70,7 @@ public abstract class CaseAchetable extends Case {
     }
 
 
-    protected void makePay(Player joueurQuiPaye, PerfectBoard plateau) throws IsBankruptException{
+    protected void makePay(Player joueurQuiPaye, Board plateau) throws IsBankruptException{
         if (joueurQuiPaye.equals(this.owner)){ // Le proprio de la case est tombé sur une case à lui
             return;
         }
@@ -78,5 +79,5 @@ public abstract class CaseAchetable extends Case {
         }
     }
 
-    public abstract int getLoyerAPayer(PerfectBoard plateau);
+    public abstract int getLoyerAPayer(Board plateau);
 }

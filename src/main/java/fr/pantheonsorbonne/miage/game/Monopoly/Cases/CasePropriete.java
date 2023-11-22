@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -41,7 +42,7 @@ public class CasePropriete extends CaseAchetable {
     }
 
     @Override
-    public int getLoyerAPayer(PerfectBoard plateauComplet) {
+    public int getLoyerAPayer(Board plateauComplet) {
         Player owner = this.getOwner();
         TypePropriete couleur = this.getTypeOuCouleur();
         int aPayer;
