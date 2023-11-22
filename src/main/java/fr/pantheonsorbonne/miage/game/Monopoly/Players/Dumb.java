@@ -63,5 +63,13 @@ public class Dumb extends Player {
     protected CasePropriete[] thinkAboutCreatingJails() {
         return new CasePropriete[0];
     }
+
+    @Override
+    public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
+        if (this.getBankAccount()>200){
+            return true;
+        }
+        return false;
+    }
     
 }
