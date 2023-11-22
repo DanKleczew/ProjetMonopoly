@@ -239,4 +239,14 @@ public abstract class Board {
             }
         }
     }
-}
+
+    public List<CasePropriete> getProprietesByColor(TypePropriete color){
+        List<CasePropriete> propUneCouleur = new ArrayList<>();
+        for (CasePropriete propColoree : this.getAllColoredProprietes()){
+            if (propColoree.getTypeOuCouleur() == color){
+                propUneCouleur.add(propColoree);
+            }
+        }      
+        return (propUneCouleur);
+    }
+}   

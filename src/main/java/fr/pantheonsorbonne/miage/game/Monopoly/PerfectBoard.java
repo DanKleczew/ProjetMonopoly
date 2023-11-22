@@ -78,18 +78,9 @@ public class PerfectBoard extends Board {
         // On parcourt la HashMap
         for (TypePropriete couleur : map.keySet()) {
             // On crée une Liste pour stocker les cases correspondant à la couleur
-            List<CasePropriete> listeDeCaseDeCetteCouleur = new ArrayList<>();
-
+            List<CasePropriete> listeDeCaseDeCetteCouleur = this.getProprietesByColor(couleur);
             // Et un int pour le nombre de maisons à placer
             int nombreMaisonsAPlacer = map.get(couleur);
-
-            // On parcourt les proprietes colorees
-            for (CasePropriete currProp : this.getAllColoredProprietes()) {
-                if (currProp.getTypeOuCouleur() == couleur) {
-                    // On append la liste des trois ou deux bonnes cases
-                    listeDeCaseDeCetteCouleur.add(currProp);
-                }
-            }
 
             addNumerousHousesComplexWay(listeDeCaseDeCetteCouleur, nombreMaisonsAPlacer);
         }
@@ -113,14 +104,16 @@ public class PerfectBoard extends Board {
     // elles n'ont pas le même nombre de maisons sur chaque
     private void addNumerousHousesComplexWay(List<CasePropriete> listeDeCases, int nombreMaisonsAPlacer)
             throws IsBankruptException {
+
         int nombreInitialMaisons = listeDeCases.get(0).getNombreMaisons();
         for (CasePropriete currCase : listeDeCases) {
             if (currCase.getNombreMaisons() != nombreInitialMaisons) {
                 currCase.addHouse();
                 nombreMaisonsAPlacer--;
             }
-            if (nombreMaisonsAPlacer == 0)
+            if (nombreMaisonsAPlacer == 0) {
                 return;
+            }
         }
         if (nombreMaisonsAPlacer > 0) {
             addNumerousHousesSimpleWay(listeDeCases, nombreMaisonsAPlacer);
@@ -158,17 +151,19 @@ public class PerfectBoard extends Board {
     // elles n'ont pas le même nombre de maisons sur chaque
     private void sellNumerousHousesComplexWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
             throws IsBankruptException {
+        int nombreInitialMaisons = listeDeCases.get(0).getNombreMaisons();
 
-        int nombreInitialMaisons = listeDeCases.get(listeDeCases.size() - 1).getNombreMaisons();
+        for (CasePropriete propriete : listeDeCases) {
 
-        for (int i = listeDeCases.size() - 1; i >= 0; i--) {
-            if (listeDeCases.get(i).getNombreMaisons() != nombreInitialMaisons) {
-                listeDeCases.get(i).sellHouse();
+            if (propriete.getNombreMaisons() > nombreInitialMaisons) {
+                propriete.sellHouse();
                 nombreMaisonsARetirer--;
             }
-            if (nombreMaisonsARetirer == 0)
+            if (nombreMaisonsARetirer == 0) {
                 return;
+            }
         }
+
         if (nombreMaisonsARetirer > 0) {
             sellNumerousHousesSimpleWay(listeDeCases, nombreMaisonsARetirer);
         } else {
@@ -181,14 +176,13 @@ public class PerfectBoard extends Board {
     private void sellNumerousHousesSimpleWay(List<CasePropriete> listeDeCases, int nombreMaisonsARetirer)
             throws IsBankruptException {
 
-        int i = listeDeCases.size() - 1;
+        int i = 0;
 
         while (nombreMaisonsARetirer > 0) {
             listeDeCases.get(i).sellHouse();
-            i--;
+            i++;
+            i %= listeDeCases.size();
             nombreMaisonsARetirer--;
-            if (i == -1)
-                i = listeDeCases.size() - 1;
         }
     }
 
@@ -217,8 +211,10 @@ public class PerfectBoard extends Board {
         List<CasePropriete> casesUneCouleur = this.findFirstHousedColor(joueur);
         this.sellNumerousHousesComplexWay(casesUneCouleur, 1);
         joueur.bankAccountModify(-(casesUneCouleur.get(0).getPrixMaisonUnitaire() / 2));
-        //On se sert de sell pour ne pas avoir à recréer de méthode spécifique pour break
-        //Mais le joueur n'est pas censé gagner d'argent quand une de ses maisons se fait casser
+        // On se sert de sell pour ne pas avoir à recréer de méthode spécifique pour
+        // break
+        // Mais le joueur n'est pas censé gagner d'argent quand une de ses maisons se
+        // fait casser
     }
 
     public boolean hasHouses(Player joueur) {
@@ -230,10 +226,10 @@ public class PerfectBoard extends Board {
         return false;
     }
 
-    public double getLoyerDeBaseProprieteLaPlusChere(Player joueur){
+    public double getLoyerDeBaseProprieteLaPlusChere(Player joueur) {
         return this.findFirstHousedColor(joueur).get(0).getEchelleDeLoyer()[0];
-        //.get(0) car la liste est construite à l'envers du plateau
-        //La propriété la plus chère et avec le loyer le plus cher arrive en premier
+        // .get(0) car la liste est construite à l'envers du plateau
+        // La propriété la plus chère et avec le loyer le plus cher arrive en premier
     }
-    
+
 }

@@ -65,11 +65,7 @@ public class CasePropriete extends CaseAchetable {
             // C'est à dire l'owner possède toutes les propriétés de cette couleur
             aPayer = 2 * (this.getEchelleDeLoyer()[0]);
         } else {
-            aPayer = this.getEchelleDeLoyer()[nombreMaisons];
-        //TODO : Exception in thread "main" java.lang.ArrayIndexOutOfBoundsException: Index 6 out of bounds for length 6
-        //at fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete.getLoyerAPayer(CasePropriete.java:69)
-        //at fr.pantheonsorbonne.miage.game.Monopoly.Board.getSommeTotaleLoyerActuelle(Board.java:181)
-        //at fr.pantheonsorbonne.miage.game.Monopoly.LocalMonopolyApp.main(LocalMonopolyApp.java:25)
+            aPayer = this.getEchelleDeLoyer()[this.getNombreMaisons()];
         }
         return toursRestantsSquat == 0 ? aPayer : 0;
         //Si la case est squattée, aPayer = 0

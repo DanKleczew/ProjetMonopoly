@@ -29,26 +29,30 @@ public class Dumb extends Player {
     @Override
     protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
         Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
-        List<CasePropriete> listeDeProprietesColorees = plateauComplet.getOwnedColoredProperties(this);
-        for(CasePropriete propriete: listeDeProprietesColorees){
-            int compt = 0;
-            TypePropriete typeProp = propriete.getTypeOuCouleur();
-            CasePropriete lastPropDeCetteCouleur = propriete;
-            for(CasePropriete prop2 : listeDeProprietesColorees){
-                if (prop2.getTypeOuCouleur() == typeProp){
-                    compt++;
-                    lastPropDeCetteCouleur = prop2;
+        boucleDesCouleurs :
+        for (TypePropriete couleur : TypePropriete.values()){
+            if (couleur.ordinal() < 8){
+                List<CasePropriete> casesDeCetteCouleur = plateauComplet.getProprietesByColor(couleur);
+                for (CasePropriete propCol : casesDeCetteCouleur){
+                    if (propCol.hasOwner()){
+                        if (! propCol.getOwner().equals(this)){
+                            continue boucleDesCouleurs;
+                        }
+                    }
+                else {
+                    continue boucleDesCouleurs;
+                    }
+                }
+                if (casesDeCetteCouleur.get(casesDeCetteCouleur.size() - 1).getNombreMaisons() < 5){
+                    listeDeSouhaits.put(couleur, 1);
                 }
             }
-            if (compt == typeProp.getNbProprieteDeCeType() && lastPropDeCetteCouleur.getNombreMaisons()<5){
-                listeDeSouhaits.put(typeProp, 1);
-            }
         }
-
 
         return listeDeSouhaits;
     }
 
+    
     @Override
     protected Map<TypePropriete, Integer> thinkAboutSellingHouses() {
         return new HashMap<TypePropriete, Integer>();
