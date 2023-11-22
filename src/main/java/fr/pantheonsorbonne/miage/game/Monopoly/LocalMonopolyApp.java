@@ -7,11 +7,18 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public final class LocalMonopolyApp {
 
     private static PerfectBoard plateauComplet = new PerfectBoard(new Dumb(0), new Dumb(1));
+    private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
 
     public static void main(String... args) throws IsBankruptException {
 
         while (! plateauComplet.isGameFinished()) {
             Player currentPlayer = plateauComplet.getNextPlayer();
+
+            if (currentPlayer == null){
+                //TODO : Consignes de fin de tour
+                plateauComplet.getNextPlayer();
+            }
+
             int compteurRepetitionTour = 0;
             int[] des;
 
@@ -74,7 +81,7 @@ public final class LocalMonopolyApp {
                 }
             } while (des[0] == des[1]);
             
-
+        
 
         }
         System.out.println("////////FIN DE PARTIE\\\\\\\\\\\\\\");

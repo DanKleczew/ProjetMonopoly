@@ -1,7 +1,5 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import java.util.Objects;
-
 import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -46,7 +44,7 @@ public abstract class CaseAchetable extends Case {
     }
 
     public boolean hasOwner() {
-        return (!Objects.isNull(this.owner));
+        return (! (this.owner == null));
     }
 
     public TypePropriete getTypeOuCouleur() {
