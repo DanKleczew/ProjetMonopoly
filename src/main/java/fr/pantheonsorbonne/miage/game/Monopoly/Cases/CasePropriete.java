@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
+import java.util.Random;
+
 import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -8,7 +10,9 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public class CasePropriete extends CaseAchetable {
     private int[] echelleDeLoyer;
     private int nombreMaisons = 0;
-    private int prixMaisonUnitaire = 0;
+    private int prixMaisonUnitaire;
+
+    private int toursRestantsSquat = 0;
 
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
@@ -55,7 +59,27 @@ public class CasePropriete extends CaseAchetable {
         } else {
             aPayer = this.getEchelleDeLoyer()[nombreMaisons];
         }
-        return aPayer;
+        return toursRestantsSquat == 0 ? aPayer : 0;
+        //Si la case est squattée, aPayer = 0
+    }
+
+    public void setSquat() {
+        this.toursRestantsSquat = 8;
+    }
+
+    public void removeSquat(boolean playerChoice) throws IsBankruptException {
+        this.toursRestantsSquat = 0;
+        this.getOwner().bankAccountModify(-200);
+        Random random = new Random();
+        if (random.nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
+            this.getOwner().setTimeOut();
+        }
+    }
+
+    public void policeJob() {
+        if (this.toursRestantsSquat != 0) {
+            this.toursRestantsSquat -= 1;
+        }
     }
 
     public int[] getEchelleDeLoyer() {
@@ -80,5 +104,4 @@ public class CasePropriete extends CaseAchetable {
         this.nombreMaisons--;
     }
 
-    
 }
