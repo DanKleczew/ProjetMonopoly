@@ -72,6 +72,16 @@ public abstract class Board {
     };
 
     protected Map<Player, Integer> positionJoueurs = new HashMap<>();
+    private int sumDiceThisRound;
+
+    // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
+    public void setSommeDesThisRound(int somme) {
+        sumDiceThisRound = somme;
+    }
+
+    public int getSommeDesThisRound() {
+        return sumDiceThisRound;
+    }
 
 
     public int getPositionJoueur(Player joueur) {
@@ -160,5 +170,13 @@ public abstract class Board {
         return listeProprietes;
     }
 
-
+    public int getSommeTotaleLoyerActuelle(){
+        int sommeTotaleLoyer = 0;
+        for (Case caseActuelle : plateau) {
+            if (caseActuelle instanceof CaseAchetable && ((CaseAchetable) caseActuelle).hasOwner()) {
+                sommeTotaleLoyer += ((CaseAchetable) caseActuelle).getLoyerAPayer(this);
+            }
+        }
+        return sommeTotaleLoyer;
+    }
 }

@@ -22,7 +22,7 @@ public class PerfectBoard extends Board {
     final private Deck deckCaisse = new DeckCaisse();
     final private Deck deckChance = new DeckChance();
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
-    private int sumDiceThisRound;
+    
 
     public PerfectBoard(Player... tableJoueur) {
         // Crée deux bots identiques (à modifier)
@@ -60,15 +60,6 @@ public class PerfectBoard extends Board {
 
     public Card pickACaisseCard() {
         return (deckCaisse.piocher());
-    }
-
-    // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
-    public void setSommeDesThisRound(int somme) {
-        sumDiceThisRound = somme;
-    }
-
-    public int getSommeDesThisRound() {
-        return sumDiceThisRound;
     }
 
     public Player getNextPlayer() {

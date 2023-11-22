@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CaseCompagnie extends CaseAchetable {
@@ -10,7 +10,7 @@ public class CaseCompagnie extends CaseAchetable {
     }
 
     @Override
-    public int getLoyerAPayer(PerfectBoard plateauComplet) {
+    public int getLoyerAPayer(Board plateauComplet) {
         Player owner = this.getOwner();
         int nombreCompagniesOwned = owner.getNumberSpecificTypeProperty(TypePropriete.COMPAGNIE,
                     plateauComplet.getOwnedProperties(owner));
