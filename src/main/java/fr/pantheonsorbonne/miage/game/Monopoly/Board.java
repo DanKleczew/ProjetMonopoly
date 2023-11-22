@@ -191,7 +191,7 @@ public abstract class Board {
         }
     }
 
-    private List<CasePropriete> getAllColoredProprietes() {
+    protected List<CasePropriete> getAllColoredProprietes() {
         List<CasePropriete> proprietes = new ArrayList<CasePropriete>();
         for (Case caseActuelle : plateau) {
             if (caseActuelle instanceof CasePropriete) {
@@ -201,7 +201,7 @@ public abstract class Board {
         return proprietes;
     }
 
-    private List<CaseAchetable> getAllProprietes() {
+    protected List<CaseAchetable> getAllProprietes() {
         List<CaseAchetable> proprietes = new ArrayList<CaseAchetable>();
         for (Case caseActuelle : plateau) {
             if (caseActuelle instanceof CaseAchetable) {
