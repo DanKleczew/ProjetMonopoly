@@ -21,6 +21,7 @@ public final class LocalMonopolyApp {
                 if (currentPlayer.getTimeOut() > 0){
                     //Il jette les dés
                     des = currentPlayer.throwDice(plateauComplet);
+                    //System.out.println(sumDes(des));
                     //Si il fait un double
                     if (des[0] == des[1]){
                         //Il avance avec le montant des dés qu'il vient de lancer
@@ -57,6 +58,7 @@ public final class LocalMonopolyApp {
 
                 compteurRepetitionTour++;
                 des = currentPlayer.throwDice(plateauComplet);
+                //System.out.println(sumDes(des));
                 if (compteurRepetitionTour == 3 && des[0] == des[1]){
                     currentPlayer.setTimeOut();
                     break tourJoueur;
@@ -70,7 +72,6 @@ public final class LocalMonopolyApp {
                     plateauComplet.deletePlayer(e);
                     break tourJoueur;
                 }
-
             } while (des[0] == des[1]);
             
 
