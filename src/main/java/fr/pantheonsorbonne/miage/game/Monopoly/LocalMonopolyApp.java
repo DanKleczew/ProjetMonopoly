@@ -32,7 +32,7 @@ public final class LocalMonopolyApp {
             int compteurRepetitionTour = 0;
             int[] des;
             currentPlayer.switchplayingStatus(); //Indique que le joueur joue 
-            
+
             tourJoueur:
             do {
                 //Si le joueur est en prison

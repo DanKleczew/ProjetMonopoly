@@ -132,13 +132,13 @@ public abstract class Board {
     public int[] getNombreMaisonsHotels(Player joueur) {
         int nombreMaisons = 0;
         int nombreHotels = 0;
-        for (Case caseParticuliere : plateau) {
-            if (caseParticuliere instanceof CasePropriete && ((CasePropriete) caseParticuliere).hasOwner()
-                    && ((CasePropriete) caseParticuliere).getOwner().equals(joueur)) {
-                if (((CasePropriete) caseParticuliere).hasHotel()) {
+        List<CasePropriete> listeCasesColorees = this.getAllColoredProprietes();
+        for (CasePropriete proprieteParticuliere : listeCasesColorees) {
+            if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
+                if ((proprieteParticuliere).hasHotel()) {
                     nombreHotels++;
                 } else {
-                    nombreMaisons += ((CasePropriete) caseParticuliere).getNombreMaisons();
+                    nombreMaisons += (proprieteParticuliere).getNombreMaisons();
                 }
             }
         }
@@ -156,46 +156,40 @@ public abstract class Board {
 
     public List<CaseAchetable> getOwnedProperties(Player joueur) {
         List<CaseAchetable> listeProprietes = new ArrayList<>();
-        for (Case caseActuelle : plateau) {
-            if (caseActuelle instanceof CaseAchetable) {
-                if (((CaseAchetable) caseActuelle).hasOwner()
-                        && ((CaseAchetable) caseActuelle).getOwner().equals(joueur)) {
-                    listeProprietes.add((CaseAchetable) caseActuelle);
-                }
+        for (CaseAchetable proprieteParticuliere : this.getAllProprietes()) {
+            if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
+                listeProprietes.add(proprieteParticuliere);
             }
         }
         return listeProprietes;
     }
 
     public List<CasePropriete> getOwnedColoredProperties(Player joueur) {
-        List<CasePropriete> listeProprietes = new ArrayList<>();
-        for (Case caseActuelle : plateau) {
-            if (caseActuelle instanceof CasePropriete) {
-                if (((CasePropriete) caseActuelle).hasOwner()
-                        && ((CasePropriete) caseActuelle).getOwner().equals(joueur)) {
-                    listeProprietes.add((CasePropriete) caseActuelle);
-                }
+        List<CasePropriete> listeProprietesColorees = new ArrayList<>();
+        for (CasePropriete proprieteParticuliere : this.getAllColoredProprietes()) {
+            if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
+                listeProprietesColorees.add(proprieteParticuliere);
             }
         }
-        return listeProprietes;
+        return listeProprietesColorees;
     }
 
     public double getSommeTotaleLoyerActuelle() {
         int sommeTotaleLoyer = 0;
-        for (Case caseActuelle : plateau) {
-            if (caseActuelle instanceof CaseAchetable && ((CaseAchetable) caseActuelle).hasOwner()) {
-                sommeTotaleLoyer += ((CaseAchetable) caseActuelle).getLoyerAPayer(this);
+        for (CaseAchetable proprieteActuelle : this.getAllProprietes()) {
+            if (proprieteActuelle.hasOwner()) {
+                sommeTotaleLoyer += proprieteActuelle.getLoyerAPayer(this);
             }
         }
         return sommeTotaleLoyer;
     }
 
-    public void policeDoYourJob(){
+    public void policeDoYourJob() {
         List<CasePropriete> listePropCouleur = this.getAllColoredProprietes();
-        for (CasePropriete prop : listePropCouleur){
+        for (CasePropriete prop : listePropCouleur) {
             prop.policeJob();
         }
-        }
+    }
 
     private List<CasePropriete> getAllColoredProprietes() {
         List<CasePropriete> proprietes = new ArrayList<CasePropriete>();
@@ -223,9 +217,8 @@ public abstract class Board {
         CasePropriete randomPropriete;
         do {
             randomPropriete = everyPropriete.get(random.nextInt(everyPropriete.size()));
-        }
-        while(! randomPropriete.hasOwner());
-        
+        } while (!randomPropriete.hasOwner());
+
         return randomPropriete;
     }
 

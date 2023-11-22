@@ -68,11 +68,13 @@ public class CasePropriete extends CaseAchetable {
     }
 
     public void removeSquat(boolean playerChoice) throws IsBankruptException {
-        this.toursRestantsSquat = 0;
-        this.getOwner().bankAccountModify(-200);
-        Random random = new Random();
-        if (random.nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
-            this.getOwner().setTimeOut();
+        if (playerChoice){ //Si le joueur décide de payer une entreprise privée
+            this.toursRestantsSquat = 0;
+            this.getOwner().bankAccountModify(-200);
+            Random random = new Random();
+            if (random.nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
+                this.getOwner().setTimeOut();
+            }
         }
     }
 
