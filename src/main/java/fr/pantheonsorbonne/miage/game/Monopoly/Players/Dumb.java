@@ -60,8 +60,7 @@ public class Dumb extends Player {
     }
 
     @Override
-    protected CasePropriete[] thinkAboutCreatingJails() {
-        return new CasePropriete[0];
+    protected void thinkAboutCreatingJails() {
     }
 
     @Override

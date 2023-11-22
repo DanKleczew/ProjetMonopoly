@@ -24,7 +24,7 @@ public abstract class Player {
         return aJoue;
     }
 
-    public void switchplayingStatus(){
+    public void switchPlayingStatus(){
         aJoue = !aJoue;
     }
     public int getID(){
@@ -121,14 +121,13 @@ public abstract class Player {
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut transformer
     // en prisons
-    protected abstract CasePropriete[] thinkAboutCreatingJails();
+    protected abstract void thinkAboutCreatingJails();
 
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
-        // TODO : Make them do something
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses());
         this.sellProprietes(thinkAboutHypothequeProprietes());
-        //thinkAboutCreatingJails();
+        thinkAboutCreatingJails(); //Celle ci est void et appelle elle-même les CasePropriete.setAsJail();
     }
 
     private void sellProprietes(CaseAchetable[] listeProprietesAHypothequer) throws IsBankruptException {
