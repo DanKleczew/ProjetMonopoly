@@ -31,7 +31,7 @@ public abstract class Player {
         return this.ID;
     }
     public void bankAccountModify(int gainOuPerte) throws IsBankruptException {
-        if (this.bankAccount + gainOuPerte > 0) {
+        if (this.bankAccount + gainOuPerte >= 0) {
             this.bankAccount += gainOuPerte;
         } else {
             throw new IsBankruptException(this);
