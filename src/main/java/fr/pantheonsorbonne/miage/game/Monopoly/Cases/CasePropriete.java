@@ -41,28 +41,20 @@ public class CasePropriete extends CaseAchetable {
     }
 
     @Override
-    protected void makePay(Player joueurQuiPaye, PerfectBoard plateauComplet) throws IsBankruptException {
+    public int getLoyerAPayer(PerfectBoard plateauComplet) {
         Player owner = this.getOwner();
         TypePropriete couleur = this.getTypeOuCouleur();
-
-        if (joueurQuiPaye.equals(owner)) { // Le proprio de la case est tombé sur une case à lui
-            return;
+        int aPayer;
+        if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur,
+                plateauComplet.getOwnedProperties(owner)) && nombreMaisons == 0) {
+            // Si le nombre de propriétés qu'il existe de cette couleur == nombre de
+            // propriétés de cette couleur possédée par l'owner
+            // C'est à dire l'owner possède toutes les propriétés de cette couleur
+            aPayer = 2 * (this.getEchelleDeLoyer()[0]);
         } else {
-            int aPayer;
-            if (couleur.getNbProprieteDeCeType() == owner.getNumberSpecificTypeProperty(couleur,
-                    plateauComplet.getOwnedProperties(owner)) && nombreMaisons == 0) {
-                // Si le nombre de propriétés qu'il existe de cette couleur == nombre de
-                // propriétés de cette couleur possédée par l'owner
-                // C'est à dire l'owner possède toutes les propriétés de cette couleur
-                aPayer = 2 * (this.getEchelleDeLoyer()[0]);
-            } else {
-                aPayer = this.getEchelleDeLoyer()[nombreMaisons];
-            }
-
-            joueurQuiPaye.transaction(owner, aPayer);
-
+            aPayer = this.getEchelleDeLoyer()[nombreMaisons];
         }
-
+        return aPayer;
     }
 
     public int[] getEchelleDeLoyer() {
@@ -87,4 +79,5 @@ public class CasePropriete extends CaseAchetable {
         this.nombreMaisons--;
     }
 
+    
 }

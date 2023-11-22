@@ -9,7 +9,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public abstract class CaseAchetable extends Case {
 
     private int prixAchat;
-    private Player possesseur = null;
+    private Player owner = null;
     private TypePropriete typeOuCouleur;
     private boolean estHypothequee = false;
 
@@ -23,7 +23,7 @@ public abstract class CaseAchetable extends Case {
     public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException {
         super.doCaseEffect(joueur, plateauComplet);
 
-        if (this.isBuyable()) {
+        if (! this.hasOwner()) {
             this.setOwner(joueur, joueur.askBuyProperty(this, plateauComplet));
         } else {
             if (!estHypothequee)
@@ -35,20 +35,17 @@ public abstract class CaseAchetable extends Case {
         return this.prixAchat;
     }
     
-    public boolean isBuyable() {
-        return (Objects.isNull(possesseur));
-    }
 
     public Player getOwner() {
-        return this.possesseur;
+        return this.owner;
     }
 
     public void setOwner(Player joueur, boolean choice) {
-        this.possesseur = joueur;
+        this.owner = joueur;
     }
 
     public boolean hasOwner() {
-        return (!Objects.isNull(this.possesseur));
+        return (!Objects.isNull(this.owner));
     }
 
     public TypePropriete getTypeOuCouleur() {
@@ -62,15 +59,24 @@ public abstract class CaseAchetable extends Case {
     public void switchHypothequeStatus() throws IsBankruptException{
         //Si elle est hypothéquée et on veut la faire redevenir normale
         if (estHypothequee){
-            this.possesseur.bankAccountModify(- (prixAchat/2 + (1/10)*prixAchat));
+            this.owner.bankAccountModify(- (prixAchat/2 + (1/10)*prixAchat));
         }
         //Si elle est normale et on veut l'hypothéquer
         else{
-            this.possesseur.bankAccountModify(this.prixAchat/2);
+            this.owner.bankAccountModify(this.prixAchat/2);
         }
         estHypothequee = !estHypothequee;
     }
 
 
-    protected abstract void makePay(Player joueur, PerfectBoard plateau) throws IsBankruptException;
+    protected void makePay(Player joueurQuiPaye, PerfectBoard plateau) throws IsBankruptException{
+        if (joueurQuiPaye.equals(this.owner)){ // Le proprio de la case est tombé sur une case à lui
+            return;
+        }
+        else {
+            joueurQuiPaye.transaction(this.owner, this.getLoyerAPayer(plateau));
+        }
+    }
+
+    public abstract int getLoyerAPayer(PerfectBoard plateau);
 }

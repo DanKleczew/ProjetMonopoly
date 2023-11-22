@@ -30,6 +30,9 @@ public class CardSteal implements Card {
                 exception.setGagnant(joueurGagnant);
                 plateauComplet.deletePlayer(exception);
             }
+            //On a un try/catch ici parce que c'est le seul moyen pour un joueur de perdre
+            //Alors que ce n'est pas son tour. Pour toutes les autres manières de perdre,
+            //L'exception est traitée dans le déroulé de la partie
         }
     }
 }
