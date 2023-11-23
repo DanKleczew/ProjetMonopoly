@@ -1,5 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import java.util.Random;
+
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Dumb;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -15,6 +17,8 @@ public final class LocalMonopolyApp {
     // la fin de la partie.
 
     public static void main(String... args) throws IsBankruptException {
+        Random random = new Random();
+        
 
         while (!plateauComplet.isGameFinished()) {
             Player currentPlayer = plateauComplet.getNextPlayer();
@@ -35,6 +39,7 @@ public final class LocalMonopolyApp {
 
             int compteurRepetitionTour = 0;
             int[] des;
+            int thisDiceThrowSeed;
             currentPlayer.switchPlayingStatus(); // Indique que le joueur joue
 
             tourJoueur: do {
@@ -49,8 +54,8 @@ public final class LocalMonopolyApp {
                 // Si le joueur est en prison
                 if (currentPlayer.getTimeOut() > 0) {
                     // Il jette les dés
-                    des = currentPlayer.throwDice(plateauComplet);
-                    // System.out.println(sumDes(des));
+                    thisDiceThrowSeed = random.nextInt(100000);
+                    des = currentPlayer.throwDice(plateauComplet, thisDiceThrowSeed);
                     // Si il fait un double
                     if (des[0] == des[1]) {
                         // Il avance avec le montant des dés qu'il vient de lancer
@@ -85,8 +90,9 @@ public final class LocalMonopolyApp {
                 // Si il n'est pas en prison :
 
                 compteurRepetitionTour++;
-                des = currentPlayer.throwDice(plateauComplet);
-                // System.out.println(sumDes(des));
+                
+                thisDiceThrowSeed = random.nextInt(100000);
+                des = currentPlayer.throwDice(plateauComplet, thisDiceThrowSeed);
                 if (compteurRepetitionTour == 3 && des[0] == des[1]) {
                     currentPlayer.setTimeOut(plateauComplet);
                     break tourJoueur;

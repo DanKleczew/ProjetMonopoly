@@ -58,7 +58,7 @@ public abstract class CaseAchetable extends Case {
     public void switchHypothequeStatus() throws IsBankruptException{
         //Si elle est hypothéquée et on veut la faire redevenir normale
         if (estHypothequee){
-            this.owner.bankAccountModify(- (prixAchat/2 + (1/10)*prixAchat));
+            this.owner.bankAccountModify(- (prixAchat/2) - (prixAchat/10));
         }
         //Si elle est normale et on veut l'hypothéquer
         else{
