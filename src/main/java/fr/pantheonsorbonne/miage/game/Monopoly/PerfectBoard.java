@@ -44,7 +44,7 @@ public class PerfectBoard extends Board {
                 proprieteDuPerdant.switchHypothequeStatus();
             }
         }
-
+        System.out.println("J'ai essayé de remove");
         listeJoueurs.remove(exception.getPerdant());
     }
 

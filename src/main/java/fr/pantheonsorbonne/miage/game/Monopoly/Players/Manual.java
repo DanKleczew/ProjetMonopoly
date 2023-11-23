@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
@@ -15,44 +16,36 @@ public class Manual extends Player{
 
     @Override
     protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutHouses'");
+        return new HashMap<TypePropriete, Integer>();
     }
 
     @Override
     protected CasePropriete[] thinkAboutHypothequeProprietes() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutSellingProprietes'");
+        return new CasePropriete[0];
     }
 
     @Override
     protected void thinkAboutCreatingJails() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutCreatingJails'");
     }
 
     @Override
     protected Map<TypePropriete, Integer> thinkAboutSellingHouses() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutSellingHouses'");
+        return new HashMap<TypePropriete, Integer>();
     }
 
     @Override
     public boolean askGetOutOfJail() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askGetOutOfJail'");
+        return false;
     }
 
     @Override
     public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askBuyProperty'");
+        return false;
     }
 
     @Override
     public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
+        return false;
     }
     
 }

@@ -1,6 +1,10 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import org.junit.jupiter.api.Test;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
@@ -22,4 +26,21 @@ public class CardStealTest{
         assertEquals (1400, Thierry3.getBankAccount());
         assertEquals (1400, Thierry4.getBankAccount());
     }
+
+    @Test
+    public void testCardEffectLose() throws IsBankruptException {
+        Player Thierry = new Manual(1);
+        Player Thierry2 = new Manual(2);
+
+        PerfectBoard plateaufantome = new PerfectBoard(Thierry, Thierry2);
+        Card carte = new CardSteal(100);
+        Thierry2.bankAccountModify(-1499);
+        carte.cardEffect(Thierry, plateaufantome);
+        
+        Deque<Player> listeJoueurExpected = new ArrayDeque<Player>();
+        listeJoueurExpected.add(Thierry);
+
+        assertArrayEquals(listeJoueurExpected.toArray(), plateaufantome.getListeJoueurs().toArray());
+    }
+
 }
