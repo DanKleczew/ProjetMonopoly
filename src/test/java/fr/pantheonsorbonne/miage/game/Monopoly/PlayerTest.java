@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PlayerTest {
-    
+
     @Test
-    public void getNumberSpecificTypePropertyTest(){
+    public void getNumberSpecificTypePropertyTest() {
         Player Thierry = new VoidBot(1);
 
         List<CaseAchetable> liste = new ArrayList<>();
@@ -28,39 +28,43 @@ public class PlayerTest {
     }
 
     @Test
-    public void hasPlayedTest(){
+    public void hasPlayedTest() {
         Player Thierry = new VoidBot(0);
 
         assertEquals(false, Thierry.hasPlayed());
 
         Thierry.switchPlayingStatus();
 
-        assertEquals (true, Thierry.hasPlayed());
+        assertEquals(true, Thierry.hasPlayed());
+
+        Thierry.switchPlayingStatus();
+
+        assertEquals(false, Thierry.hasPlayed());
     }
 
-    @Test 
-    public void getIdTest(){
+    @Test
+    public void getIdTest() {
         Player Thierry = new VoidBot(0);
 
-        assertEquals(0,  Thierry.getID());
+        assertEquals(0, Thierry.getID());
     }
 
-    @Test 
-    public void timeOutReduction() throws IsBankruptException{
+    @Test
+    public void timeOutReduction() throws IsBankruptException {
         Player Thierry = new VoidBot(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
         Thierry.setTimeOut(plateauFantome);
         assertEquals(3, Thierry.getTimeOut());
         assertEquals(10, plateauFantome.getPositionJoueur(Thierry));
-        
+
         Thierry.timeOutReduction();
         assertEquals(2, Thierry.getTimeOut());
 
     }
 
     @Test
-    public void sellProprietesTest() throws IsBankruptException{
+    public void sellProprietesTest() throws IsBankruptException {
         Player Thierry = new Dumb(0);
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
@@ -71,5 +75,15 @@ public class PlayerTest {
         CasePropriete Belleville = (CasePropriete) (plateauFantome.getCase(1));
         assertEquals(true, Belleville.isHypothequed());
 
+    }
+
+    @Test 
+    public void throwDiceTest(){
+        Player Thierry = new Dumb(0);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        int[] des = Thierry.throwDice(plateauFantome, 0);
+        int[] desExpected = new int[]{1, 5};
+        assertEquals(true, java.util.Arrays.equals(des, desExpected));
+        assertEquals(6, plateauFantome.getSommeDesThisRound());
     }
 }

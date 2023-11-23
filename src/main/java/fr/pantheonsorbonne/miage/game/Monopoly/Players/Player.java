@@ -65,9 +65,9 @@ public abstract class Player {
         return this.timeOut;
     }
 
-    public int[] throwDice(PerfectBoard plateauComplet) {
+    public int[] throwDice(PerfectBoard plateauComplet, int seed) {
         int[] table = new int[2];
-        Random aleatoire = new Random();
+        Random aleatoire = new Random(seed);
         table[0] = aleatoire.nextInt(6) + 1;
         table[1] = aleatoire.nextInt(6) + 1;
         plateauComplet.setSommeDesThisRound(table[0] + table[1]);
