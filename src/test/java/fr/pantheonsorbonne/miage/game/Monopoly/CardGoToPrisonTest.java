@@ -10,12 +10,18 @@ public class CardGoToPrisonTest {
 
     @Test
     public void TestCardEffect() throws IsBankruptException {
-        Player Thierry = new Manual(1);
+        Player Thierry = new Dumb(1);
         PerfectBoard plateau2 = new PerfectBoard(Thierry);
         Card prison = new CardGoToPrison();
         prison.cardEffect(Thierry, plateau2);
-        assertEquals(3, Thierry.getTimeOut());
+        assertEquals(0, Thierry.getTimeOut());
         assertEquals(10, plateau2.getPositionJoueur(Thierry));
 
+        Player Didier = new Manual(1);
+        prison.cardEffect(Didier, plateau2);
+        assertEquals(3, Didier.getTimeOut());
+        assertEquals(10, plateau2.getPositionJoueur(Didier));
     }
+
+    
 }

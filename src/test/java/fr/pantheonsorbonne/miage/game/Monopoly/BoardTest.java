@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.List;
