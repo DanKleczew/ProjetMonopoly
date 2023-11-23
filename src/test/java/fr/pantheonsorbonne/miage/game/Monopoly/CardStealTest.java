@@ -13,7 +13,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 public class CardStealTest{
 
     @Test
-    public void testCardEffect() throws IsBankruptException {
+    public void testCardEffect() throws IsBankruptException{
         Player Thierry1 = new VoidBot(1);
         Player Thierry2 = new VoidBot(2);
         Player Thierry3 = new VoidBot(3);
@@ -28,7 +28,7 @@ public class CardStealTest{
     }
 
     @Test
-    public void testCardEffectLose() throws IsBankruptException {
+    public void testCardEffectLose() throws IsBankruptException{
         Player Thierry = new VoidBot(1);
         Player Thierry2 = new VoidBot(2);
 

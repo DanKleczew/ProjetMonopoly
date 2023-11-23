@@ -22,7 +22,7 @@ public class VoidBot extends Player{
     }
 
     @Override
-    protected CasePropriete[] thinkAboutHypothequeProprietes() {
+    protected CasePropriete[] thinkAboutHypothequeProprietes(PerfectBoard plateau) {
         return new CasePropriete[0];
     }
 
