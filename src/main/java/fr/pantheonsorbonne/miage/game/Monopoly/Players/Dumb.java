@@ -44,7 +44,8 @@ public class Dumb extends Player {
                     }
                 }
                 if (casesDeCetteCouleur.get(casesDeCetteCouleur.size() - 1).getNombreMaisons() < 5){
-                    listeDeSouhaits.put(couleur, 1);
+                    if (casesDeCetteCouleur.get(0).getPrixMaisonUnitaire() < this.getBankAccount())
+                        listeDeSouhaits.put(couleur, 1);
                 }
             }
         }
@@ -59,7 +60,14 @@ public class Dumb extends Player {
     }
 
     @Override
-    protected CaseAchetable[] thinkAboutHypothequeProprietes() {
+    protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet) {
+        List<CaseAchetable> mesProprietes = plateauComplet.getOwnedProperties(this);
+        if (mesProprietes.size() != 1) return new CaseAchetable[0];
+        for(CaseAchetable currCase : mesProprietes){
+            if (currCase.toString().equals("Boulevard de Belleville")){
+                return new CaseAchetable[] {currCase};
+            }
+        }
         return new CaseAchetable[0];
     }
 

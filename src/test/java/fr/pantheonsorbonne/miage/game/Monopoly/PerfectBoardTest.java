@@ -12,12 +12,12 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 public class PerfectBoardTest {
     @Test
     void testGetListeJoueurs() {
-        //getter
+        // getter
     }
 
     @Test
     void testGetNextPlayer() {
-        //getter
+        // getter
     }
 
     @Test
@@ -54,25 +54,26 @@ public class PerfectBoardTest {
     }
 
     @Test
-    void testAddNumerousHouses() throws IsBankruptException{
+    void testAddNumerousHouses() throws IsBankruptException {
         Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard();
-        for (Case currCase : plateau.getPlateau()){
-            if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU){
+        for (Case currCase : plateau.getPlateau()) {
+            if (currCase instanceof CasePropriete
+                    && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU) {
                 ((CasePropriete) currCase).setOwner(Thierry, true);
             }
         }
-            HashMap<TypePropriete, Integer> map = new HashMap<>();
-            map.put(TypePropriete.BLEU, 2);
-            plateau.addNumerousHouses(map);
+        HashMap<TypePropriete, Integer> map = new HashMap<>();
+        map.put(TypePropriete.BLEU, 2);
+        plateau.addNumerousHouses(map);
 
-            assertEquals(1100, Thierry.getBankAccount());
-            
+        assertEquals(1100, Thierry.getBankAccount());
 
-        for(Case currCase : plateau.getPlateau()){
-            if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU){
+        for (Case currCase : plateau.getPlateau()) {
+            if (currCase instanceof CasePropriete
+                    && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU) {
                 assertEquals(1, ((CasePropriete) currCase).getNombreMaisons());
             }
-        }  
+        }
     }
-}   
+}

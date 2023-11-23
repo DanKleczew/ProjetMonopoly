@@ -118,7 +118,7 @@ public abstract class Player {
     protected abstract Map<TypePropriete, Integer> thinkAboutSellingHouses();
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut hypothéquer
-    protected abstract CaseAchetable[] thinkAboutHypothequeProprietes();
+    protected abstract CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet);
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut transformer
     // en prisons
@@ -127,7 +127,7 @@ public abstract class Player {
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses());
-        this.sellProprietes(thinkAboutHypothequeProprietes());
+        this.sellProprietes(thinkAboutHypothequeProprietes(plateauComplet));
         thinkAboutCreatingJails(); //Celle ci est void et appelle elle-même les CasePropriete.setAsJail();
     }
 
