@@ -14,10 +14,10 @@ public class CardStealTest{
 
     @Test
     public void testCardEffect() throws IsBankruptException {
-        Player Thierry1 = new Manual(1);
-        Player Thierry2 = new Manual(2);
-        Player Thierry3 = new Manual(3);
-        Player Thierry4 = new Manual(4);
+        Player Thierry1 = new VoidBot(1);
+        Player Thierry2 = new VoidBot(2);
+        Player Thierry3 = new VoidBot(3);
+        Player Thierry4 = new VoidBot(4);
         PerfectBoard plateau2 = new PerfectBoard(Thierry1,Thierry2,Thierry3,Thierry4);
         Card carte = new CardSteal(100);
         carte.cardEffect(Thierry1, plateau2);
@@ -29,8 +29,8 @@ public class CardStealTest{
 
     @Test
     public void testCardEffectLose() throws IsBankruptException {
-        Player Thierry = new Manual(1);
-        Player Thierry2 = new Manual(2);
+        Player Thierry = new VoidBot(1);
+        Player Thierry2 = new VoidBot(2);
 
         PerfectBoard plateaufantome = new PerfectBoard(Thierry, Thierry2);
         Card carte = new CardSteal(100);

@@ -29,21 +29,21 @@ public class PerfectBoardTest {
 
     @Test
     void testIsGameFinished() throws IsBankruptException {
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard(Thierry);
         assertEquals(true, plateau.isGameFinished());
     }
 
     @Test
     void testPickACaisseCard() {
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard(Thierry);
         assertEquals(true, plateau.pickACaisseCard() instanceof Card);
     }
 
     @Test
     void testPickAChanceCard() {
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard(Thierry);
         assertEquals(true, plateau.pickAChanceCard() instanceof Card);
     }
@@ -55,7 +55,7 @@ public class PerfectBoardTest {
 
     @Test
     void testAddNumerousHouses() throws IsBankruptException{
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard();
         for (Case currCase : plateau.getPlateau()){
             if (currCase instanceof CasePropriete && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU){

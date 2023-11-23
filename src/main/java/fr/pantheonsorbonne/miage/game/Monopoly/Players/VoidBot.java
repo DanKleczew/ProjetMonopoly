@@ -8,9 +8,11 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
-public class Manual extends Player{
+public class VoidBot extends Player{
 
-    public Manual(int ID) {
+    //Un bot qui ne fait jamais rien, pratique pour les tests
+
+    public VoidBot(int ID) {
         super(ID);
     }
 

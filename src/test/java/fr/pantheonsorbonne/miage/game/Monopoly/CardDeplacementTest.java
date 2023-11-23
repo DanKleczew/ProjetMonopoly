@@ -17,7 +17,7 @@ public class CardDeplacementTest{
     @Test
     public void cardEffectTest() throws IsBankruptException {
 
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
         CardDeplacement carte = new CardDeplacement(3);

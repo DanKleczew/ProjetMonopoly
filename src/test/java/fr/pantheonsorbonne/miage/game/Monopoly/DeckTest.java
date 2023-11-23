@@ -3,7 +3,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
 //import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
 //import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
-import java.util.List;
 import java.util.Queue;
 
 
@@ -18,7 +17,7 @@ public abstract class DeckTest {
     //     return firstCard;
     // };
 
-    public void piocher(){
+    //public void piocher(){
         //Deck caisse = new DeckCaisse();
         //caisse
         // List<Card> DECK_ARRAY_CAISSE = new ArrayList<Card>(Arrays.asList(
@@ -87,12 +86,12 @@ public abstract class DeckTest {
         //initialisé deck,deck3 identique
         //initialisé deck2 = deck1 après avoir piocher
         
-    }
+    //}
 
 
-    public void melangeDeck(List<Card> deckArray){
+    //public void melangeDeck(List<Card> deckArray){
         // Collections.shuffle(deckArray);
         // this.deck = new ArrayDeque<Card>();
         // this.deck.addAll(deckArray);
-    }
+    //}
 }
