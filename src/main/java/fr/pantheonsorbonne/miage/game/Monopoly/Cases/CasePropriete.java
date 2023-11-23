@@ -3,6 +3,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 import java.util.Random;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
@@ -80,13 +81,13 @@ public class CasePropriete extends CaseAchetable {
         this.toursRestantsSquat = 8;
     }
 
-    public void removeSquat(boolean playerChoice) throws IsBankruptException {
+    public void removeSquat(boolean playerChoice, PerfectBoard plateau) throws IsBankruptException {
         if (playerChoice){ //Si le joueur décide de payer une entreprise privée
             this.toursRestantsSquat = 0;
             this.getOwner().bankAccountModify(-200);
             Random random = new Random();
             if (random.nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
-                this.getOwner().setTimeOut();
+                this.getOwner().setTimeOut(plateau);
             }
         }
     }

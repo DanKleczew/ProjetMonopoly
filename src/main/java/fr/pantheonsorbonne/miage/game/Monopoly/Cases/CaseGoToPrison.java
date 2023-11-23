@@ -13,7 +13,7 @@ public class CaseGoToPrison extends Case {
     @Override
     public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException {
         super.doCaseEffect(joueur, plateauComplet);
-        joueur.setTimeOut();
+        joueur.setTimeOut(plateauComplet);
         
     }
 
