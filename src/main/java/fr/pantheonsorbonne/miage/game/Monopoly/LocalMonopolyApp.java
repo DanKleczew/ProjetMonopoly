@@ -26,7 +26,7 @@ public final class LocalMonopolyApp {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
-                    randomProp.removeSquat(randomProp.getOwner().askRemoveInstantlySquat(randomProp, plateauComplet));
+                    randomProp.removeSquat(randomProp.getOwner().askRemoveInstantlySquat(randomProp, plateauComplet), plateauComplet);
                 }
 
                 plateauComplet.policeDoYourJob();
@@ -88,7 +88,7 @@ public final class LocalMonopolyApp {
                 des = currentPlayer.throwDice(plateauComplet);
                 // System.out.println(sumDes(des));
                 if (compteurRepetitionTour == 3 && des[0] == des[1]) {
-                    currentPlayer.setTimeOut();
+                    currentPlayer.setTimeOut(plateauComplet);
                     break tourJoueur;
                 }
                 try {

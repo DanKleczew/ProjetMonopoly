@@ -42,8 +42,9 @@ public abstract class Player {
         return this.bankAccount;
     }
 
-    public void setTimeOut() throws IsBankruptException {
+    public void setTimeOut(PerfectBoard plateau) throws IsBankruptException {
         this.timeOut = 3;
+        plateau.goToPrison(this);
         this.resetTimeOut(this.askGetOutOfJail());
     }
 
