@@ -14,7 +14,7 @@ public class BoardTest {
 
     @Test
     public void getOwnedPropertiesTest(){
-        Player joueur = new Manual(0);
+        Player joueur = new VoidBot(0);
         PerfectBoard plateau = new PerfectBoard(joueur);
         CaseAchetable caseRandom =  (CaseAchetable) plateau.getPlateau()[3];
         

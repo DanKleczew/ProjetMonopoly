@@ -17,7 +17,7 @@ public class CardGoToPrisonTest {
         assertEquals(0, Thierry.getTimeOut());
         assertEquals(10, plateau2.getPositionJoueur(Thierry));
 
-        Player Didier = new Manual(1);
+        Player Didier = new VoidBot(1);
         prison.cardEffect(Didier, plateau2);
         assertEquals(3, Didier.getTimeOut());
         assertEquals(10, plateau2.getPositionJoueur(Didier));

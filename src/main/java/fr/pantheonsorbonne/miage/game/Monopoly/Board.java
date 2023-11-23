@@ -92,10 +92,8 @@ public abstract class Board {
     }
 
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
-        if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) { // C'est à dire
-                                                                                                         // on est passé
-                                                                                                         // par la case
-                                                                                                         // départ
+        if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) {
+            // C'est à dire on est passé par la case départ
             // Le seul moyen de reculer de trois cases est de piocher la dite carte chance
             // et on ne veut pas qu'il gagne de l'argent dans ce cas
             joueur.bankAccountModify(200);
@@ -222,10 +220,10 @@ public abstract class Board {
         return randomPropriete;
     }
 
-    public double getNombrePrisons(){
+    public double getNombrePrisons() {
         int compt = 0;
-        for (CasePropriete propColoree : this.getAllColoredProprietes()){
-            if (propColoree.isAJail()){
+        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+            if (propColoree.isAJail()) {
                 compt++;
             }
         }
@@ -233,20 +231,20 @@ public abstract class Board {
     }
 
     public void renteDesPrisons() throws IsBankruptException {
-        for (CasePropriete propColoree : this.getAllColoredProprietes()){
-            if (propColoree.isAJail()){
+        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+            if (propColoree.isAJail()) {
                 propColoree.getOwner().bankAccountModify((int) (propColoree.getEchelleDeLoyer()[0] / 10) + 1);
             }
         }
     }
 
-    public List<CasePropriete> getProprietesByColor(TypePropriete color){
+    public List<CasePropriete> getProprietesByColor(TypePropriete color) {
         List<CasePropriete> propUneCouleur = new ArrayList<>();
-        for (CasePropriete propColoree : this.getAllColoredProprietes()){
-            if (propColoree.getTypeOuCouleur() == color){
+        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+            if (propColoree.getTypeOuCouleur() == color) {
                 propUneCouleur.add(propColoree);
             }
-        }      
+        }
         return (propUneCouleur);
     }
-}   
+}

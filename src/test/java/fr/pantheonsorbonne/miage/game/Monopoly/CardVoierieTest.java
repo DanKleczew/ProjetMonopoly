@@ -16,7 +16,7 @@ public class CardVoierieTest{
 
     @Test
     public void testCardEffect() throws IsBankruptException {
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
         CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
@@ -38,7 +38,7 @@ public class CardVoierieTest{
 
     @Test
     public void testCardEffectThrow() throws IsBankruptException{
-        Player Thierry = new Manual(1);
+        Player Thierry = new VoidBot(1);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
         
         CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
