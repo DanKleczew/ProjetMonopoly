@@ -55,6 +55,9 @@ public class CasePropriete extends CaseAchetable {
 
     @Override
     public int getLoyerAPayer(Board plateauComplet) {
+        if (this.isAJail() || this.toursRestantsSquat > 0){
+            return 0;
+        }
         Player owner = this.getOwner();
         TypePropriete couleur = this.getTypeOuCouleur();
         int aPayer;
@@ -67,8 +70,7 @@ public class CasePropriete extends CaseAchetable {
         } else {
             aPayer = this.getEchelleDeLoyer()[this.getNombreMaisons()];
         }
-        return toursRestantsSquat == 0 ? aPayer : 0;
-        //Si la case est squattée, aPayer = 0
+        return aPayer;
     }
 
     public int getPrixMaisonUnitaire(){

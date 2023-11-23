@@ -217,7 +217,7 @@ public abstract class Board {
         CasePropriete randomPropriete;
         do {
             randomPropriete = everyPropriete.get(random.nextInt(everyPropriete.size()));
-        } while (!randomPropriete.hasOwner());
+        } while (randomPropriete.isAJail() || (!randomPropriete.hasOwner()));
 
         return randomPropriete;
     }
