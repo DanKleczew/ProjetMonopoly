@@ -23,6 +23,7 @@ public class PerfectBoard extends Board {
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
 
     public PerfectBoard(Player... tableJoueur) {
+        super();
         for (Player joueur : tableJoueur) {
             listeJoueurs.add(joueur);
         }
@@ -131,13 +132,11 @@ public class PerfectBoard extends Board {
             // Et un int pour le nombre de maisons à retirer
             int nombreMaisonsARetirer = map.get(couleur);
 
-            List<CasePropriete> listeDeToutesCasesDeCouleur = this.getAllColoredProprietes();
-
             // On crée la liste à l'envers pour pouvoir retirer les maisons dans l'ordre
             // inverse d'apparition
-            for (int i = listeDeToutesCasesDeCouleur.size() - 1; i >= 0; i--) {
-                if (listeDeToutesCasesDeCouleur.get(i).getTypeOuCouleur() == couleur) {
-                    listeDeCaseDeCetteCouleur.add(listeDeToutesCasesDeCouleur.get(i));
+            for (int i = allColoredProprietes.size() - 1; i >= 0; i--) {
+                if (allColoredProprietes.get(i).getTypeOuCouleur() == couleur) {
+                    listeDeCaseDeCetteCouleur.add(allColoredProprietes.get(i));
                 }
             }
 

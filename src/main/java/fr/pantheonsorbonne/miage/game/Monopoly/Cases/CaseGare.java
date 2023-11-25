@@ -14,7 +14,6 @@ public class CaseGare extends CaseAchetable {
         Player owner = this.getOwner();
         int nombreGaresOwned = owner.getNumberSpecificTypeProperty(TypePropriete.GARE, plateauComplet.getOwnedProperties(owner));
         int aPayer = (int) (25 * ( Math.pow(2, nombreGaresOwned - 1))); //25 * 2 ^ nbGaresOwned
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" + aPayer);
         return aPayer;
     }
 
