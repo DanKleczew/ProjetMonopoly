@@ -115,20 +115,26 @@ public abstract class Player {
 
     // Renvoie un dictionnaire (potentiellement vide) des couleurs sur lesquelles le
     // joueur veut vendre des maisons et combien
-    protected abstract Map<TypePropriete, Integer> thinkAboutSellingHouses();
+    protected abstract Map<TypePropriete, Integer> thinkAboutSellingHouses(PerfectBoard plateauComplet);
 
-    // Renvoie un Array de cases propriétés du joueur que celui ci veut hypothéquer
+    // Renvoie un Array de cases propriétés du joueur que celui ci veut hypothéquer/déshypothéquer
     protected abstract CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet);
 
     // Renvoie un Array de cases propriétés du joueur que celui ci veut transformer
     // en prisons
-    protected abstract void thinkAboutCreatingJails();
+    protected abstract CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauComplet);
 
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
-        plateauComplet.sellNumerousHouses(thinkAboutSellingHouses());
+        plateauComplet.sellNumerousHouses(thinkAboutSellingHouses(plateauComplet));
         this.sellProprietes(thinkAboutHypothequeProprietes(plateauComplet));
-        thinkAboutCreatingJails(); //Celle ci est void et appelle elle-même les CasePropriete.setAsJail();
+        this.transformToJails(thinkAboutCreatingJails(plateauComplet)); 
+    }
+
+    private void transformToJails(CasePropriete[] listeProprietesATransformer) {
+        for (CasePropriete propriete: listeProprietesATransformer){
+            propriete.setAsJail();
+        }
     }
 
     private void sellProprietes(CaseAchetable[] listeProprietesAHypothequer) throws IsBankruptException {

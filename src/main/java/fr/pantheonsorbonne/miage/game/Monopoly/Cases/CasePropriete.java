@@ -50,7 +50,7 @@ public class CasePropriete extends CaseAchetable {
         return isAJail;
     }
 
-    public void setAsJail(boolean playerChoice){
+    public void setAsJail(){
         this.isAJail = true;
     }
 
