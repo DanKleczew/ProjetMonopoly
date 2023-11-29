@@ -24,8 +24,8 @@ public class VoidBotTest {
 
         assertEquals(1, plateauFantome.getOwnedColoredProperties(Thierry).get(0).getNombreMaisons());
         assertEquals(0, plateauFantome.getOwnedColoredProperties(Thierry).get(1).getNombreMaisons());
-        assertEquals(false, plateauFantome.getAllProprietes().get(3).isHypothequed());
-        assertEquals(false, ((CasePropriete) plateauFantome.getAllProprietes().get(3)).isAJail());
+        assertEquals(false, plateauFantome.allProprietes.get(3).isHypothequed());
+        assertEquals(false, ((CasePropriete) plateauFantome.allProprietes.get(3)).isAJail());
     }
 
     @Test 

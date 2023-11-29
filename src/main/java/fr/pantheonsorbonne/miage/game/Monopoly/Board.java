@@ -21,6 +21,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public abstract class Board {
+
     protected final Case[] plateau = new Case[] {
             new CaseNeutre("Départ"),
             new CasePropriete("Boulevard de Belleville", 60, TypePropriete.MARRON),
@@ -73,8 +74,29 @@ public abstract class Board {
 
     protected Map<Player, Integer> positionJoueurs = new HashMap<>();
     private int sumDiceThisRound;
+    protected final List<CaseAchetable> allProprietes;
+    protected final List<CasePropriete> allColoredProprietes;
+
+    public Board(){
+        //Un minimum de DownCasting
+        List<CasePropriete> proprietesColorees = new ArrayList<CasePropriete>();
+        for (Case caseActuelle : plateau) {
+            if (caseActuelle instanceof CasePropriete) {
+                proprietesColorees.add((CasePropriete) caseActuelle);
+            }
+        }
+        List<CaseAchetable> proprietes = new ArrayList<CaseAchetable>();
+        for (Case caseActuelle : plateau) {
+            if (caseActuelle instanceof CaseAchetable) {
+                proprietes.add((CaseAchetable) caseActuelle);
+            }
+        }
+        allProprietes = proprietes;
+        allColoredProprietes = proprietesColorees;
+    }
 
     // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
+    //Nécessaire pour les CaseCompagnie
     public void setSommeDesThisRound(int somme) {
         sumDiceThisRound = somme;
     }
@@ -130,8 +152,7 @@ public abstract class Board {
     public int[] getNombreMaisonsHotels(Player joueur) {
         int nombreMaisons = 0;
         int nombreHotels = 0;
-        List<CasePropriete> listeCasesColorees = this.getAllColoredProprietes();
-        for (CasePropriete proprieteParticuliere : listeCasesColorees) {
+        for (CasePropriete proprieteParticuliere : allColoredProprietes) {
             if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
                 if ((proprieteParticuliere).hasHotel()) {
                     nombreHotels++;
@@ -154,7 +175,7 @@ public abstract class Board {
 
     public List<CaseAchetable> getOwnedProperties(Player joueur) {
         List<CaseAchetable> listeProprietes = new ArrayList<>();
-        for (CaseAchetable proprieteParticuliere : this.getAllProprietes()) {
+        for (CaseAchetable proprieteParticuliere : this.allProprietes) {
             if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
                 listeProprietes.add(proprieteParticuliere);
             }
@@ -164,7 +185,7 @@ public abstract class Board {
 
     public List<CasePropriete> getOwnedColoredProperties(Player joueur) {
         List<CasePropriete> listeProprietesColorees = new ArrayList<>();
-        for (CasePropriete proprieteParticuliere : this.getAllColoredProprietes()) {
+        for (CasePropriete proprieteParticuliere : this.allColoredProprietes) {
             if (proprieteParticuliere.hasOwner() && proprieteParticuliere.getOwner().equals(joueur)) {
                 listeProprietesColorees.add(proprieteParticuliere);
             }
@@ -174,7 +195,7 @@ public abstract class Board {
 
     public double getSommeTotaleLoyerActuelle() {
         int sommeTotaleLoyer = 0;
-        for (CaseAchetable proprieteActuelle : this.getAllProprietes()) {
+        for (CaseAchetable proprieteActuelle : this.allProprietes) {
             if (proprieteActuelle.hasOwner()) {
                 sommeTotaleLoyer += proprieteActuelle.getLoyerAPayer(this);
             }
@@ -183,38 +204,17 @@ public abstract class Board {
     }
 
     public void policeDoYourJob() {
-        List<CasePropriete> listePropCouleur = this.getAllColoredProprietes();
+        List<CasePropriete> listePropCouleur = this.allColoredProprietes;
         for (CasePropriete prop : listePropCouleur) {
             prop.policeJob();
         }
     }
 
-    protected List<CasePropriete> getAllColoredProprietes() {
-        List<CasePropriete> proprietes = new ArrayList<CasePropriete>();
-        for (Case caseActuelle : plateau) {
-            if (caseActuelle instanceof CasePropriete) {
-                proprietes.add((CasePropriete) caseActuelle);
-            }
-        }
-        return proprietes;
-    }
-
-    protected List<CaseAchetable> getAllProprietes() {
-        List<CaseAchetable> proprietes = new ArrayList<CaseAchetable>();
-        for (Case caseActuelle : plateau) {
-            if (caseActuelle instanceof CaseAchetable) {
-                proprietes.add((CaseAchetable) caseActuelle);
-            }
-        }
-        return proprietes;
-    }
-
     public CasePropriete getRandomOwnedPropriete() {
         Random random = new Random();
-        List<CasePropriete> everyPropriete = this.getAllColoredProprietes();
         CasePropriete randomPropriete;
         do {
-            randomPropriete = everyPropriete.get(random.nextInt(everyPropriete.size()));
+            randomPropriete = allColoredProprietes.get(random.nextInt(allColoredProprietes.size()));
         } while (randomPropriete.isAJail() || (!randomPropriete.hasOwner()));
 
         return randomPropriete;
@@ -222,7 +222,7 @@ public abstract class Board {
 
     public double getNombrePrisons() {
         int compt = 0;
-        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+        for (CasePropriete propColoree : this.allColoredProprietes) {
             if (propColoree.isAJail()) {
                 compt++;
             }
@@ -231,7 +231,7 @@ public abstract class Board {
     }
 
     public void renteDesPrisons() throws IsBankruptException {
-        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+        for (CasePropriete propColoree : this.allColoredProprietes) {
             if (propColoree.isAJail()) {
                 propColoree.getOwner().bankAccountModify((int) (propColoree.getEchelleDeLoyer()[0] / 10) + 1);
             }
@@ -240,7 +240,7 @@ public abstract class Board {
 
     public List<CasePropriete> getProprietesByColor(TypePropriete color) {
         List<CasePropriete> propUneCouleur = new ArrayList<>();
-        for (CasePropriete propColoree : this.getAllColoredProprietes()) {
+        for (CasePropriete propColoree : this.allColoredProprietes) {
             if (propColoree.getTypeOuCouleur() == color) {
                 propUneCouleur.add(propColoree);
             }
