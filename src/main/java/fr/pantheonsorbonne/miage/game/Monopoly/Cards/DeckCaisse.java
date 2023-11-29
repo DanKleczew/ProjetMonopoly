@@ -10,7 +10,6 @@ public class DeckCaisse extends Deck {
             new CardWinLose(200),
             new CardWinLose(-50),
             new CardWinLose(50),
-            // libération prison
             new CardGoToPrison(),
             new CardDeplacement("Belleville",1),
             new CardWinLose(100),
