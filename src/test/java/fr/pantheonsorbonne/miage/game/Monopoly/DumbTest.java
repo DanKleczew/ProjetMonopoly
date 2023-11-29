@@ -36,14 +36,14 @@ public class DumbTest {
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
 
-        plateauFantome.getAllColoredProprietes().get(20).setOwner(Thierry, true);
-        plateauFantome.getAllColoredProprietes().get(21).setOwner(Thierry, true);
+        plateauFantome.allColoredProprietes.get(20).setOwner(Thierry, true);
+        plateauFantome.allColoredProprietes.get(21).setOwner(Thierry, true);
 
-        plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier, false);
+        plateauFantome.allColoredProprietes.get(0).setOwner(Didier, false);
 
         Thierry.thinkAndDo(plateauFantome);
 
-        assertEquals(1, plateauFantome.getAllColoredProprietes().get(20).getNombreMaisons());
+        assertEquals(1, plateauFantome.allColoredProprietes.get(20).getNombreMaisons());
 
         Thierry.bankAccountModify(10000);
         Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
@@ -53,7 +53,7 @@ public class DumbTest {
 
         Thierry.thinkAndDo(plateauFantome);
 
-        assertEquals(5, plateauFantome.getAllColoredProprietes().get(20).getNombreMaisons());
+        assertEquals(5, plateauFantome.allColoredProprietes.get(20).getNombreMaisons());
 
         for (int i = 0; i < 10; i++) {
             plateauFantome.houseBreak(Thierry);
@@ -63,7 +63,7 @@ public class DumbTest {
 
         Thierry.thinkAndDo(plateauFantome);
 
-        assertEquals(0, plateauFantome.getAllColoredProprietes().get(20).getNombreMaisons());
+        assertEquals(0, plateauFantome.allColoredProprietes.get(20).getNombreMaisons());
     }
 
     @Test
@@ -71,7 +71,7 @@ public class DumbTest {
         Player Thierry = new Dumb(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        List<CaseAchetable> allProprietes = plateauFantome.getAllProprietes();
+        List<CaseAchetable> allProprietes = plateauFantome.allProprietes;
         allProprietes.get(1).setOwner(Thierry, true);
         allProprietes.get(16).setOwner(Thierry, true);
 
@@ -95,10 +95,10 @@ public class DumbTest {
         Player Thierry = new Dumb(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        assertEquals(true, Thierry.askRemoveInstantlySquat(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
+        assertEquals(true, Thierry.askRemoveInstantlySquat(plateauFantome.allColoredProprietes.get(0), plateauFantome));
 
         Thierry.bankAccountModify(-1500);
 
-        assertEquals(false, Thierry.askRemoveInstantlySquat(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
+        assertEquals(false, Thierry.askRemoveInstantlySquat(plateauFantome.allColoredProprietes.get(0), plateauFantome));
     }
 }

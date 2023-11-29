@@ -38,44 +38,58 @@ public class RemotePlayerAdapter{
         for (;;) {
 
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
-            String commandName = command.name().split("|")[0];
-            String banqueDeDonneesEnString = command.name().split("|")[1];
-            int positionJoueur = Integer.parseInt(command.name().split("|")[2]);
+            String commandName = command.name();
+            int positionJoueur = Integer.parseInt(command.body());
+            Map<String, String> banqueDeDonneesEnStringString = command.params();
+            PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString);
+            
 
             switch (commandName) {
                 case "askBuyProperty":
-                    askBuyProperty(plateauEnString, positionJoueur);
+                    CaseAchetable caseAVendre;
+                    remotePlayerAdapter.askBuyProperty(caseAVendre, plateauEphemere);
                     break;
-                case "playACard":
-                    System.out.println(
-                            "I have " + hand.stream().map(Card::toFancyString).collect(Collectors.joining(" ")));
-                    handlePlayACard(command);
+                case "askGetOutOfJail":
+                    remotePlayerAdapter.askGetOutOfJail();
                     break;
-                case "gameOver":
-                    handleGameOverCommand(command);
-                    break;
+                // case "playACard":
+                //     System.out.println(
+                //             "I have " + hand.stream().map(Card::toFancyString).collect(Collectors.joining(" ")));
+                //     handlePlayACard(command);
+                //     break;
+                // case "gameOver":
+                //     handleGameOverCommand(command);
+                //     break;
 
             }
         }
     }
 
-    @Override
-    public boolean askGetOutOfJail() {
-
+    
+    private void askGetOutOfJail() {
+        boolean res = delegate.askGetOutOfJail();
+        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesOut" : "NoIn"));
     }
 
     
-    public boolean askBuyProperty(String plateauEnString, int positionJoueur) {
-        boolean res = delegate.askBuyProperty(proprieteLibre, plateauComplet);
+    private void askBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
+
+        boolean res = delegate.askBuyProperty(caseAVendre, plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesBuy" : "NoBuy"));
 
-        return res;
     }
 
-    @Override
-    protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
+    public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutBuyingHouses'");
+        throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
+    }
+    
+    private Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauEphemere) {
+        /*TODO : Les thinkAbout se feront tous à la suite à l'appel de la commande THINK du host
+        Leurs renvois sont stockés et gérés par une méthode dans cette classe ci qui renverra au host
+        Une commande (réponse) avec tous les choix pour chaque think.
+        */
+        return delegate.thinkAboutBuyingHouses(plateauEphemere);
     }
 
     @Override
@@ -96,10 +110,7 @@ public class RemotePlayerAdapter{
         throw new UnsupportedOperationException("Unimplemented method 'thinkAboutCreatingJails'");
     }
 
-    @Override
-    public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
-    }
+    
+    
 
 }
