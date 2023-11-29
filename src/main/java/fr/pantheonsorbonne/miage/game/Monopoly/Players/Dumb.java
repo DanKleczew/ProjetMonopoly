@@ -55,7 +55,7 @@ public class Dumb extends Player {
 
     
     @Override
-    protected Map<TypePropriete, Integer> thinkAboutSellingHouses() {
+    protected Map<TypePropriete, Integer> thinkAboutSellingHouses(PerfectBoard plateauComplet) {
         return new HashMap<TypePropriete, Integer>();
     }
 
@@ -72,7 +72,8 @@ public class Dumb extends Player {
     }
 
     @Override
-    protected void thinkAboutCreatingJails() {
+    protected CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauComplet) {
+        return new CasePropriete[0];
     }
 
     @Override
