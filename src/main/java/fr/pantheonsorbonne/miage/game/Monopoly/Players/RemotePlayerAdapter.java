@@ -38,9 +38,18 @@ public class RemotePlayerAdapter{
 
         for (;;) {
 
+            
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
-            int positionJoueur = Integer.parseInt(command.body());
+
+            int positionJoueur;
+            CasePropriete caseSquatee;
+            try {
+                positionJoueur = Integer.parseInt(command.body());
+            } catch (Exception e){
+                caseSquatee = ToolBox.StringToCasePropriete(command.body());
+            }
+
             Map<String, String> banqueDeDonneesEnStringString = command.params();
             PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString);
             
@@ -53,6 +62,13 @@ public class RemotePlayerAdapter{
                 case "askGetOutOfJail":
                     remotePlayerAdapter.askGetOutOfJail();
                     break;
+                case "askRemoveInstantlySquat":
+                    remotePlayerAdapter.askRemoveInstantlySquat(caseSquatee, plateauEphemere);
+                    break;
+                case "think":
+                    remotePlayerAdapter.think(positionJoueur, plateauEphemere);
+                default:
+                    continue;
                 // case "playACard":
                 //     System.out.println(
                 //             "I have " + hand.stream().map(Card::toFancyString).collect(Collectors.joining(" ")));
@@ -67,6 +83,21 @@ public class RemotePlayerAdapter{
     }
 
     
+    private void think(int positionJoueur, PerfectBoard plateauEphemere) {
+        Map<TypePropriete, Integer> listeMaisonsAPlacer = this.thinkAboutBuyingHouses(plateauEphemere);
+        Map<TypePropriete, Integer> listeMaisonsARetirer = this.thinkAboutSellingHouses(plateauEphemere);
+        CaseAchetable[] listeCaseAHypothequer = this.thinkAboutHypothequeProprietes(plateauEphemere);
+        CasePropriete[] listeCaseATransformerEnPrison = this.thinkAboutCreatingJails(plateauEphemere);
+
+        //TODO : Gros string bien délimité pour tout ca
+
+        String boulot = "";
+        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(boulot));
+    }
+
+
+    // --------------------- Méthodes Réaction
+
     private void askGetOutOfJail() {
         boolean res = delegate.askGetOutOfJail();
         playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesOut" : "NoIn"));
@@ -85,30 +116,26 @@ public class RemotePlayerAdapter{
         throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
     }
     
+
+    // ---------------------- Méthodes Réflexion
+
     private Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauEphemere) {
-        /*TODO : Les thinkAbout se feront tous à la suite à l'appel de la commande THINK du host
-        Leurs renvois sont stockés et gérés par une méthode dans cette classe ci qui renverra au host
-        Une commande (réponse) avec tous les choix pour chaque think.
-        */
         return delegate.thinkAboutBuyingHouses(plateauEphemere);
     }
 
-    @Override
-    protected Map<TypePropriete, Integer> thinkAboutSellingHouses() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutSellingHouses'");
+    
+    protected Map<TypePropriete, Integer> thinkAboutSellingHouses(PerfectBoard plateauEphemere) {
+        return delegate.thinkAboutSellingHouses(plateauEphemere);
     }
 
-    @Override
-    protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutHypothequeProprietes'");
+    
+    protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauEphemere) {
+        return delegate.thinkAboutHypothequeProprietes(plateauEphemere);
     }
 
-    @Override
-    protected void thinkAboutCreatingJails() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'thinkAboutCreatingJails'");
+    
+    protected CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauEphemere) {
+        return delegate.thinkAboutCreatingJails(plateauEphemere);
     }
 
     
