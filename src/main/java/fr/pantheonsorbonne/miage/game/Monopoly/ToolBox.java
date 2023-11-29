@@ -24,7 +24,7 @@ public class ToolBox  {
             Player toi = new VoidBot(0);
             Player pasToi = new VoidBot(1);
             PerfectBoard plateauTampon = new PerfectBoard();
-            List<CaseAchetable> listeDesProp = plateauTampon.getAllProprietes();
+            List<CaseAchetable> listeDesProp = plateauTampon.allProprietes;
             for (Integer i = 0; i < listeDesProp.size(); i++){
                 CaseAchetable currProp = listeDesProp.get(i);
                 String[] stringpetee = map.get(Integer.toString(i)).split(";");
