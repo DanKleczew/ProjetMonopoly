@@ -12,7 +12,7 @@ public class CaseProprieteTest {
     public void setAsJailTest(){
         CasePropriete a = new CasePropriete("Boulevard", 200 , TypePropriete.BLEU);
 
-        a.setAsJail(true);
+        a.setAsJail();
 
         assertEquals(true, a.isAJail());
     }
