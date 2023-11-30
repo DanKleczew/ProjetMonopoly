@@ -115,6 +115,10 @@ public class CasePropriete extends CaseAchetable {
         this.nombreMaisons++;
     }
 
+    public void addHouseNoPay(int numberHouses){
+        this.nombreMaisons = numberHouses;
+    }
+
     public void sellHouse() throws IsBankruptException {
         this.getOwner().bankAccountModify(prixMaisonUnitaire / 2);
         this.nombreMaisons--;
