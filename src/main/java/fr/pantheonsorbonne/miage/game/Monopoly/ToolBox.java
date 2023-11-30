@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCompagnie;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseGare;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -35,7 +36,10 @@ public class ToolBox {
             }
             if (stringpetee[1].equals("6")) {
                 ((CasePropriete) currProp).setAsJail();
-            } else {
+            } else if (stringpetee[1].equals("7")){
+                continue;
+            }
+            else {
                 ((CasePropriete) currProp).addHouseNoPay(Integer.parseInt(stringpetee[1]));
             }
         }
@@ -59,6 +63,9 @@ public class ToolBox {
                 if(propriete.isAJail()){
                     builder.append("6");
                 }
+                else if(proprieteParticuliere instanceof CaseGare || proprieteParticuliere instanceof CaseCompagnie){
+                    continue;
+                }
                 else{
                 builder.append(Integer.toString(propriete.getNombreMaisons()));
                 }
@@ -72,7 +79,7 @@ public class ToolBox {
             i++;
         }
         return map;
-
+    }
 
             // CaseAchetable currProp = listeDesProp.get(i);
             // String[] stringpetee = map.get(Integer.toString(i)).split(";");
@@ -94,10 +101,8 @@ public class ToolBox {
             //     }
             // }
 
-    }
-
     public static CasePropriete StringToCasePropriete(String body) {
-
+        
         return null;
     }
 
