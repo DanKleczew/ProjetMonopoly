@@ -42,8 +42,8 @@ public class RemotePlayerAdapter{
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
 
-            int positionJoueur;
-            CasePropriete caseSquatee;
+            int positionJoueur = -1;
+            CasePropriete caseSquatee = null;
             try {
                 positionJoueur = Integer.parseInt(command.body());
             } catch (Exception e){
@@ -56,7 +56,7 @@ public class RemotePlayerAdapter{
 
             switch (commandName) {
                 case "askBuyProperty":
-                    CaseAchetable caseAVendre;
+                    CaseAchetable caseAVendre = (CaseAchetable) plateauEphemere.getCase(positionJoueur);
                     remotePlayerAdapter.askBuyProperty(caseAVendre, plateauEphemere);
                     break;
                 case "askGetOutOfJail":
@@ -67,16 +67,16 @@ public class RemotePlayerAdapter{
                     break;
                 case "think":
                     remotePlayerAdapter.think(positionJoueur, plateauEphemere);
+                    break;
+                case "youLost":
+                    System.out.println("I, player " + remotePlayerAdapter.delegate.getID() + ", lost.");
+                case "youWin":
+                    System.out.println("I won !");
                 default:
-                    continue;
-                // case "playACard":
-                //     System.out.println(
-                //             "I have " + hand.stream().map(Card::toFancyString).collect(Collectors.joining(" ")));
-                //     handlePlayACard(command);
-                //     break;
-                // case "gameOver":
-                //     handleGameOverCommand(command);
-                //     break;
+                    System.exit(0);
+                
+                
+                
 
             }
         }
