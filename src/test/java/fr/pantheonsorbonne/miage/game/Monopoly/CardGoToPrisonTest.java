@@ -1,5 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.*;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 

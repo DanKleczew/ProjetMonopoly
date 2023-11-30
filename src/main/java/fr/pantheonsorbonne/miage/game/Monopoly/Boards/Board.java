@@ -1,4 +1,4 @@
-package fr.pantheonsorbonne.miage.game.Monopoly;
+package fr.pantheonsorbonne.miage.game.Monopoly.Boards;
 
 import java.util.ArrayList;
 import java.util.HashMap;

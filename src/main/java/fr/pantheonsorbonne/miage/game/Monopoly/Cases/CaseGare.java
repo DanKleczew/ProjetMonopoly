@@ -1,6 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Cases;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Board;
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class CaseGare extends CaseAchetable {
