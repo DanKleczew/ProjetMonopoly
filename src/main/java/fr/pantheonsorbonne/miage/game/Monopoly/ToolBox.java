@@ -39,13 +39,17 @@ public class ToolBox {
         return null;
     }
 
-    public static String perfectBoardToMap(PerfectBoard board) {
+    public static Map<String, String> perfectBoardToMap(PerfectBoard board) {
 
         return null;
     }
 
     public static CasePropriete StringToCasePropriete(String body) {
 
+        return null;
+    }
+
+    public static String CaseProprieteToString(CasePropriete caseSquatee) {
         return null;
     }
 
