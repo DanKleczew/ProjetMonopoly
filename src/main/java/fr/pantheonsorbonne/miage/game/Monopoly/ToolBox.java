@@ -50,7 +50,6 @@ public class ToolBox {
     }
 
     public static Map<String,String> perfectBoardToMap(PerfectBoard board, Player player) {
-        Deque<Player> listeJoueurs = board.getListeJoueurs();
         List<CaseAchetable> listeDesProp = board.getAllProprietes();
         Map<String, String> map = new HashMap<String,String>();
         int i = 0;
@@ -89,6 +88,10 @@ public class ToolBox {
                 return (CasePropriete) casePlateau;
             }
         }
+        return null;
+    }
+
+    public static String CaseProprieteToString(CasePropriete caseSquatee) {
         return null;
     }
 

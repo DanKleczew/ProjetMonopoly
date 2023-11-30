@@ -38,7 +38,6 @@ public class RemotePlayerAdapter{
 
         for (;;) {
 
-            
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
 
@@ -46,7 +45,8 @@ public class RemotePlayerAdapter{
             CasePropriete caseSquatee = null;
             try {
                 positionJoueur = Integer.parseInt(command.body());
-            } catch (Exception e){
+            } 
+            catch (Exception e){
                 caseSquatee = ToolBox.StringToCasePropriete(command.body());
             }
 
