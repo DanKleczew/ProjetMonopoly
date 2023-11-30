@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseCompagnie;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseGare;
@@ -103,7 +105,14 @@ public class ToolBox {
             // }
 
     public static CasePropriete StringToCasePropriete(String body) {
-        
+        PerfectBoard board = new PerfectBoard();
+        Case[] plateau = board.getPlateau();
+        for (Case casePlateau : plateau){
+            String nomCasePlateau = casePlateau.toString();
+            if (nomCasePlateau.equals(body)){
+                return (CasePropriete) casePlateau;
+            }
+        }
         return null;
     }
 
