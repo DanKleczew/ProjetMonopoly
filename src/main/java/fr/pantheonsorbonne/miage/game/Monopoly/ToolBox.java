@@ -1,10 +1,12 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
@@ -48,7 +50,6 @@ public class ToolBox {
     }
 
     public static Map<String,String> perfectBoardToMap(PerfectBoard board, Player player) {
-        Deque<Player> listeJoueurs = board.getListeJoueurs();
         List<CaseAchetable> listeDesProp = board.getAllProprietes();
         Map<String, String> map = new HashMap<String,String>();
         int i = 0;
@@ -111,6 +112,10 @@ public class ToolBox {
                 return (CasePropriete) casePlateau;
             }
         }
+        return null;
+    }
+
+    public static String CaseProprieteToString(CasePropriete caseSquatee) {
         return null;
     }
 
