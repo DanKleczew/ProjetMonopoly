@@ -7,9 +7,9 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
-public class MonopolyEngine {
+public abstract class MonopolyEngine {
 
-    private final PerfectBoard plateauComplet;
+    protected final PerfectBoard plateauComplet;
     private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
     // La probabilité qu'un squatteur apparaisse est de (Somme Totale des Loyers
     // (voir getSommeTotaleLoyerActuelle() dans Board) / 20K )
@@ -35,7 +35,7 @@ public class MonopolyEngine {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
-                    randomProp.removeSquat(randomProp.getOwner().askRemoveInstantlySquat(randomProp, plateauComplet), plateauComplet);
+                    randomProp.removeSquat(this.askRemoveInstantlySquat(randomProp.getOwner().getID(), randomProp,  plateauComplet), plateauComplet);
                 }
 
                 plateauComplet.policeDoYourJob();
@@ -74,7 +74,7 @@ public class MonopolyEngine {
                         // Sinon (il est en prison et n'a pas fait un double)
                     } else {
                         // Si il veut payer 50 pour sortir
-                        if (currentPlayer.askGetOutOfJail()) {
+                        if (this.askGetOutOfJail(currentPlayer.getID(), plateauComplet.getPositionJoueur(currentPlayer), plateauComplet)){
                             // On le sort
                             currentPlayer.resetTimeOut(true);
                         }
@@ -124,4 +124,7 @@ public class MonopolyEngine {
     private static int sumDes(int[] des) {
         return des[0] + des[1];
     }
+
+    protected abstract boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet);
+    protected abstract boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet);
 }
