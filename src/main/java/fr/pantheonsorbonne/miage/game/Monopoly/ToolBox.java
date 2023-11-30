@@ -21,7 +21,7 @@ public class ToolBox {
         Player toi = new VoidBot(0);
         Player pasToi = new VoidBot(1);
         PerfectBoard plateauTampon = new PerfectBoard();
-        List<CaseAchetable> listeDesProp = plateauTampon.allProprietes;
+        List<CaseAchetable> listeDesProp = plateauTampon.getAllProprietes();
         for (Integer i = 0; i < listeDesProp.size(); i++) {
             CaseAchetable currProp = listeDesProp.get(i);
             String[] stringpetee = map.get(Integer.toString(i)).split(";");
@@ -49,7 +49,7 @@ public class ToolBox {
 
     public static Map<String,String> perfectBoardToMap(PerfectBoard board, Player player) {
         Deque<Player> listeJoueurs = board.getListeJoueurs();
-        List<CaseAchetable> listeDesProp = board.allProprietes;
+        List<CaseAchetable> listeDesProp = board.getAllProprietes();
         Map<String, String> map = new HashMap<String,String>();
         int i = 0;
         for (CaseAchetable proprieteParticuliere : listeDesProp ) {
