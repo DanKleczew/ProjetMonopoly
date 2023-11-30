@@ -67,15 +67,11 @@ public class ToolBox {
                     builder.append("6");
                 }
                 else if(proprieteParticuliere instanceof CaseGare || proprieteParticuliere instanceof CaseCompagnie){
-                    continue;
+                    builder.append("7");
                 }
                 else{
                 builder.append(Integer.toString(propriete.getNombreMaisons()));
                 }
-            }
-            else if(proprieteParticuliere instanceof CaseGare){
-                CaseGare propriete = (CaseGare) proprieteParticuliere;
-                
             }
 
             map.put(Integer.toString(i), builder.toString());
@@ -83,26 +79,6 @@ public class ToolBox {
         }
         return map;
     }
-
-            // CaseAchetable currProp = listeDesProp.get(i);
-            // String[] stringpetee = map.get(Integer.toString(i)).split(";");
-            // switch (stringpetee[0]) {
-            //     case "1":
-            //         currProp.setOwner(toi, true);
-            //         break;
-            //     case "2":
-            //         currProp.setOwner(pasToi, true);
-            //         break;
-            //     default:
-            //         break;
-            // }
-            // if (stringpetee[1].equals("6")) {
-            //     ((CasePropriete) currProp).setAsJail();
-            // } else {
-            //     for (int j = 0; j < Integer.parseInt(stringpetee[1]); j++) {
-            //         ((CasePropriete) currProp).addHouse();
-            //     }
-            // }
 
     public static CasePropriete StringToCasePropriete(String body) {
         PerfectBoard board = new PerfectBoard();
