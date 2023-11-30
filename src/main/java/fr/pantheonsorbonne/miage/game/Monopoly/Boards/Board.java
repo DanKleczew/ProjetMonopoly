@@ -112,7 +112,12 @@ public abstract class Board {
     public void setInitialPosition(Player joueur) {
         positionJoueurs.put(joueur, 0);
     }
-
+    public List<CaseAchetable> getAllProprietes(){
+        return this.allProprietes;
+    }
+    public List<CasePropriete> getAllColoredProprietes(){
+        return this.allColoredProprietes;
+    }
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
         if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) {
             // C'est à dire on est passé par la case départ
