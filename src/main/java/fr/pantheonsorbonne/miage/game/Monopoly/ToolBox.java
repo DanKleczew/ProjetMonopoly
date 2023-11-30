@@ -6,25 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseGare;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Dumb;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 
 public class ToolBox {
 
-    // public static Map<Integer, int[]> perfectBordToMap(String donne){
-
-    // Map<Integer, int[]> map = new Map<Integer,int[]>() {
-
-    // };
-
-    // return map;
-    // }
     public static PerfectBoard mapToPerfectBoard(Map<String, String> map) throws IsBankruptException {
         Player toi = new VoidBot(0);
         Player pasToi = new VoidBot(1);
@@ -46,9 +36,7 @@ public class ToolBox {
             if (stringpetee[1].equals("6")) {
                 ((CasePropriete) currProp).setAsJail();
             } else {
-                for (int j = 0; j < Integer.parseInt(stringpetee[1]); j++) {
-                    ((CasePropriete) currProp).addHouse();
-                }
+                ((CasePropriete) currProp).addHouseNoPay(Integer.parseInt(stringpetee[1]));
             }
         }
         return null;
