@@ -27,7 +27,7 @@ public class RemotePlayerAdapter{
     static final PlayerFacade playerFacade = Facade.getFacade();
     static Game monopoly;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IsBankruptException {
 
         Player dumb = new Dumb(0);
         RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(dumb);
