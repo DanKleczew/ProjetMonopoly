@@ -3,7 +3,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 import java.util.HashMap;
 import java.util.Map;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
