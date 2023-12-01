@@ -23,7 +23,7 @@ public class CaseAchetableTest {
         Player Thierry = new VoidBot(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        plateauFantome.getAllColoredProprietes().get(0).setOwner(Thierry, true);
+        plateauFantome.getAllColoredProprietes().get(0).setOwner(Thierry);
 
         plateauFantome.getAllColoredProprietes().get(0).switchHypothequeStatus();
         assertEquals(true, plateauFantome.getAllColoredProprietes().get(0).isHypothequed());
@@ -42,7 +42,7 @@ public class CaseAchetableTest {
         Player Didier = new VoidBot(1);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
 
-        plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier, true);
+        plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier);
         
 
         plateauFantome.getAllColoredProprietes().get(0).doCaseEffect(Thierry, plateauFantome);
@@ -62,9 +62,19 @@ public class CaseAchetableTest {
         PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
         CaseAchetable propriete = plateauFantome.getAllColoredProprietes().get(11);
 
-        propriete.setOwner(Didier, true);
+        propriete.setOwner(Didier);
         propriete.doCaseEffect(Thierry, plateauFantome);
 
         assertEquals(1482, Thierry.getBankAccount());
+    }
+
+    @Test
+    public void setOwnerTest() throws IsBankruptException{
+        Player Thierry = new VoidBot(0);
+        CaseAchetable proprieteFantome = new CasePropriete("Belleville", 100, TypePropriete.MARRON);
+        assertEquals(1500, Thierry.getBankAccount());
+
+        proprieteFantome.setOwner(Thierry);
+        assertEquals(Thierry.getBankAccount(), 1400);
     }
 }

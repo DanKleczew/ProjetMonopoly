@@ -38,11 +38,13 @@ public class PerfectBoard extends Board {
     }
 
     public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
-        List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
-        for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
-            proprieteDuPerdant.setOwner(exception.getGagnant(), true);
-            if (proprieteDuPerdant.isHypothequed()) {
-                proprieteDuPerdant.switchHypothequeStatus();
+        if (listeJoueurs.size()>2){
+            List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
+            for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
+                proprieteDuPerdant.setOwner(exception.getGagnant());
+                if (proprieteDuPerdant.isHypothequed()) {
+                    proprieteDuPerdant.switchHypothequeStatusFree();
+                }
             }
         }
         listeJoueurs.remove(exception.getPerdant());

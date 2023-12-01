@@ -77,8 +77,8 @@ public abstract class Board {
     protected final List<CaseAchetable> allProprietes;
     protected final List<CasePropriete> allColoredProprietes;
 
-    public Board(){
-        //Un minimum de DownCasting
+    public Board() {
+        // Un minimum de DownCasting
         List<CasePropriete> proprietesColorees = new ArrayList<CasePropriete>();
         for (Case caseActuelle : plateau) {
             if (caseActuelle instanceof CasePropriete) {
@@ -96,7 +96,7 @@ public abstract class Board {
     }
 
     // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
-    //Nécessaire pour les CaseCompagnie
+    // Nécessaire pour les CaseCompagnie
     public void setSommeDesThisRound(int somme) {
         sumDiceThisRound = somme;
     }
@@ -112,12 +112,15 @@ public abstract class Board {
     public void setInitialPosition(Player joueur) {
         positionJoueurs.put(joueur, 0);
     }
-    public List<CaseAchetable> getAllProprietes(){
+
+    public List<CaseAchetable> getAllProprietes() {
         return this.allProprietes;
     }
-    public List<CasePropriete> getAllColoredProprietes(){
+
+    public List<CasePropriete> getAllColoredProprietes() {
         return this.allColoredProprietes;
     }
+
     public void assignNewPosition(Player joueur, int indiceCase) throws IsBankruptException {
         if (indiceCase < positionJoueurs.get(joueur) && indiceCase != positionJoueurs.get(joueur) - 3) {
             // C'est à dire on est passé par la case départ
@@ -126,16 +129,6 @@ public abstract class Board {
             joueur.bankAccountModify(200);
         }
         positionJoueurs.put(joueur, indiceCase);
-
-        plateau[indiceCase].doCaseEffect(joueur, (PerfectBoard) this);
-        /*
-         * On pourrait placer cette méthode dans PerfectBoard mais on préfère que les
-         * méthodes qui influent sur
-         * le plateau physique ou la position des joueurs sur celui-ci soient dans cette
-         * classe.
-         * PerfectBoard étant la seule classe héritée de Board et Board étant abstract,
-         * le downcasting est sans risque
-         */
     }
 
     public void goToPrison(Player joueur) {

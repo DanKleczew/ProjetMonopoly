@@ -23,7 +23,7 @@ public class Dumb extends Player {
 
     @Override
     public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
-        return (true);
+        return proprieteLibre.getPrixAchat() < this.getBankAccount();
     }
 
     @Override
@@ -78,9 +78,7 @@ public class Dumb extends Player {
 
     @Override
     public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
-        if (this.getBankAccount()>200){
-            return true;
-        }
+       
         return false;
     }
     

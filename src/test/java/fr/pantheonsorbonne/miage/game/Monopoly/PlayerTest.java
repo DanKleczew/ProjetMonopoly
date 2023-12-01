@@ -21,8 +21,8 @@ public class PlayerTest {
         List<CaseAchetable> liste = new ArrayList<>();
         CaseAchetable a = new CaseGare("Gare du Sud");
         CaseAchetable b = new CaseGare("Gare de l'Ouest");
-        a.setOwner(Thierry, true);
-        b.setOwner(Thierry, true);
+        a.setOwner(Thierry);
+        b.setOwner(Thierry);
         liste.addAll(Arrays.asList(a, b));
 
         assertEquals(2, Thierry.getNumberSpecificTypeProperty(TypePropriete.GARE, liste));
@@ -70,7 +70,7 @@ public class PlayerTest {
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        ((CasePropriete) (plateauFantome.getCase(1))).setOwner(Thierry, true);
+        ((CasePropriete) (plateauFantome.getCase(1))).setOwner(Thierry);
 
         Thierry.thinkAndDo(plateauFantome);
         CasePropriete Belleville = (CasePropriete) (plateauFantome.getCase(1));

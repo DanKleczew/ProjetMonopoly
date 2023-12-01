@@ -40,8 +40,6 @@ public class CardDeplacement implements Card {
         }
 
         plateauComplet.assignNewPosition(joueur, indiceDestination);
-        }
         
-    
-    
+    }
 }

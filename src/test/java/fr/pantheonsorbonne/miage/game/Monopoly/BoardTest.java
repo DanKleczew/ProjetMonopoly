@@ -14,7 +14,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
 public class BoardTest {
 
     @Test
-    public void getOwnedPropertiesTest(){
+    public void getOwnedPropertiesTest() throws IsBankruptException{
         Player joueur = new VoidBot(0);
         PerfectBoard plateau = new PerfectBoard(joueur);
         CaseAchetable caseRandom =  (CaseAchetable) plateau.getPlateau()[3];

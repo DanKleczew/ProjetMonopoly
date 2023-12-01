@@ -15,9 +15,9 @@ public class VoidBotTest {
 
         VoidBot Thierry = new VoidBot(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
-        ((CaseAchetable) plateauFantome.getPlateau()[1]).setOwner(Thierry, true);
-        ((CaseAchetable) plateauFantome.getPlateau()[3]).setOwner(Thierry, true);
-        ((CaseAchetable) plateauFantome.getPlateau()[5]).setOwner(Thierry, true);
+        ((CaseAchetable) plateauFantome.getPlateau()[1]).setOwner(Thierry);
+        ((CaseAchetable) plateauFantome.getPlateau()[3]).setOwner(Thierry);
+        ((CaseAchetable) plateauFantome.getPlateau()[5]).setOwner(Thierry);
 
         ((CasePropriete) plateauFantome.getPlateau()[1]).addHouse();
 

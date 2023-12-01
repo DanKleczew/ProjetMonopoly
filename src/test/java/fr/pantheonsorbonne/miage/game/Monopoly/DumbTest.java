@@ -37,10 +37,10 @@ public class DumbTest {
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
 
-        plateauFantome.getAllColoredProprietes().get(20).setOwner(Thierry, true);
-        plateauFantome.getAllColoredProprietes().get(21).setOwner(Thierry, true);
+        plateauFantome.getAllColoredProprietes().get(20).setOwner(Thierry);
+        plateauFantome.getAllColoredProprietes().get(21).setOwner(Thierry);
 
-        plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier, false);
+        plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier);
 
         Thierry.thinkAndDo(plateauFantome);
 
@@ -73,8 +73,8 @@ public class DumbTest {
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
         List<CaseAchetable> allProprietes = plateauFantome.getAllProprietes();
-        allProprietes.get(1).setOwner(Thierry, true);
-        allProprietes.get(16).setOwner(Thierry, true);
+        allProprietes.get(1).setOwner(Thierry);
+        allProprietes.get(16).setOwner(Thierry);
 
         Thierry.thinkAndDo(plateauFantome);
 
@@ -82,7 +82,7 @@ public class DumbTest {
         assertEquals(false, allProprietes.get(16).isHypothequed());
 
         Player Didier = new VoidBot(0);
-        allProprietes.get(1).setOwner(Didier, true);
+        allProprietes.get(1).setOwner(Didier);
 
         Thierry.thinkAndDo(plateauFantome);
 

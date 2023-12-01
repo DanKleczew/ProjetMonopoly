@@ -45,16 +45,16 @@ public class CasesSimplesTest {
         Player Thierry = new VoidBot(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        plateauFantome.getAllProprietes().get(2).setOwner(Thierry, true);
+        plateauFantome.getAllProprietes().get(2).setOwner(Thierry);
         
         assertEquals(25, plateauFantome.getAllProprietes().get(2).getLoyerAPayer(plateauFantome));
 
-        plateauFantome.getAllProprietes().get(10).setOwner(Thierry, true);
+        plateauFantome.getAllProprietes().get(10).setOwner(Thierry);
 
         assertEquals(50, plateauFantome.getAllProprietes().get(2).getLoyerAPayer(plateauFantome));
 
-        plateauFantome.getAllProprietes().get(17).setOwner(Thierry, true);
-        plateauFantome.getAllProprietes().get(25).setOwner(Thierry, true);
+        plateauFantome.getAllProprietes().get(17).setOwner(Thierry);
+        plateauFantome.getAllProprietes().get(25).setOwner(Thierry);
 
         assertEquals(200, plateauFantome.getAllProprietes().get(2).getLoyerAPayer(plateauFantome));
     }
@@ -64,10 +64,10 @@ public class CasesSimplesTest {
         Player Thierry = new VoidBot(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
         Thierry.throwDice(plateauFantome, 0);
-        plateauFantome.getAllProprietes().get(7).setOwner(Thierry, true);
+        plateauFantome.getAllProprietes().get(7).setOwner(Thierry);
         assertEquals(24, plateauFantome.getAllProprietes().get(7).getLoyerAPayer(plateauFantome));
 
-        plateauFantome.getAllProprietes().get(20).setOwner(Thierry, true);
+        plateauFantome.getAllProprietes().get(20).setOwner(Thierry);
         assertEquals(60, plateauFantome.getAllProprietes().get(7).getLoyerAPayer(plateauFantome));
 
     }

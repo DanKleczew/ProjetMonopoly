@@ -4,7 +4,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
-public class CaseChance extends Case {
+public class CaseChance extends Case implements CaseCard{
 
     public CaseChance(String name) {
         super(name);
