@@ -22,12 +22,9 @@ public abstract class CaseAchetable extends Case {
     public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException {
         super.doCaseEffect(joueur, plateauComplet);
 
-        if (! this.hasOwner()) {
-            this.setOwner(joueur, joueur.askBuyProperty(this, plateauComplet));
-        } else {
-            if (!estHypothequee)
-            this.makePay(joueur, plateauComplet);
-        }
+        if (this.hasOwner() && !estHypothequee)
+        this.makePay(joueur, plateauComplet);
+        //Potentiellement 0 si le joueur est le proprio, voir makePay plus bas
     }
 
     public int getPrixAchat(){
@@ -39,8 +36,15 @@ public abstract class CaseAchetable extends Case {
         return this.owner;
     }
 
-    public void setOwner(Player joueur, boolean choice) {
+    public void setOwner(Player joueur)  {
         this.owner = joueur;
+    }
+
+    public void buyThePropriete(Player joueur, boolean choice) throws IsBankruptException{
+        if (choice){
+            joueur.bankAccountModify(-this.prixAchat);
+            this.setOwner(joueur);
+        }
     }
 
     public boolean hasOwner() {
@@ -66,6 +70,11 @@ public abstract class CaseAchetable extends Case {
         }
         estHypothequee = !estHypothequee;
     }
+
+    public void switchHypothequeStatusFree(){
+        estHypothequee = ! estHypothequee;
+    }
+
 
 
     protected void makePay(Player joueurQuiPaye, Board plateau) throws IsBankruptException{

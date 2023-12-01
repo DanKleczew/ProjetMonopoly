@@ -1,10 +1,6 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
-import java.util.Deque;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.PlayerFacade;
@@ -16,11 +12,12 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.model.Game;
 import fr.pantheonsorbonne.miage.model.GameCommand;
 
-public class RemotePlayerAdapter{
+public class RemotePlayerAdapter extends Player{
     Player delegate;
-    // private static int playerCount = 0;
+    private static int playerCount = 0;
 
     public RemotePlayerAdapter(Player joueur) {
+        super(playerCount++);
         this.delegate = joueur;
     }
 
@@ -75,9 +72,6 @@ public class RemotePlayerAdapter{
                 default:
                     System.exit(0);
                 
-                
-                
-
             }
         }
     }
@@ -111,9 +105,11 @@ public class RemotePlayerAdapter{
 
     }
 
-    public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'askRemoveInstantlySquat'");
+    public void askRemoveInstantlySquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {
+        
+        boolean res = delegate.askRemoveInstantlySquat(proprieteSquatee, plateauEphemere);
+        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesGetRid" : "NoDoNot"));
+
     }
     
 

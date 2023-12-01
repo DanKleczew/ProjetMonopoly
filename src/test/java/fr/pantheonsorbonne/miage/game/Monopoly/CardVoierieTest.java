@@ -22,8 +22,8 @@ public class CardVoierieTest{
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
         CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
         CasePropriete Lecourbe = (CasePropriete) plateauFantome.getPlateau()[3];
-        Belleville.setOwner(Thierry, true);
-        Lecourbe.setOwner(Thierry, true);
+        Belleville.setOwner(Thierry);
+        Lecourbe.setOwner(Thierry);
 
         Map<TypePropriete, Integer> listeDeSouhait = new HashMap<>();
         listeDeSouhait.put(TypePropriete.MARRON, 9);
@@ -44,8 +44,8 @@ public class CardVoierieTest{
         
         CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
         CasePropriete Lecourbe = (CasePropriete) plateauFantome.getPlateau()[3];
-        Belleville.setOwner(Thierry, true);
-        Lecourbe.setOwner(Thierry, true);
+        Belleville.setOwner(Thierry);
+        Lecourbe.setOwner(Thierry);
 
         Map<TypePropriete, Integer> listeDeSouhait = new HashMap<>();
         listeDeSouhait.put(TypePropriete.MARRON, 9);
