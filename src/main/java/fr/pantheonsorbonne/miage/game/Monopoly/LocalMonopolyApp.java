@@ -26,34 +26,17 @@ public final class LocalMonopolyApp extends MonopolyEngine {
 
     @Override
     protected boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet) {
-
-        for (Player joueur : plateauComplet.getListeJoueurs()) {
-            if (joueur.getID() == playerID) {
-                return joueur.askGetOutOfJail();
-            }
-        }
-        return false; // Impossible à atteindre
+    return plateauComplet.getPlayerByID(playerID).askGetOutOfJail();
     }
 
     @Override
     protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
-
-        for (Player joueur : plateauComplet.getListeJoueurs()) {
-            if (joueur.getID() == playerID) {
-                return joueur.askRemoveInstantlySquat(caseSquatee, plateauComplet);
-            }
-        }
-        return false; // Impossible à atteindre
+        return plateauComplet.getPlayerByID(playerID).askRemoveInstantlySquat(caseSquatee, plateauComplet);
     }
 
     @Override
     protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
-        for (Player joueur : plateauComplet.getListeJoueurs()) {
-            if (joueur.getID() == playerID) {
-                    return joueur.askBuyProperty(caseAchetable, plateauComplet);
-                }
-            }
-        return false; // Impossible à atteindre
+        return plateauComplet.getPlayerByID(playerID).askBuyProperty(caseAchetable, plateauComplet);
     }
 
     @Override
