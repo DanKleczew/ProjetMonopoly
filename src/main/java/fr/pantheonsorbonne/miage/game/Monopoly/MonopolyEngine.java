@@ -13,6 +13,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public abstract class MonopolyEngine {
 
     protected final PerfectBoard plateauComplet;
+    private static int compteTours = 0;
     private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
     // La probabilité qu'un squatteur apparaisse est de (Somme Totale des Loyers
     // (voir getSommeTotaleLoyerActuelle() dans Board) / 20K )
@@ -31,19 +32,31 @@ public abstract class MonopolyEngine {
             Player currentPlayer = plateauComplet.getNextPlayer();
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
-
+                compteTours++;
+                if (compteTours > 50) {
+                    for (Player a : plateauComplet.getListeJoueurs()) {
+                        try{
+                            a.bankAccountModify(-50);
+                        } catch (IsBankruptException e){
+                            plateauComplet.deletePlayer(e);
+                        }
+                    }
+                }
                 if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
-                    // try{ 
-                    //On rajoute ce try au cas où le robot se tromperait et déciderait de removeSquat sans assez d'argent (on ne contrôle pas les bots adverses)
-                    randomProp.removeSquat(this.askRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet), plateauComplet);
+                    // try{
+                    // On rajoute ce try au cas où le robot se tromperait et déciderait de
+                    // removeSquat sans assez d'argent (on ne contrôle pas les bots adverses)
+                    randomProp.removeSquat(
+                            this.askRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet),
+                            plateauComplet);
                     // }
                     // catch (IsBankruptException e){
-                        //TODO Problème ici
-                        // System.out.println("NUL");
-                        // plateauComplet.deletePlayer(e);
+                    // TODO Problème ici
+                    // System.out.println("NUL");
+                    // plateauComplet.deletePlayer(e);
                     // }
                 }
 
@@ -75,14 +88,15 @@ public abstract class MonopolyEngine {
                         try {
                             walkAndDoEffect(plateauComplet, currentPlayer, des);
 
-                        // Si ca le fait perdre on catch l'exception
+                            // Si ca le fait perdre on catch l'exception
                         } catch (IsBankruptException e) {
                             plateauComplet.deletePlayer(e);
                         }
                         // Sinon (il est en prison et n'a pas fait un double)
                     } else {
                         // Si il veut payer 50 pour sortir
-                        if (this.askGetOutOfJail(currentPlayer.getID(), plateauComplet.getPositionJoueur(currentPlayer), plateauComplet)){
+                        if (this.askGetOutOfJail(currentPlayer.getID(), plateauComplet.getPositionJoueur(currentPlayer),
+                                plateauComplet)) {
                             // On le sort
                             currentPlayer.resetTimeOut(true);
                         }
@@ -126,6 +140,7 @@ public abstract class MonopolyEngine {
 
         }
         System.out.println("////////FIN DE PARTIE\\\\\\\\\\\\\\");
+        System.out.println("Nombre de tours : " + compteTours);
         Player winner = plateauComplet.getNextPlayer();
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());
@@ -135,38 +150,44 @@ public abstract class MonopolyEngine {
         return des[0] + des[1];
     }
 
-    private void walkAndDoEffect(PerfectBoard plateauComplet, Player currentPlayer, int[] des) throws IsBankruptException{
+    private void walkAndDoEffect(PerfectBoard plateauComplet, Player currentPlayer, int[] des)
+            throws IsBankruptException {
         // Il avance avec le montant des dés qu'il vient de lancer
         plateauComplet.walk(currentPlayer, sumDes(des));
-        
-        //On récupère la case sur laquelle il est tombé 
+
+        // On récupère la case sur laquelle il est tombé
         Case caseArrivee = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
 
-        //Il se peut qu'en un lancer de dés on ait plusieurs doCaseEffect à cause des cartes de déplacement
-        while (caseArrivee instanceof CaseCard){
+        // Il se peut qu'en un lancer de dés on ait plusieurs doCaseEffect à cause des
+        // cartes de déplacement
+        while (caseArrivee instanceof CaseCard) {
             caseArrivee.doCaseEffect(currentPlayer, plateauComplet);
-            //Si il n'y a pas eu de déplacement, on a déjà fait le doCaseEffect donc on sort de la méthode
+            // Si il n'y a pas eu de déplacement, on a déjà fait le doCaseEffect donc on
+            // sort de la méthode
             if (plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer)).equals(caseArrivee))
                 return;
-            //Si il y en a eu un on va vérifier si la nvelle case est une case à carte.
+            // Si il y en a eu un on va vérifier si la nvelle case est une case à carte.
             caseArrivee = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
         }
 
-        //Si c'est une case achetable pas encore achetée
-        if (caseArrivee instanceof CaseAchetable && ! ((CaseAchetable) caseArrivee).hasOwner()) {
+        // Si c'est une case achetable pas encore achetée
+        if (caseArrivee instanceof CaseAchetable && !((CaseAchetable) caseArrivee).hasOwner()) {
             CaseAchetable caseArriveeAchetable = (CaseAchetable) caseArrivee;
-            //On lui demande si ca l'intéresse
-            caseArriveeAchetable.buyThePropriete(currentPlayer, askBuyProperty(currentPlayer.getID(), caseArriveeAchetable, plateauComplet));
+            // On lui demande si ca l'intéresse
+            caseArriveeAchetable.buyThePropriete(currentPlayer,
+                    askBuyProperty(currentPlayer.getID(), caseArriveeAchetable, plateauComplet));
         }
-        
-        //Quoi qu'il arrive, on applique le doCaseEffect après ces deux conditions
+
+        // Quoi qu'il arrive, on applique le doCaseEffect après ces deux conditions
         caseArrivee.doCaseEffect(currentPlayer, plateauComplet);
     }
 
-
     protected abstract boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet);
+
     protected abstract boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet);
-    protected abstract boolean askRemoveInstantlySquat(int playerID, CasePropriete proprieteSquatee, PerfectBoard plateauComplet);
+
+    protected abstract boolean askRemoveInstantlySquat(int playerID, CasePropriete proprieteSquatee,
+            PerfectBoard plateauComplet);
 
     protected abstract void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException;
 }
