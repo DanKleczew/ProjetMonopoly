@@ -1,12 +1,10 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
@@ -19,8 +17,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 
 public class ToolBox {
 
-    public static PerfectBoard mapToPerfectBoard(Map<String, String> map) throws IsBankruptException {
-        Player toi = new VoidBot(0);
+    public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player me) throws IsBankruptException {
         Player pasToi = new VoidBot(1);
         PerfectBoard plateauTampon = new PerfectBoard();
         List<CaseAchetable> listeDesProp = plateauTampon.getAllProprietes();
@@ -29,10 +26,10 @@ public class ToolBox {
             String[] stringpetee = map.get(Integer.toString(i)).split(";");
             switch (stringpetee[0]) {
                 case "1":
-                    currProp.setOwner(toi, true);
+                    currProp.setOwner(me);
                     break;
                 case "2":
-                    currProp.setOwner(pasToi, true);
+                    currProp.setOwner(pasToi);
                     break;
                 default:
                     break;
@@ -49,7 +46,7 @@ public class ToolBox {
         return null;
     }
 
-    public static Map<String,String> perfectBoardToMap(PerfectBoard board, Player player) {
+    public Map<String,String> perfectBoardToMap(PerfectBoard board, Player player) {
         List<CaseAchetable> listeDesProp = board.getAllProprietes();
         Map<String, String> map = new HashMap<String,String>();
         int i = 0;

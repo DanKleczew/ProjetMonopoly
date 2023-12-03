@@ -58,7 +58,7 @@ public abstract class Player {
         }
     }
 
-    public abstract boolean askGetOutOfJail();
+    public abstract boolean askGetOutOfJail(PerfectBoard board);
 
     public int getTimeOut(){
         return this.timeOut;
