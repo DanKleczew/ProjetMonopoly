@@ -6,6 +6,7 @@ import java.util.Set;
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.HostFacade;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
@@ -51,25 +52,42 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     protected boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer
             (monopoly, ""+playerID, new GameCommand("askGetOutOfJail",""+playerPosition, ToolBox.perfectBoardToMap(plateauComplet)));
+
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
-        if (reponse.name().equals("yesOut")){
-            return true;
-        }
-        return false;
+
+        return reponse.name().equals("yesOut");
     }
 
     @Override
     protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer
-            (monopoly, ""+playerID, new GameCommand("askRemoveInstantlySquat", ToolBox.CaseProprieteToString(caseSquatee)));
+            (monopoly, ""+playerID, new GameCommand("askRemoveInstantlySquat", ToolBox.CaseAchetableToString(caseSquatee)));
         
             GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
-            if (reponse.name().equals("YesGetRid")){
-                return true;
-            }
-            
-            return false;
+            return reponse.name().equals("YesGetRid");
+    }
+
+    @Override
+    protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
+        hostFacade.sendGameCommandToPlayer(
+                monopoly, ""+playerID, new GameCommand("askBuyProperty", ToolBox.CaseAchetableToString(caseAchetable),
+                ToolBox.perfectBoardToMap(plateauComplet)));
+
+        GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
+
+        return reponse.name().equals("YesBuy");
+    }
+
+    @Override
+    protected void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
+        hostFacade.sendGameCommandToPlayer(
+            monopoly, ""+playerID, new GameCommand("thinkAndAnswer", ""+plateauComplet.getPositionJoueur(plateauComplet.getPlayerByID(playerID)), 
+            ToolBox.perfectBoardToMap(plateauComplet)));
+
+        GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
+
+        //TODO : Décomposer la réponseComplexe et agir en conséquence
     }
 
 }
