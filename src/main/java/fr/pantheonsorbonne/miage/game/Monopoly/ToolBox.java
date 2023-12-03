@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
@@ -100,21 +99,4 @@ public class ToolBox {
         }
         return map;
     }
-
-    public static CasePropriete StringToCasePropriete(String body) {
-        PerfectBoard board = new PerfectBoard();
-        Case[] plateau = board.getPlateau();
-        for (Case casePlateau : plateau) {
-            String nomCasePlateau = casePlateau.toString();
-            if (nomCasePlateau.equals(body)) {
-                return (CasePropriete) casePlateau;
-            }
-        }
-        return null;
-    }
-
-    public static String CaseAchetableToString(CaseAchetable caseEnQuestion) {
-        return null;
-    }
-
 }

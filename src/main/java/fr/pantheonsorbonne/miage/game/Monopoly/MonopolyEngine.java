@@ -92,7 +92,7 @@ public abstract class MonopolyEngine {
 
                             // Si ca le fait perdre on catch l'exception
                         } catch (IsBankruptException e) {
-                            Case caseFinale = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+                            Case caseFinale = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
                             if (caseFinale instanceof CaseAchetable){
                                 e.setGagnant(((CaseAchetable) caseFinale).getOwner());
                             };
@@ -139,7 +139,7 @@ public abstract class MonopolyEngine {
                     // Si l'exception est thrown pendant le .walk (par exemple tombé sur une
                     // propriété adverse)
                     // Le joueur n'aura pas le loisir de .thinkAndDo
-                    Case caseFinale = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+                    Case caseFinale = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
                     if (caseFinale instanceof CaseAchetable){
                         e.setGagnant(((CaseAchetable) caseFinale).getOwner());
                     };
@@ -166,7 +166,7 @@ public abstract class MonopolyEngine {
         plateauComplet.walk(currentPlayer, sumDes(des));
 
         // On récupère la case sur laquelle il est tombé
-        Case caseArrivee = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+        Case caseArrivee = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
 
         // Il se peut qu'en un lancer de dés on ait plusieurs doCaseEffect à cause des
         // cartes de déplacement
@@ -174,10 +174,10 @@ public abstract class MonopolyEngine {
             caseArrivee.doCaseEffect(currentPlayer, plateauComplet);
             // Si il n'y a pas eu de déplacement, on a déjà fait le doCaseEffect donc on
             // sort de la méthode
-            if (plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer)).equals(caseArrivee))
+            if (plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer)).equals(caseArrivee))
                 return;
             // Si il y en a eu un on va vérifier si la nvelle case est une case à carte.
-            caseArrivee = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+            caseArrivee = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
         }
 
         // Si c'est une case achetable pas encore achetée

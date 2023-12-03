@@ -167,8 +167,17 @@ public abstract class Board {
         return plateau;
     }
 
-    public Case getCase(int indice) {
+    public Case getCaseByIndice(int indice) {
         return plateau[indice];
+    }
+
+    public Case getCaseByName(String nomDeCaseQuelconque){
+        for (Case c : plateau){
+            if (c.toString().equals(nomDeCaseQuelconque)){
+                return c;
+            }
+        }
+        return null;
     }
 
     public List<CaseAchetable> getOwnedProperties(Player joueur) {
