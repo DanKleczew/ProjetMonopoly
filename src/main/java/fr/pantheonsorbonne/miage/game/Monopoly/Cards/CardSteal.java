@@ -20,11 +20,18 @@ public class CardSteal implements Card {
         // Joueur piochant la carte gagne son argent
         // Autres joueurs perdent de l'argent
         System.out.println("Tout le monde vous doit " + stealAmount + " $ !");
-        for (Player joueurCourrant : plateauComplet.getListeJoueurs()) {
+
+        //On fait ca pour éviter de modifier le Deque pendant qu'on l'itère : risque de ConcurrentModificationException
+        Player[] listeDeJoueurs = new Player[plateauComplet.getListeJoueurs().size()];
+        for (int i = 0 ; i<plateauComplet.getListeJoueurs().size() ; i++){
+            listeDeJoueurs[i] = (Player) plateauComplet.getListeJoueurs().toArray()[i];
+        }
+        
+        for (Player joueurCourrant : listeDeJoueurs) {
             try {
-            if (!joueurGagnant.equals(joueurCourrant)) {
-                joueurCourrant.transaction(joueurGagnant, stealAmount);
-            }
+                if (!joueurGagnant.equals(joueurCourrant)) {
+                    joueurCourrant.transaction(joueurGagnant, stealAmount);
+                }
             }
             catch (IsBankruptException exception){
                 exception.setGagnant(joueurGagnant);
