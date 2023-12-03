@@ -105,7 +105,9 @@ public class CasePropriete extends CaseAchetable {
     public int getNombreMaisons() {
         return this.nombreMaisons;
     }
-
+    public void resetNombreMaisons(){
+        this.nombreMaisons = 0;
+    }
     public boolean hasHotel() {
         return this.nombreMaisons == 5;
     }
