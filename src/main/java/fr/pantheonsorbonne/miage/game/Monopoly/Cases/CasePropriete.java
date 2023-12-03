@@ -117,7 +117,7 @@ public class CasePropriete extends CaseAchetable {
         this.nombreMaisons++;
     }
 
-    public void addHouseNoPay(int numberHouses){
+    public void setHousesNoPay(int numberHouses){
         this.nombreMaisons = numberHouses;
     }
 

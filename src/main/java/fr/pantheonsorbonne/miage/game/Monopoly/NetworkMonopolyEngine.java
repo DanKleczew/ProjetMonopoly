@@ -1,6 +1,5 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
-import java.util.Random;
 import java.util.Set;
 
 import fr.pantheonsorbonne.miage.Facade;
@@ -51,7 +50,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     @Override
     protected boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer
-            (monopoly, ""+playerID, new GameCommand("askGetOutOfJail",""+playerPosition, ToolBox.perfectBoardToMap(plateauComplet)));
+            (monopoly, ""+playerID, new GameCommand("askGetOutOfJail",""+playerPosition, ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
@@ -72,7 +71,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(
                 monopoly, ""+playerID, new GameCommand("askBuyProperty", ToolBox.CaseAchetableToString(caseAchetable),
-                ToolBox.perfectBoardToMap(plateauComplet)));
+                ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
@@ -83,9 +82,9 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     protected void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
         hostFacade.sendGameCommandToPlayer(
             monopoly, ""+playerID, new GameCommand("thinkAndAnswer", ""+plateauComplet.getPositionJoueur(plateauComplet.getPlayerByID(playerID)), 
-            ToolBox.perfectBoardToMap(plateauComplet)));
+            ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
-        GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
+        // GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
 
         //TODO : Décomposer la réponseComplexe et agir en conséquence
     }
