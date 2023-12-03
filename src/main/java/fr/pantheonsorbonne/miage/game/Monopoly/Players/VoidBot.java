@@ -37,7 +37,7 @@ public class VoidBot extends Player{
     }
 
     @Override
-    public boolean askGetOutOfJail() {
+    public boolean askGetOutOfJail(PerfectBoard board) {
         return false;
     }
 

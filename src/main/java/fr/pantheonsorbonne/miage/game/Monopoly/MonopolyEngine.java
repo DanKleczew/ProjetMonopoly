@@ -13,7 +13,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 public abstract class MonopolyEngine {
 
     protected final PerfectBoard plateauComplet;
-    private static int compteTours = 0;
+    private int compteTours = 0;
     private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
     // La probabilité qu'un squatteur apparaisse est de (Somme Totale des Loyers
     // (voir getSommeTotaleLoyerActuelle() dans Board) / 20K )
@@ -36,7 +36,9 @@ public abstract class MonopolyEngine {
                 if (compteTours > 50) {
                     for (Player a : plateauComplet.getListeJoueurs()) {
                         try{
+                            if(a.getBankAccount() > 50){
                             a.bankAccountModify(-50);
+                            }
                         } catch (IsBankruptException e){
                             plateauComplet.deletePlayer(e);
                         }
