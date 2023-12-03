@@ -36,6 +36,14 @@ public class PerfectBoard extends Board {
     public Deque<Player> getListeJoueurs() {
         return listeJoueurs;
     }
+    public Player getPlayerByID(int ID){
+        for (Player joueur : this.listeJoueurs){
+            if (joueur.getID() == ID){
+                return joueur;
+            }
+        }
+        return null;
+    }
 
     public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
         if (listeJoueurs.size()>2){
