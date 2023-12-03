@@ -15,7 +15,6 @@ public class MediumBot extends Player {
 
     public MediumBot(int ID) {
         super(ID);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -61,7 +60,8 @@ public class MediumBot extends Player {
     @Override
     protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
         Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
-        boucleDesCouleurs: for (TypePropriete couleur : TypePropriete.values()) {
+        boucleDesCouleurs: 
+        for (TypePropriete couleur : TypePropriete.values()) {
             if (couleur.ordinal() < 8) {
                 List<CasePropriete> casesDeCetteCouleur = plateauComplet.getProprietesByColor(couleur);
                 for (CasePropriete propCol : casesDeCetteCouleur) {
@@ -76,6 +76,7 @@ public class MediumBot extends Player {
                 if (casesDeCetteCouleur.get(casesDeCetteCouleur.size() - 1).getNombreMaisons() < 5) {
                     if (casesDeCetteCouleur.get(0).getPrixMaisonUnitaire() < this.getBankAccount())
                         listeDeSouhaits.put(couleur, 1);
+                        break;
                 }
             }
         }

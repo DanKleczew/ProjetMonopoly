@@ -18,7 +18,7 @@ public class CardVoierie implements Card{
 
     @Override
     public void cardEffect(Player joueur, PerfectBoard plateau) throws IsBankruptException {
-        System.out.println("Payez " + prixParMaison + "par maison et " + prixParHotel + "par hôtel que vous possédez");
+        System.out.println("Payez " + prixParMaison + " par maison et " + prixParHotel + " par hôtel que vous possédez");
         int[] nombreImmobilier = plateau.getNombreMaisonsHotels(joueur);
         int prixAPayer = nombreImmobilier[1]*prixParHotel + nombreImmobilier[0]*prixParMaison;
         joueur.bankAccountModify(-prixAPayer);
