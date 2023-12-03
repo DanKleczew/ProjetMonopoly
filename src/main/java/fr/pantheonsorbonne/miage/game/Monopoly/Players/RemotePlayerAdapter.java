@@ -39,12 +39,12 @@ public class RemotePlayerAdapter extends Player{
             String commandName = command.name();
 
             int positionJoueur = -1;
-            CasePropriete caseSquatee = null;
+            CasePropriete caseConcernee = null;
             try {
                 positionJoueur = Integer.parseInt(command.body());
             } 
-            catch (Exception e){
-                caseSquatee = ToolBox.StringToCasePropriete(command.body());
+            catch (NumberFormatException e){
+                caseConcernee = ToolBox.StringToCasePropriete(command.body());
             }
 
             Map<String, String> banqueDeDonneesEnStringString = command.params();
@@ -57,12 +57,12 @@ public class RemotePlayerAdapter extends Player{
                     remotePlayerAdapter.askBuyProperty(caseAVendre, plateauEphemere);
                     break;
                 case "askGetOutOfJail":
-                    remotePlayerAdapter.askGetOutOfJail();
+                    remotePlayerAdapter.askGetOutOfJail(plateauEphemere);
                     break;
                 case "askRemoveInstantlySquat":
-                    remotePlayerAdapter.askRemoveInstantlySquat(caseSquatee, plateauEphemere);
+                    remotePlayerAdapter.askRemoveInstantlySquat(caseConcernee, plateauEphemere);
                     break;
-                case "think":
+                case "thinkAndAnswer":
                     remotePlayerAdapter.think(positionJoueur, plateauEphemere);
                     break;
                 case "youLost":
@@ -92,30 +92,34 @@ public class RemotePlayerAdapter extends Player{
 
     // --------------------- Méthodes Réaction
 
-    private void askGetOutOfJail() {
-        boolean res = delegate.askGetOutOfJail();
+    public boolean askGetOutOfJail(PerfectBoard plateauEphemere) {
+        boolean res = delegate.askGetOutOfJail(plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesOut" : "NoIn"));
+
+        return false;
     }
 
     
-    private void askBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
+    public boolean askBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
 
         boolean res = delegate.askBuyProperty(caseAVendre, plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesBuy" : "NoBuy"));
 
+        return false;
     }
 
-    public void askRemoveInstantlySquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {
+    public boolean askRemoveInstantlySquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {
         
         boolean res = delegate.askRemoveInstantlySquat(proprieteSquatee, plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesGetRid" : "NoDoNot"));
 
+        return false;
     }
     
 
     // ---------------------- Méthodes Réflexion
 
-    private Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauEphemere) {
+    protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauEphemere) {
         return delegate.thinkAboutBuyingHouses(plateauEphemere);
     }
 

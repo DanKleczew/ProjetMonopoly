@@ -88,7 +88,7 @@ public class ToolBox {
         return null;
     }
 
-    public static String CaseProprieteToString(CasePropriete caseSquatee) {
+    public static String CaseAchetableToString(CaseAchetable caseEnQuestion) {
         return null;
     }
 
