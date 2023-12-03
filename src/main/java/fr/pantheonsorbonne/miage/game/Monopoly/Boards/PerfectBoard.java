@@ -49,9 +49,18 @@ public class PerfectBoard extends Board {
         if (listeJoueurs.size()>2){
             List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
             for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
-                proprieteDuPerdant.setOwner(exception.getGagnant());
+                if (exception.getGagnant() != null){
+                    proprieteDuPerdant.setOwner(exception.getGagnant());
+                }
+                else {
+                    proprieteDuPerdant.resetOwner();
+                }
+
                 if (proprieteDuPerdant.isHypothequed()) {
                     proprieteDuPerdant.switchHypothequeStatusFree();
+                }
+                if (proprieteDuPerdant instanceof CasePropriete){
+                    ((CasePropriete) proprieteDuPerdant).resetNombreMaisons();
                 }
             }
         }
@@ -208,7 +217,7 @@ public class PerfectBoard extends Board {
 
         for (int i = listeProprietesColoreesOwned.size() - 1; i >= 0; i--) {
             if (listeProprietesColoreesOwned.get(i).getTypeOuCouleur() == couleur) {
-
+                //System.out.println("AAAA" + listeProprietesColoreesOwned.get(i).toString() +""+ i);
                 listeDeCasesDeCetteCouleur.add(listeProprietesColoreesOwned.get(i));
             }
         }

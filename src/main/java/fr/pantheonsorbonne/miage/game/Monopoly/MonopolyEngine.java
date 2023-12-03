@@ -28,7 +28,7 @@ public abstract class MonopolyEngine {
         Random random = new Random();
 
         while (!plateauComplet.isGameFinished()) {
-
+            
             Player currentPlayer = plateauComplet.getNextPlayer();
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
@@ -92,6 +92,10 @@ public abstract class MonopolyEngine {
 
                             // Si ca le fait perdre on catch l'exception
                         } catch (IsBankruptException e) {
+                            Case caseFinale = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+                            if (caseFinale instanceof CaseAchetable){
+                                e.setGagnant(((CaseAchetable) caseFinale).getOwner());
+                            };
                             plateauComplet.deletePlayer(e);
                         }
                         // Sinon (il est en prison et n'a pas fait un double)
@@ -135,6 +139,10 @@ public abstract class MonopolyEngine {
                     // Si l'exception est thrown pendant le .walk (par exemple tombé sur une
                     // propriété adverse)
                     // Le joueur n'aura pas le loisir de .thinkAndDo
+                    Case caseFinale = plateauComplet.getCase(plateauComplet.getPositionJoueur(currentPlayer));
+                    if (caseFinale instanceof CaseAchetable){
+                        e.setGagnant(((CaseAchetable) caseFinale).getOwner());
+                    };
                     plateauComplet.deletePlayer(e);
                     break tourJoueur;
                 }

@@ -40,6 +40,10 @@ public abstract class CaseAchetable extends Case {
         this.owner = joueur;
     }
 
+    public void resetOwner(){
+        this.owner = null;
+    }
+
     public void buyThePropriete(Player joueur, boolean choice) throws IsBankruptException{
         if (choice){
             joueur.bankAccountModify(-this.prixAchat);
