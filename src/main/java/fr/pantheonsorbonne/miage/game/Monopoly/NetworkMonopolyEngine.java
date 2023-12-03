@@ -60,7 +60,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     @Override
     protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer
-            (monopoly, ""+playerID, new GameCommand("askRemoveInstantlySquat", ToolBox.CaseAchetableToString(caseSquatee)));
+            (monopoly, ""+playerID, new GameCommand("askRemoveInstantlySquat", caseSquatee.toString()));
         
             GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
@@ -70,7 +70,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     @Override
     protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(
-                monopoly, ""+playerID, new GameCommand("askBuyProperty", ToolBox.CaseAchetableToString(caseAchetable),
+                monopoly, ""+playerID, new GameCommand("askBuyProperty", caseAchetable.toString(),
                 ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);

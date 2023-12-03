@@ -27,7 +27,7 @@ public class CardDeplacement implements Card {
         int indiceDestination; //La destination à calculer selon le constructeur qui a été appellé
 
         if (indiceDestinationPrecise != -1){
-            System.out.println("Rendez-vous à " + plateauComplet.getCase(indiceDestinationPrecise).toString());
+            System.out.println("Rendez-vous à " + plateauComplet.getCaseByIndice(indiceDestinationPrecise).toString());
             indiceDestination = indiceDestinationPrecise;
         }
         else if (nombreDeCases != -1){

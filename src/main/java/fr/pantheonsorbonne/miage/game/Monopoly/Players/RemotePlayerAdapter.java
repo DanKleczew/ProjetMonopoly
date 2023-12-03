@@ -38,22 +38,24 @@ public class RemotePlayerAdapter extends Player{
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
 
+          
+
+            Map<String, String> banqueDeDonneesEnStringString = command.params();
+            PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString, remotePlayerAdapter);
+
             int positionJoueur = -1;
             CasePropriete caseConcernee = null;
             try {
                 positionJoueur = Integer.parseInt(command.body());
             } 
             catch (NumberFormatException e){
-                caseConcernee = ToolBox.StringToCasePropriete(command.body());
+                caseConcernee = (CasePropriete) plateauEphemere.getCaseByName(command.body());
             }
 
-            Map<String, String> banqueDeDonneesEnStringString = command.params();
-            PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString, remotePlayerAdapter);
-            
-
+    
             switch (commandName) {
                 case "askBuyProperty":
-                    CaseAchetable caseAVendre = (CaseAchetable) plateauEphemere.getCase(positionJoueur);
+                    CaseAchetable caseAVendre = (CaseAchetable) plateauEphemere.getCaseByIndice(positionJoueur);
                     remotePlayerAdapter.askBuyProperty(caseAVendre, plateauEphemere);
                     break;
                 case "askGetOutOfJail":
