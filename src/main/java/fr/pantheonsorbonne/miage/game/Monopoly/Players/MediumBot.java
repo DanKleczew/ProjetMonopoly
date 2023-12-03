@@ -21,7 +21,7 @@ public class MediumBot extends Player {
     public boolean askGetOutOfJail(PerfectBoard board) {
         int balance = this.getBankAccount();
         int countHouse = 0;
-        if (balance < 250) {
+        if (balance < 500) {
             return false;
         }
         List<CaseAchetable> listeDesProp = board.getAllProprietes();
@@ -42,18 +42,17 @@ public class MediumBot extends Player {
     public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
         int balance = this.getBankAccount();
         if (proprieteLibre.getTypeOuCouleur().equals(TypePropriete.BLEU)){  //si c'est une bleu oui car il va faire +200 juste après
-            if(balance >= proprieteLibre.getPrixAchat()+10){ // au cas ou qlq'un tombe sur une carte steal + 10
+            if(balance >= proprieteLibre.getPrixAchat()+400){ // au cas ou qlq'un tombe sur une carte steal + 10
                 return true;
             }
 
         }
-        if (balance < proprieteLibre.getPrixAchat() + 50){  //pas assez d'argent
+        if (balance < proprieteLibre.getPrixAchat() + 600){  //pas assez d'argent
             return false;            
         }
-        else if(balance > proprieteLibre.getPrixAchat() + 200){ //on considère que si il reste 200 c'est suffisant
+        else if(balance > proprieteLibre.getPrixAchat() + 600){ //on considère que si il reste 200 c'est suffisant
             return true;
         }
-
         return false;
     }
 
@@ -106,33 +105,6 @@ public class MediumBot extends Player {
         return false;
     }
 
-    // public boolean[] think(PerfectBoard board, int balance, int positionPlayer)
-    // throws IsBankruptException {
-    // boolean[] choix = new boolean[7];
-    // double[] proba = new double[11];
 
-    // for (int i = 2; i < 13; i++) {
-    // PerfectBoard board1 = new PerfectBoard();
-    // int balanceBoucle1 = balance;
-
-    // proba[i] = new ProbaPlayer(i).getProbaDes();
-
-    // board1.walk(this, i);
-    // board1.getCase(board1.getPositionJoueur(this)).doCaseEffect(this, board1);;
-
-    // // for (int j = 0; j < 11; j++) {
-    // // int balanceBoucle2 = balanceBoucle1;
-    // // for (int k = 0; k < 11; k++) {
-    // // int balanceBoucle3 = balanceBoucle2;
-    // // for (int l = 0; l < 11; l++) {
-    // // int balanceBoucle4 = balanceBoucle3;
-
-    // // }
-    // // }
-    // // }
-    // }
-
-    // return choix;
-    // }
 
 }
