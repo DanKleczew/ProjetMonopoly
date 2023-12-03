@@ -67,8 +67,8 @@ public class PerfectBoard extends Board {
     }
 
     public Player getNextPlayer() {
-        Player nextPlayer = listeJoueurs.poll();
-        listeJoueurs.add(nextPlayer);
+        Player nextPlayer;
+        listeJoueurs.add(nextPlayer = listeJoueurs.poll());
         return nextPlayer;
     }
 

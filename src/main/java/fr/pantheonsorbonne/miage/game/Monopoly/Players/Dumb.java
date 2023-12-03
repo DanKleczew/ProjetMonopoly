@@ -43,6 +43,7 @@ public class Dumb extends Player {
                 if (casesDeCetteCouleur.get(casesDeCetteCouleur.size() - 1).getNombreMaisons() < 5) {
                     if (casesDeCetteCouleur.get(0).getPrixMaisonUnitaire() < this.getBankAccount())
                         listeDeSouhaits.put(couleur, 1);
+                        break;
                 }
             }
         }
