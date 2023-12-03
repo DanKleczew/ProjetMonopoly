@@ -105,33 +105,6 @@ public class MediumBot extends Player {
         return false;
     }
 
-    // public boolean[] think(PerfectBoard board, int balance, int positionPlayer)
-    // throws IsBankruptException {
-    // boolean[] choix = new boolean[7];
-    // double[] proba = new double[11];
 
-    // for (int i = 2; i < 13; i++) {
-    // PerfectBoard board1 = new PerfectBoard();
-    // int balanceBoucle1 = balance;
-
-    // proba[i] = new ProbaPlayer(i).getProbaDes();
-
-    // board1.walk(this, i);
-    // board1.getCase(board1.getPositionJoueur(this)).doCaseEffect(this, board1);;
-
-    // // for (int j = 0; j < 11; j++) {
-    // // int balanceBoucle2 = balanceBoucle1;
-    // // for (int k = 0; k < 11; k++) {
-    // // int balanceBoucle3 = balanceBoucle2;
-    // // for (int l = 0; l < 11; l++) {
-    // // int balanceBoucle4 = balanceBoucle3;
-
-    // // }
-    // // }
-    // // }
-    // }
-
-    // return choix;
-    // }
 
 }
