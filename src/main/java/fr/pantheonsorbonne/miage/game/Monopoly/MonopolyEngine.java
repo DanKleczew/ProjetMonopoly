@@ -24,7 +24,7 @@ public abstract class MonopolyEngine {
         this.plateauComplet = plateauComplet;
     }
 
-    protected void play() throws IsBankruptException {
+    protected int play() throws IsBankruptException {
         Random random = new Random();
 
         while (!plateauComplet.isGameFinished()) {
@@ -33,7 +33,7 @@ public abstract class MonopolyEngine {
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
                 compteTours++;
-                if (compteTours > 50) {
+                if (compteTours > 150) {
                     for (Player a : plateauComplet.getListeJoueurs()) {
                         try{
                             if(a.getBankAccount() > 50){
@@ -154,6 +154,7 @@ public abstract class MonopolyEngine {
         Player winner = plateauComplet.getNextPlayer();
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());
+        return winner.getID();
     }
 
     private static int sumDes(int[] des) {

@@ -3,10 +3,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.MediumBot;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 public final class LocalMonopolyApp extends MonopolyEngine {
 
@@ -20,10 +17,10 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         
             
              for (int i = 0; i < 1000; i++) {
-                PerfectBoard plateauEnLocal = new PerfectBoard(new MediumBot(0), new VoidBot(1), new VoidBot(2), new VoidBot(3));
+                PerfectBoard plateauEnLocal = new PerfectBoard(new MediumBot(0), new MediumBot(1) , new VoidBot(2), new VoidBot(3));
                 LocalMonopolyApp localMonopoly = new LocalMonopolyApp(plateauEnLocal);
                 localMonopoly.play();
-            //     if (localMonopoly.play() == 1){
+            //     if (localMonopoly.play() <= 1){
             //         winp1++;
             //     }
             //     else{
