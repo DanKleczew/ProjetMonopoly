@@ -38,6 +38,10 @@ public abstract class Player {
         }
     }
 
+    public void setBankAccount(int bankAccountValue){
+        this.bankAccount = bankAccountValue;
+    }
+
     public int getBankAccount() {
         return this.bankAccount;
     }
@@ -123,12 +127,23 @@ public abstract class Player {
     // en prisons
     protected abstract CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauComplet);
 
+    //thinkAndDo appelé par le LocalEngine qui peut se permettre de demander ici au joueur ce qu'il veut faire
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses(plateauComplet));
         this.sellProprietes(thinkAboutHypothequeProprietes(plateauComplet));
         this.transformToJails(thinkAboutCreatingJails(plateauComplet)); 
     }
+
+    //thinkAndDo appelé par le networkEngine après avoir recueilli les infos auprès du joueur via le réseau
+    public void thinkAndDo(
+        Map<TypePropriete, Integer> maisonsAchat, Map<TypePropriete,Integer> maisonsVente, CaseAchetable[] hypotheque, CasePropriete[] jails,
+        PerfectBoard plateauComplet) throws IsBankruptException{
+            plateauComplet.addNumerousHouses(maisonsAchat);
+            plateauComplet.sellNumerousHouses(maisonsVente);
+            this.sellProprietes(hypotheque);
+            this.transformToJails(jails);
+        }
 
     private void transformToJails(CasePropriete[] listeProprietesATransformer) {
         for (CasePropriete propriete: listeProprietesATransformer){
