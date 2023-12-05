@@ -48,16 +48,6 @@ public class RemotePlayerAdapter extends Player{
             int positionActuelle = Integer.parseInt(command.body().split(";")[2]);
             plateauEphemere.setSpecificPosition(remotePlayerAdapter.delegate, positionActuelle);
 
-            // int positionJoueur = -1;
-            // CasePropriete caseConcernee = null;
-            // try {
-            //     positionJoueur = Integer.parseInt(command.body());
-            // } 
-            // catch (NumberFormatException e){
-            //     caseConcernee = (CasePropriete) plateauEphemere.getCaseByName(command.body());
-            // }
-
-    
             switch (commandName) {
                 case "askBuyProperty":
                     CaseAchetable caseAVendre = (CaseAchetable) plateauEphemere.getCaseByName(command.body().split(";")[0]);

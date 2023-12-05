@@ -20,7 +20,7 @@ import fr.pantheonsorbonne.miage.model.GameCommand;
 
 public class NetworkMonopolyEngine extends MonopolyEngine {
 
-    private static final int NUMBER_PLAYERS = 3;
+    private static final int NUMBER_PLAYERS = 4;
 
     private final HostFacade hostFacade;
     private final Game monopoly;
@@ -43,7 +43,10 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
         Player[] listeJoueurs = new Player[NUMBER_PLAYERS];
         int i = 0;
         for (String playerId : setJoueurs) {
-            listeJoueurs[i] = new VoidBot(Integer.parseInt(playerId));
+            listeJoueurs[i] = new VoidBot(Integer.parseInt(playerId)); 
+            //On instancie des VoidBot mais ce seront les joueurs en réseau qui décideront des actions
+            //On appelera jamais les méthodes des bots de la liste, ce sont juste des flags avec un id = à celui du joueur
+            i++;
         }
 
         MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, listeJoueurs, monopoly);
