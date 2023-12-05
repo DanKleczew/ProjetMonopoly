@@ -36,7 +36,7 @@ public final class LocalMonopolyApp extends MonopolyEngine {
     // ------------------------------------------
 
     @Override
-    protected boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet) {
+    protected boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
 
     return plateauComplet.getPlayerByID(playerID).askGetOutOfJail(plateauComplet);
 

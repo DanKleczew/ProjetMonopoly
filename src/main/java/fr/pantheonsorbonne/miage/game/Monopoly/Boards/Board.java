@@ -254,4 +254,9 @@ public abstract class Board {
         }
         return (propUneCouleur);
     }
+
+    //Méthode pour la création de plateaux éphémères (pour que le joueur sache où il est)
+    public void setSpecificPosition(Player joueur, int positionActuelle) {
+        positionJoueurs.put(joueur, positionActuelle);
+    }
 }

@@ -1,12 +1,17 @@
 package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.HostFacade;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseNeutre;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
@@ -47,10 +52,13 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
 
     }
 
+    // ------------------------- Overrides
+
     @Override
-    protected boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet) {
-        hostFacade.sendGameCommandToPlayer
-            (monopoly, ""+playerID, new GameCommand("askGetOutOfJail",""+playerPosition, ToolBox.perfectBoardToMap(plateauComplet, playerID)));
+    protected boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
+        hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID, new GameCommand("askGetOutOfJail",
+                createBody(new CaseNeutre(" "), playerID),
+                ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
@@ -59,19 +67,22 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
 
     @Override
     protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
-        hostFacade.sendGameCommandToPlayer
-            (monopoly, ""+playerID, new GameCommand("askRemoveInstantlySquat", caseSquatee.toString()));
-        
-            GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
+        hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID,
+                new GameCommand("askRemoveInstantlySquat",
+                        createBody(caseSquatee, playerID),
+                        ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
-            return reponse.name().equals("YesGetRid");
+        GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
+
+        return reponse.name().equals("YesGetRid");
     }
 
     @Override
     protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(
-                monopoly, ""+playerID, new GameCommand("askBuyProperty", caseAchetable.toString(),
-                ToolBox.perfectBoardToMap(plateauComplet, playerID)));
+                monopoly, "" + playerID, new GameCommand("askBuyProperty",
+                        createBody(caseAchetable, playerID),
+                        ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
 
@@ -81,12 +92,52 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     @Override
     protected void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
         hostFacade.sendGameCommandToPlayer(
-            monopoly, ""+playerID, new GameCommand("thinkAndAnswer", ""+plateauComplet.getPositionJoueur(plateauComplet.getPlayerByID(playerID)), 
-            ToolBox.perfectBoardToMap(plateauComplet, playerID)));
+                monopoly, "" + playerID,
+                new GameCommand("thinkAndAnswer",
+                        createBody(new CaseNeutre(" "), playerID),
+                        ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
-        // GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
+        GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
 
-        //TODO : Décomposer la réponseComplexe et agir en conséquence
+        String achatVenteHypothequePrisons = reponseComplexe.name();
+        String[] decoupageReponseComplexe = achatVenteHypothequePrisons.split("|");
+
+        plateauComplet.getPlayerByID(playerID)
+                .thinkAndDo(stringToMapTypeInt(decoupageReponseComplexe[0]),
+                        stringToMapTypeInt(decoupageReponseComplexe[1]),
+                        (CaseAchetable[]) stringToArrayCase(decoupageReponseComplexe[2], plateauComplet),
+                        (CasePropriete[]) stringToArrayCase(decoupageReponseComplexe[3], plateauComplet),
+                        plateauComplet);
+    }
+
+    // ----------- Méthodes utilitaires
+
+    private Map<TypePropriete, Integer> stringToMapTypeInt(String chaineCodee) {
+        Map<TypePropriete, Integer> mapDesMaisons = new HashMap<>();
+        for (String temp : chaineCodee.split(";")) {
+            String[] arrayTypeInt = temp.split(",");
+            mapDesMaisons.put(TypePropriete.valueOf(arrayTypeInt[0]), Integer.parseInt(arrayTypeInt[1]));
+        }
+        return mapDesMaisons;
+    }
+
+    private Case[] stringToArrayCase(String chaineCodee, PerfectBoard plateauComplet) {
+        String[] temp = chaineCodee.split(";");
+
+        Case[] listeDeCase = new Case[temp.length];
+
+        for (int i = 0; i < temp.length; i++) {
+            listeDeCase[i] = plateauComplet.getCaseByName(temp[i]);
+        }
+        return listeDeCase;
+    }
+
+
+    private String createBody(Case caseEnQuestion, int playerID) {
+
+        return caseEnQuestion.toString() + ";" +
+                plateauComplet.getPlayerByID(playerID).getBankAccount() + ";"
+                + plateauComplet.getPositionJoueur(plateauComplet.getPlayerByID(playerID));
     }
 
 }

@@ -101,7 +101,7 @@ public abstract class MonopolyEngine {
                         // Sinon (il est en prison et n'a pas fait un double)
                     } else {
                         // Si il veut payer 50 pour sortir
-                        if (this.askGetOutOfJail(currentPlayer.getID(), plateauComplet.getPositionJoueur(currentPlayer),
+                        if (this.askGetOutOfJail(currentPlayer.getID(),
                                 plateauComplet)) {
                             // On le sort
                             currentPlayer.resetTimeOut(true);
@@ -193,7 +193,7 @@ public abstract class MonopolyEngine {
         caseArrivee.doCaseEffect(currentPlayer, plateauComplet);
     }
 
-    protected abstract boolean askGetOutOfJail(int playerID, int playerPosition, PerfectBoard plateauComplet);
+    protected abstract boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet);
 
     protected abstract boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet);
 
