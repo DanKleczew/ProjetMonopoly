@@ -20,7 +20,7 @@ import fr.pantheonsorbonne.miage.model.GameCommand;
 
 public class NetworkMonopolyEngine extends MonopolyEngine {
 
-    private static final int NUMBER_PLAYERS = 4;
+    private static final int NUMBER_PLAYERS = 2;
 
     private final HostFacade hostFacade;
     private final Game monopoly;
@@ -39,6 +39,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
         Game monopoly = hostFacade.createNewGame("Monopoly");
 
         hostFacade.waitForExtraPlayerCount(NUMBER_PLAYERS);
+        
         Set<String> setJoueurs = monopoly.getPlayers();
         Player[] listeJoueurs = new Player[NUMBER_PLAYERS];
         int i = 0;
@@ -103,20 +104,37 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
         GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
 
         String achatVenteHypothequePrisons = reponseComplexe.name();
-        String[] decoupageReponseComplexe = achatVenteHypothequePrisons.split("|");
+        String[] decoupageReponseComplexe = achatVenteHypothequePrisons.split("_");
+
+        ///
+        Case[] hypothequesEnCase = stringToArrayCase(decoupageReponseComplexe[2], plateauComplet);
+        CaseAchetable[] hypotheques = new CaseAchetable[hypothequesEnCase.length];
+        for (int i = 0; i<hypothequesEnCase.length; i++){
+            hypotheques[i] = (CaseAchetable) hypothequesEnCase[i];
+        }
+
+        Case[] jailsEnCase = stringToArrayCase(decoupageReponseComplexe[3], plateauComplet);
+        CasePropriete[] jails = new CasePropriete[jailsEnCase.length];
+        for (int i = 0; i<jailsEnCase.length; i++){
+            jails[i] = (CasePropriete) jailsEnCase[i];
+        }
+        ///
 
         plateauComplet.getPlayerByID(playerID)
                 .thinkAndDo(stringToMapTypeInt(decoupageReponseComplexe[0]),
                         stringToMapTypeInt(decoupageReponseComplexe[1]),
-                        (CaseAchetable[]) stringToArrayCase(decoupageReponseComplexe[2], plateauComplet),
-                        (CasePropriete[]) stringToArrayCase(decoupageReponseComplexe[3], plateauComplet),
+                        hypotheques,
+                        jails,
                         plateauComplet);
     }
 
     // ----------- Méthodes utilitaires
-
     private Map<TypePropriete, Integer> stringToMapTypeInt(String chaineCodee) {
         Map<TypePropriete, Integer> mapDesMaisons = new HashMap<>();
+        if (chaineCodee.equals("N")){
+            return mapDesMaisons;
+        }
+
         for (String temp : chaineCodee.split(";")) {
             String[] arrayTypeInt = temp.split(",");
             mapDesMaisons.put(TypePropriete.valueOf(arrayTypeInt[0]), Integer.parseInt(arrayTypeInt[1]));
@@ -125,9 +143,13 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     private Case[] stringToArrayCase(String chaineCodee, PerfectBoard plateauComplet) {
+        if (chaineCodee.equals("N")){
+            return new Case[0];
+        }
         String[] temp = chaineCodee.split(";");
 
         Case[] listeDeCase = new Case[temp.length];
+        
 
         for (int i = 0; i < temp.length; i++) {
             listeDeCase[i] = plateauComplet.getCaseByName(temp[i]);
