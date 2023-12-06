@@ -1,6 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Players;
 
 import java.util.Map;
+import java.util.Random;
 
 import fr.pantheonsorbonne.miage.Facade;
 import fr.pantheonsorbonne.miage.PlayerFacade;
@@ -15,10 +16,9 @@ import fr.pantheonsorbonne.miage.model.GameCommand;
 
 public class RemotePlayerAdapter extends Player{
     Player delegate;
-    private static int playerCount = 0;
 
     public RemotePlayerAdapter(Player joueur) {
-        super(playerCount++);
+        super(new Random().nextInt(100000000));
         this.delegate = joueur;
     }
 
@@ -30,8 +30,9 @@ public class RemotePlayerAdapter extends Player{
         Player dumb = new Dumb(0);
         RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(dumb);
 
+
         playerFacade.waitReady();
-        playerFacade.createNewPlayer("" + remotePlayerAdapter.delegate.getID());
+        playerFacade.createNewPlayer("" + remotePlayerAdapter.getID());
         monopoly = playerFacade.autoJoinGame("Monopoly");
 
         for (;;) {
@@ -78,7 +79,7 @@ public class RemotePlayerAdapter extends Player{
     @Override
     public boolean askGetOutOfJail(PerfectBoard plateauEphemere) {
         boolean res = delegate.askGetOutOfJail(plateauEphemere);
-        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesOut" : "NoIn"));
+        playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesOut" : "NoIn"));
 
         return false;
     }
@@ -87,7 +88,7 @@ public class RemotePlayerAdapter extends Player{
     public boolean askBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
 
         boolean res = delegate.askBuyProperty(caseAVendre, plateauEphemere);
-        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesBuy" : "NoBuy"));
+        playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesBuy" : "NoBuy"));
 
         return false;
     }
@@ -96,7 +97,7 @@ public class RemotePlayerAdapter extends Player{
     public boolean askRemoveInstantlySquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {
         
         boolean res = delegate.askRemoveInstantlySquat(proprieteSquatee, plateauEphemere);
-        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(res ? "YesGetRid" : "NoDoNot"));
+        playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesGetRid" : "NoDoNot"));
 
         return false;
     }
@@ -131,19 +132,29 @@ public class RemotePlayerAdapter extends Player{
         CaseAchetable[] listeCaseAHypothequer = this.thinkAboutHypothequeProprietes(plateauEphemere);
         CasePropriete[] listeCaseATransformerEnPrison = this.thinkAboutCreatingJails(plateauEphemere);
 
-        //Faisable en une ligne mais plus clair ainsi
+        
         StringBuilder builder = new StringBuilder();
-        builder.append(mapTypeIntegerToString(listeMaisonsAPlacer));
-        builder.append("|");
-        builder.append(mapTypeIntegerToString(listeMaisonsARetirer));
-        builder.append("|");
-        builder.append(arrayCaseToString(listeCaseAHypothequer));
-        builder.append("|");
-        builder.append(arrayCaseToString(listeCaseATransformerEnPrison));
+        
+        construction(builder, mapTypeIntegerToString(listeMaisonsAPlacer));
+        builder.append("_");
+        construction(builder, mapTypeIntegerToString(listeMaisonsARetirer));
+        builder.append("_");
+        construction(builder, arrayCaseToString(listeCaseAHypothequer));
+        builder.append("_");
+        construction(builder, arrayCaseToString(listeCaseATransformerEnPrison));
 
-        playerFacade.sendGameCommandToPlayer(monopoly, "host", new GameCommand(builder.toString()));
+        playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(builder.toString()));
     }
     
+    private StringBuilder construction(StringBuilder builder, String ajout){
+        if (ajout.equals("")){
+            builder.append("N");
+        }
+        else {
+            builder.append(ajout);
+        }
+        return builder;
+    }
      // -------------------- Méthodes de transformation en String
 
     private String mapTypeIntegerToString(Map<TypePropriete, Integer> mapDesMaisons){
@@ -154,6 +165,7 @@ public class RemotePlayerAdapter extends Player{
             builderMap.append(mapDesMaisons.get(couleur).toString());
             builderMap.append(";");
         }
+        if (builderMap.length()>0)
         builderMap.deleteCharAt(builderMap.length()-1); //Pour supprimer le ; de fin
 
         return builderMap.toString();
@@ -165,6 +177,7 @@ public class RemotePlayerAdapter extends Player{
             builderArray.append(propriete.toString());
             builderArray.append(";");
         }
+        if (builderArray.length()>0)
         builderArray.deleteCharAt(builderArray.length()-1); //Pour supprimer le ; de fin
 
         return builderArray.toString();
