@@ -77,4 +77,31 @@ public class CaseProprieteTest {
         a.addHouse();
         assertEquals(1, a.getNombreMaisons());
     }
+
+    @Test 
+    public void resetNombreMaisonAndNoPayTest() throws IsBankruptException{
+        CasePropriete a = new CasePropriete("Boulevard", 200 , TypePropriete.MARRON);
+
+        a.setOwner(new VoidBot(0));
+        a.setHousesNoPay(2);
+        assertEquals(2, a.getNombreMaisons());
+        a.resetNombreMaisons();
+        assertEquals(0, a.getNombreMaisons());
+
+    }
+
+    @Test
+    public void getLoyerAPayerTest() throws IsBankruptException{
+
+        Player Thierry = new VoidBot(0);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        CaseAchetable a = plateauFantome.getAllProprietes().get(0);
+        CaseAchetable b = plateauFantome.getAllProprietes().get(1);
+        
+        a.setOwner(Thierry);
+        b.setOwner(Thierry);
+
+        
+        assertEquals(4, a.getLoyerAPayer(plateauFantome));
+    }
 }
