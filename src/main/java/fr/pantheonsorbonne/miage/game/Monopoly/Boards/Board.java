@@ -227,7 +227,7 @@ public abstract class Board {
         return randomPropriete;
     }
 
-    public int getNombrePrisons() {
+    public double getNombrePrisons() {
         int compt = 0;
         for (CasePropriete propColoree : this.allColoredProprietes) {
             if (propColoree.isAJail()) {

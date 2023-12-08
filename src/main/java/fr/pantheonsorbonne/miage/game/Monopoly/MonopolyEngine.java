@@ -66,8 +66,7 @@ public abstract class MonopolyEngine {
             tourJoueur: do {
                 // C'est avant tout le tour des casseurs
                 if (plateauComplet.hasHouses(currentPlayer)) { // Si le joueur a des maisons
-                    if (Math.random() < (1 / plateauComplet.getLoyerDeBaseProprieteLaPlusChere(currentPlayer))
-                            - (plateauComplet.getNombrePrisons() / 10)) { // Représente la proba qu'une maison casse
+                    if (Math.random() < (1 / this.getProbaCasseurs(currentPlayer))) { 
                         plateauComplet.houseBreak(currentPlayer);
                     }
                 }
@@ -147,6 +146,11 @@ public abstract class MonopolyEngine {
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());
         return winner.getID();
+    }
+
+    private double getProbaCasseurs(Player currentPlayer) {
+        double loyerLePlusCher = plateauComplet.getLoyerDeBaseProprieteLaPlusChere(currentPlayer);
+        return loyerLePlusCher - ((loyerLePlusCher/10.0) * plateauComplet.getNombrePrisons());
     }
 
     private static int sumDes(int[] des) {
