@@ -15,7 +15,6 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         // int winp1 = 0;
         // int winp2 = 0;
         
-            
              for (int i = 0; i < 1000; i++) {
                 PerfectBoard plateauEnLocal = new PerfectBoard(new MediumBot(0), new MediumBot(1) , new VoidBot(2), new VoidBot(3));
                 LocalMonopolyApp localMonopoly = new LocalMonopolyApp(plateauEnLocal);

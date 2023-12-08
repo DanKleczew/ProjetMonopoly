@@ -14,7 +14,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseGare;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
+
 
 public class ToolBoxTest {
     @Test

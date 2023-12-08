@@ -15,6 +15,7 @@ public class CardGoToPrisonTest {
         PerfectBoard plateau2 = new PerfectBoard(Thierry);
         Card prison = new CardGoToPrison();
         prison.cardEffect(Thierry, plateau2);
+        Thierry.resetTimeOut(Thierry.askGetOutOfJail(plateau2));
         assertEquals(0, Thierry.getTimeOut());
         assertEquals(10, plateau2.getPositionJoueur(Thierry));
 

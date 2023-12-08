@@ -64,17 +64,42 @@ public class CaseAchetableTest {
 
         propriete.setOwner(Didier);
         propriete.doCaseEffect(Thierry, plateauFantome);
+        propriete.doCaseEffect(Didier, plateauFantome);
 
         assertEquals(1482, Thierry.getBankAccount());
+        assertEquals(1500 + (1500-1482), Didier.getBankAccount());
     }
 
     @Test
-    public void setOwnerTest() throws IsBankruptException{
+    public void buyTheProprieteTest() throws IsBankruptException{
         Player Thierry = new VoidBot(0);
         CaseAchetable proprieteFantome = new CasePropriete("Belleville", 100, TypePropriete.MARRON);
         assertEquals(1500, Thierry.getBankAccount());
 
+        proprieteFantome.buyThePropriete(Thierry, true);
+        assertEquals(1400, Thierry.getBankAccount());
+    }
+
+    @Test 
+    public void resetOwnerTest(){
+        Player Thierry = new VoidBot(0);
+        CaseAchetable proprieteFantome = new CasePropriete("Belleville", 100, TypePropriete.MARRON);
         proprieteFantome.setOwner(Thierry);
-        assertEquals(Thierry.getBankAccount(), 1400);
+        assertEquals(Thierry, proprieteFantome.getOwner());
+        proprieteFantome.resetOwner();
+        assertEquals(null, proprieteFantome.getOwner());
+    }
+
+    @Test
+    public void switchHypothequeStatusFree(){
+        CaseAchetable proprieteFantome = new CasePropriete("Belleville", 100, TypePropriete.MARRON);
+        Player Thierry = new VoidBot(0);
+
+        proprieteFantome.switchHypothequeStatusFree();
+        assertEquals(true, proprieteFantome.isHypothequed());
+        assertEquals(1500, Thierry.getBankAccount());
+
+        proprieteFantome.switchHypothequeStatusFree();
+        assertEquals(false, proprieteFantome.isHypothequed());
     }
 }
