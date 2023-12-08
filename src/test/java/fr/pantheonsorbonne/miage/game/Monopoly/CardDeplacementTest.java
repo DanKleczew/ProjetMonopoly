@@ -22,26 +22,25 @@ public class CardDeplacementTest{
         Player Thierry = new VoidBot(1);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        CardDeplacement carte = new CardDeplacement(3);
+        Card carte;
         
         plateauFantome.walk(Thierry, 3);
-        carte.cardEffect(Thierry, plateauFantome);
         
         //Test "Avancez de x cases"
-        assertEquals(6, plateauFantome.getPositionJoueur(Thierry));
-
-        carte = new CardDeplacement(-3);
-        carte.cardEffect(Thierry, plateauFantome);
         assertEquals(3, plateauFantome.getPositionJoueur(Thierry));
 
-        carte = new CardDeplacement("Rue de la Paix", 39);
+        carte = new CardDeplacementRecul(3);
+        carte.cardEffect(Thierry, plateauFantome);
+        assertEquals(0, plateauFantome.getPositionJoueur(Thierry));
+
+        carte = new CardDeplacementTeleportation(39);
 
         carte.cardEffect(Thierry, plateauFantome);
         
         //Test téléportation
         assertEquals(39, plateauFantome.getPositionJoueur(Thierry));
 
-        carte = new CardDeplacement("Prochaine Gare");
+        carte = new CardDeplacementNextGare();
 
         carte.cardEffect(Thierry, plateauFantome);
         

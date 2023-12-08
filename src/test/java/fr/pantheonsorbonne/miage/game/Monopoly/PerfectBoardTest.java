@@ -58,23 +58,15 @@ public class PerfectBoardTest {
     void testAddNumerousHouses() throws IsBankruptException {
         Player Thierry = new VoidBot(1);
         PerfectBoard plateau = new PerfectBoard();
-        for (Case currCase : plateau.getPlateau()) {
-            if (currCase instanceof CasePropriete
-                    && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU) {
-                ((CasePropriete) currCase).setOwner(Thierry);
-            }
-        }
+        plateau.getAllColoredProprietes().get(plateau.getAllColoredProprietes().size()-1).setOwner(Thierry);
+        plateau.getAllColoredProprietes().get(plateau.getAllColoredProprietes().size()-2).setOwner(Thierry);
         HashMap<TypePropriete, Integer> map = new HashMap<>();
         map.put(TypePropriete.BLEU, 2);
         plateau.addNumerousHouses(map);
 
         assertEquals(1100, Thierry.getBankAccount());
 
-        for (Case currCase : plateau.getPlateau()) {
-            if (currCase instanceof CasePropriete
-                    && ((CasePropriete) currCase).getTypeOuCouleur() == TypePropriete.BLEU) {
-                assertEquals(1, ((CasePropriete) currCase).getNombreMaisons());
-            }
-        }
+        assertEquals(1, plateau.getAllColoredProprietes().get(plateau.getAllColoredProprietes().size()-1).getNombreMaisons());
+        assertEquals(1, plateau.getAllColoredProprietes().get(plateau.getAllColoredProprietes().size()-2).getNombreMaisons());
     }
 }

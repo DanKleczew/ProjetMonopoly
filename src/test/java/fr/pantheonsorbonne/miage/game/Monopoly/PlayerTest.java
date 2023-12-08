@@ -87,4 +87,12 @@ public class PlayerTest {
         assertEquals(true, java.util.Arrays.equals(des, desExpected));
         assertEquals(6, plateauFantome.getSommeDesThisRound());
     }
+    
+    @Test
+    public void setBankAccount(){
+        Player Thierry = new VoidBot(0);
+        Thierry.setBankAccount(19202);
+
+        assertEquals(19202, Thierry.getBankAccount());
+    }
 }

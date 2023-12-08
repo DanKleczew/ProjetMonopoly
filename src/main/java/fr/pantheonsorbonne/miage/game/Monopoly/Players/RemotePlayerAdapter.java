@@ -17,7 +17,7 @@ import fr.pantheonsorbonne.miage.model.GameCommand;
 public class RemotePlayerAdapter{
     Player delegate;
 
-    public RemotePlayerAdapter(Player joueur) {
+    private RemotePlayerAdapter(Player joueur) {
         this.delegate = joueur;
     }
 
@@ -26,8 +26,8 @@ public class RemotePlayerAdapter{
 
     public static void main(String[] args) throws IsBankruptException {
 
-        Player dumb = new VoidBot(new Random().nextInt(100000000));
-        RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(dumb);
+        Player JOUEUR = new Dumb(new Random().nextInt(100000000));
+        RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(JOUEUR);
 
         playerFacade.waitReady();
         playerFacade.createNewPlayer("" + remotePlayerAdapter.delegate.getID());
@@ -86,6 +86,8 @@ public class RemotePlayerAdapter{
     private void askBotBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
 
         boolean res = delegate.askBuyProperty(caseAVendre, plateauEphemere);
+        if (res)
+            System.out.println("I've just bought " +caseAVendre.toString());
         playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesBuy" : "NoBuy"));
     }
 

@@ -17,12 +17,12 @@ public class BoardTest {
     public void getOwnedPropertiesTest() throws IsBankruptException{
         Player joueur = new VoidBot(0);
         PerfectBoard plateau = new PerfectBoard(joueur);
-        CaseAchetable caseRandom =  (CaseAchetable) plateau.getPlateau()[3];
+        CaseAchetable caseRandom =  plateau.getAllProprietes().get(1);
         
         caseRandom.setOwner(joueur);
         List<CaseAchetable> listeTest = new ArrayList<>();
         listeTest.add(caseRandom);
-        caseRandom = (CaseAchetable) plateau.getPlateau()[5];
+        caseRandom = plateau.getAllProprietes().get(3);
         caseRandom.setOwner(joueur);
         listeTest.add(caseRandom);
 
