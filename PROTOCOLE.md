@@ -73,7 +73,7 @@ playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(String R�
 
 Pour chaque command.name(), l’Host attend une réponse différente ;
 
-##“askGetOutOfJail” : 
+## “askGetOutOfJail” : 
 
 Si le joueur accepte de payer 50 pour sortir de prison, il doit renvoyer au host la GameCommand : “YesOut”. sinon il renvoie n’importe quoi d’autre on comprendra qu’il veut pas 
 
@@ -82,7 +82,7 @@ Si le joueur accepte de payer 50 pour sortir de prison, il doit renvoyer au host
 
 Si le joueur accepte de payer 200 pour retirer le squatteur, il doit renvoyer au host la GameCommand : “YesGetRid”. sinon il renvoie n’importe quoi d’autre on comprendra qu’il veut pas 
 
-##“askBuyProperty” : 
+## “askBuyProperty” : 
 
 Si le joueur accepte d’acheter la propriété, il doit renvoyer au host la GameCommand : “YesBuy”. sinon il renvoie n’importe quoi d’autre on comprendra qu’il veut pas 
 
