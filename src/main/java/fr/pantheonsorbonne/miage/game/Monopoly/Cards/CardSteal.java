@@ -21,7 +21,7 @@ public class CardSteal implements Card {
         // Autres joueurs perdent de l'argent
         System.out.println("Tout le monde vous doit " + stealAmount + " $ !");
 
-        //On fait ca pour éviter de modifier le Deque pendant qu'on l'itère : risque de ConcurrentModificationException
+        //On crée cet Array pour éviter de modifier le Deque pendant qu'on l'itère : risque de ConcurrentModificationException
         Player[] listeDeJoueurs = new Player[plateauComplet.getListeJoueurs().size()];
         for (int i = 0 ; i<plateauComplet.getListeJoueurs().size() ; i++){
             listeDeJoueurs[i] = (Player) plateauComplet.getListeJoueurs().toArray()[i];
@@ -37,9 +37,9 @@ public class CardSteal implements Card {
                 exception.setGagnant(joueurGagnant);
                 plateauComplet.deletePlayer(exception);
             }
-            //On a un try/catch ici parce que c'est le seul moyen pour un joueur de perdre
-            //Alors que ce n'est pas son tour. Pour toutes les autres manières de perdre,
-            //L'exception est traitée dans le déroulé de la partie
+            /* On a un try/catch ici parce que c'est le seul moyen pour un joueur de perdre
+            /* Alors que ce n'est pas son tour. Pour toutes les autres manières de perdre,
+            L'exception est traitée dans l'engine */
         }
     }
 }

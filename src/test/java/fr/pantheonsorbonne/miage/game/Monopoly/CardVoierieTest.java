@@ -20,8 +20,8 @@ public class CardVoierieTest{
         Player Thierry = new VoidBot(1);
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
-        CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
-        CasePropriete Lecourbe = (CasePropriete) plateauFantome.getPlateau()[3];
+        CasePropriete Belleville = plateauFantome.getAllColoredProprietes().get(0);
+        CasePropriete Lecourbe = plateauFantome.getAllColoredProprietes().get(1);
         Belleville.setOwner(Thierry);
         Lecourbe.setOwner(Thierry);
 
@@ -42,8 +42,8 @@ public class CardVoierieTest{
         Player Thierry = new VoidBot(1);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
         
-        CasePropriete Belleville = (CasePropriete) plateauFantome.getPlateau()[1];
-        CasePropriete Lecourbe = (CasePropriete) plateauFantome.getPlateau()[3];
+        CasePropriete Belleville = plateauFantome.getAllColoredProprietes().get(0);
+        CasePropriete Lecourbe = plateauFantome.getAllColoredProprietes().get(1);
         Belleville.setOwner(Thierry);
         Lecourbe.setOwner(Thierry);
 

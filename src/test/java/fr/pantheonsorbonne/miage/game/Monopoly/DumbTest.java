@@ -28,7 +28,7 @@ public class DumbTest {
     public void askBuyProperty() throws IsBankruptException {
         Player Thierry = new Dumb(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
-        assertEquals(true, Thierry.askBuyProperty((CaseAchetable) plateauFantome.getPlateau()[1], plateauFantome));
+        assertEquals(true, Thierry.askBuyProperty(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
     }
 
     @Test

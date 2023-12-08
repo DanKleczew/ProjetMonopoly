@@ -7,13 +7,14 @@ import java.util.Map;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 
 public class ToolBox {
+    private ToolBox(){
+    }
 
-    public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player moi) throws IsBankruptException {
+    public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player moi) {
         Player pasMoi = new VoidBot(-1);
         PerfectBoard plateauEphemere = new PerfectBoard();
         List<CaseAchetable> listeDesProp = plateauEphemere.getAllProprietes();
@@ -36,10 +37,10 @@ public class ToolBox {
             // ------ Partie statut Case
 
             if (ownerANDhouses[1].equals("6")) {
-                ((CasePropriete) currProp).setAsJail();
+                currProp.switchHypothequeStatusFree();
             }
             else if (ownerANDhouses[1].equals("7")) {
-                currProp.switchHypothequeStatusFree();
+                ((CasePropriete) currProp).setAsJail();
             }
             else if (currProp instanceof CasePropriete){
                 ((CasePropriete) currProp).setHousesNoPay(Integer.parseInt(ownerANDhouses[1]));
@@ -72,6 +73,13 @@ public class ToolBox {
             
             //-----Maisons / Case Neutralisée
 
+            if (proprieteParticuliere.isHypothequed()){
+                builder.append("6");
+                map.put(""+i, builder.toString());
+                i++;
+                continue;
+            }
+
             if (proprieteParticuliere instanceof CasePropriete) {
                 CasePropriete proprieteColoree = (CasePropriete) proprieteParticuliere;
 
@@ -86,10 +94,7 @@ public class ToolBox {
                 i++;
                 continue;
             }
-            
-            if (proprieteParticuliere.isHypothequed()){
-                builder.append("6");
-            }
+   
             else{
                 builder.append("0");
             }
