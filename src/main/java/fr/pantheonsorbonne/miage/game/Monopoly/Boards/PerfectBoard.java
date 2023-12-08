@@ -64,7 +64,9 @@ public class PerfectBoard extends Board {
                     proprieteDuPerdant.switchHypothequeStatusFree();
                 }
                 if (proprieteDuPerdant instanceof CasePropriete){
+                    
                     ((CasePropriete) proprieteDuPerdant).resetNombreMaisons();
+                    ((CasePropriete) proprieteDuPerdant).resetJail();
                 }
             }
         }

@@ -54,6 +54,9 @@ public class CasePropriete extends CaseAchetable {
         this.isAJail = true;
     }
 
+    public void resetJail(){
+        this.isAJail = false;
+    }
     @Override
     public int getLoyerAPayer(Board plateauComplet) {
         if (this.isAJail() || this.toursRestantsSquat > 0){
