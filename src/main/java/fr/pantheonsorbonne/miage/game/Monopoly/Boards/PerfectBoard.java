@@ -17,6 +17,10 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class PerfectBoard extends Board {
+    /* La classe PerfectBoard permet la manipulation de plus de données que le Board simple :
+     * Elle s'occupe des decks de cartes, du management de la liste des joueurs et 
+     * des maisons (achat, vente, cassage)
+     */
 
     final private Deck deckCaisse = new DeckCaisse();
     final private Deck deckChance = new DeckChance();
@@ -27,7 +31,6 @@ public class PerfectBoard extends Board {
         for (Player joueur : tableJoueur) {
             listeJoueurs.add(joueur);
         }
-        // Pose les joueurs sur la case départ
         for (Player joueur : listeJoueurs) {
             setInitialPosition(joueur);
         }
@@ -36,6 +39,7 @@ public class PerfectBoard extends Board {
     public Deque<Player> getListeJoueurs() {
         return listeJoueurs;
     }
+    
     public Player getPlayerByID(int ID){
         for (Player joueur : this.listeJoueurs){
             if (joueur.getID() == ID){
@@ -153,6 +157,7 @@ public class PerfectBoard extends Board {
 
             // On crée la liste à l'envers pour pouvoir retirer les maisons dans l'ordre
             // inverse d'apparition
+            List<CasePropriete> allColoredProprietes = this.getAllColoredProprietes();
             for (int i = allColoredProprietes.size() - 1; i >= 0; i--) {
                 if (allColoredProprietes.get(i).getTypeOuCouleur() == couleur) {
                     listeDeCaseDeCetteCouleur.add(allColoredProprietes.get(i));
