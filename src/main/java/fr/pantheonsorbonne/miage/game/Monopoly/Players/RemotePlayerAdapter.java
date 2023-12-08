@@ -26,7 +26,7 @@ public class RemotePlayerAdapter{
 
     public static void main(String[] args) throws IsBankruptException {
 
-        Player dumb = new Dumb(new Random().nextInt(100000000));
+        Player dumb = new VoidBot(new Random().nextInt(100000000));
         RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(dumb);
 
         playerFacade.waitReady();
@@ -37,6 +37,14 @@ public class RemotePlayerAdapter{
 
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
+            if (commandName.equals("youLost")){
+                System.out.println("I Lost");
+                System.exit(0);
+            }
+            else if(commandName.equals("youWin")){
+                System.out.println("I won !");
+                System.exit(0);
+            }
 
             Map<String, String> banqueDeDonneesEnStringString = command.params();
             PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString, remotePlayerAdapter.delegate);
@@ -62,12 +70,6 @@ public class RemotePlayerAdapter{
                 case "thinkAndAnswer":
                     remotePlayerAdapter.thinkBotAndAnswer(plateauEphemere);
                     break;
-                case "youLost":
-                    System.out.println("I, player " + remotePlayerAdapter.delegate.getID() + ", lost.");
-                case "youWin":
-                    System.out.println("I won ! " + remotePlayerAdapter.delegate.getID());
-                default:
-                    System.exit(0);
             }
         }
     }
@@ -150,7 +152,7 @@ public class RemotePlayerAdapter{
 
      // -------------------- Méthodes de transformation en String
 
-     
+
     private String mapTypeIntegerToString(Map<TypePropriete, Integer> mapDesMaisons){
         StringBuilder builderMap = new StringBuilder();
         for (TypePropriete couleur : mapDesMaisons.keySet()){

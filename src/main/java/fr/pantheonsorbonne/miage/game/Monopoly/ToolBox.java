@@ -17,9 +17,9 @@ public class ToolBox {
         Player pasMoi = new VoidBot(-1);
         PerfectBoard plateauEphemere = new PerfectBoard();
         List<CaseAchetable> listeDesProp = plateauEphemere.getAllProprietes();
-        for (Integer i = 0; i < listeDesProp.size(); i++) {
+        for (int i = 0; i < listeDesProp.size(); i++) {
             CaseAchetable currProp = listeDesProp.get(i);
-            String[] ownerANDhouses = map.get(Integer.toString(i)).split(";");
+            String[] ownerANDhouses = map.get(""+i).split(";");
 
             //----- Partie Owner
 
@@ -53,14 +53,14 @@ public class ToolBox {
         Map<String, String> map = new HashMap<String, String>();
         int i = 0;
         for (CaseAchetable proprieteParticuliere : listeDesProp) {
-
+            
             //------OWNER
             if (! proprieteParticuliere.hasOwner()){
-                map.put(Integer.toString(i), "0;0");
+                map.put(""+i, "0;0");
                 i++;
                 continue;
             }
-
+            
             StringBuilder builder = new StringBuilder();
 
             if (proprieteParticuliere.getOwner().getID() == playerID){
@@ -82,7 +82,7 @@ public class ToolBox {
                     builder.append(""+proprieteColoree.getNombreMaisons());
                 }
 
-                map.put(Integer.toString(i), builder.toString());
+                map.put(""+i, builder.toString());
                 i++;
                 continue;
             }
@@ -94,7 +94,7 @@ public class ToolBox {
                 builder.append("0");
             }
 
-            map.put(Integer.toString(i), builder.toString());
+            map.put(""+i, builder.toString());
             i++;
         }
         return map;

@@ -48,18 +48,10 @@ public abstract class MonopolyEngine {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
-                    // try{
-                    // On rajoute ce try au cas où le robot se tromperait et déciderait de
-                    // removeSquat sans assez d'argent (on ne contrôle pas les bots adverses)
+        
                     randomProp.removeSquat(
                             this.askRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet),
                             plateauComplet);
-                    // }
-                    // catch (IsBankruptException e){
-                    // TODO Problème ici
-                    // System.out.println("NUL");
-                    // plateauComplet.deletePlayer(e);
-                    // }
                 }
 
                 plateauComplet.policeDoYourJob();
