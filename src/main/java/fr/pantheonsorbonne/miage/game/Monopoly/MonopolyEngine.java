@@ -33,14 +33,10 @@ public abstract class MonopolyEngine {
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
                 compteTours++;
-                if (compteTours > 150) {
+                if (compteTours > 200) {
                     for (Player a : plateauComplet.getListeJoueurs()) {
-                        try{
-                            if(a.getBankAccount() > 50){
-                            a.bankAccountModify(-50);
-                            }
-                        } catch (IsBankruptException e){
-                            plateauComplet.deletePlayer(e);
+                        if(a.getBankAccount() > 100){
+                            a.bankAccountModify(-100);
                         }
                     }
                 }
