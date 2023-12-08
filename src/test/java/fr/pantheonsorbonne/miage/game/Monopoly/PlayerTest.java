@@ -70,10 +70,10 @@ public class PlayerTest {
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        ((CasePropriete) (plateauFantome.getCase(1))).setOwner(Thierry);
+        ((CasePropriete) (plateauFantome.getCaseByIndice(1))).setOwner(Thierry);
 
         Thierry.thinkAndDo(plateauFantome);
-        CasePropriete Belleville = (CasePropriete) (plateauFantome.getCase(1));
+        CasePropriete Belleville = (CasePropriete) (plateauFantome.getCaseByIndice(1));
         assertEquals(true, Belleville.isHypothequed());
 
     }

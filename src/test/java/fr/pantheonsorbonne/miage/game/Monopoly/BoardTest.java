@@ -19,11 +19,11 @@ public class BoardTest {
         PerfectBoard plateau = new PerfectBoard(joueur);
         CaseAchetable caseRandom =  (CaseAchetable) plateau.getPlateau()[3];
         
-        caseRandom.setOwner(joueur, true);
+        caseRandom.setOwner(joueur);
         List<CaseAchetable> listeTest = new ArrayList<>();
         listeTest.add(caseRandom);
         caseRandom = (CaseAchetable) plateau.getPlateau()[5];
-        caseRandom.setOwner(joueur, true);
+        caseRandom.setOwner(joueur);
         listeTest.add(caseRandom);
 
         assertEquals(listeTest, plateau.getOwnedProperties(joueur));

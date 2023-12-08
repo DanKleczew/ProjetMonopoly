@@ -17,10 +17,11 @@ public class DumbTest {
     @Test
     public void askGetOutOfJailTest() throws IsBankruptException {
         Player Thierry = new Dumb(0);
-        assertEquals(true, Thierry.askGetOutOfJail());
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        assertEquals(true, Thierry.askGetOutOfJail(plateauFantome));
 
         Thierry.bankAccountModify(-1450);
-        assertEquals(false, Thierry.askGetOutOfJail());
+        assertEquals(false, Thierry.askGetOutOfJail(plateauFantome));
     }
 
     @Test
@@ -96,7 +97,7 @@ public class DumbTest {
         Player Thierry = new Dumb(0);
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        assertEquals(true, Thierry.askRemoveInstantlySquat(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
+        assertEquals(false, Thierry.askRemoveInstantlySquat(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
 
         Thierry.bankAccountModify(-1500);
 
