@@ -7,19 +7,20 @@ import java.util.Map;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
-import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 
 public class ToolBox {
+    private ToolBox(){
+    }
 
-    public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player moi) throws IsBankruptException {
+    public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player moi) {
         Player pasMoi = new VoidBot(-1);
         PerfectBoard plateauEphemere = new PerfectBoard();
         List<CaseAchetable> listeDesProp = plateauEphemere.getAllProprietes();
-        for (Integer i = 0; i < listeDesProp.size(); i++) {
+        for (int i = 0; i < listeDesProp.size(); i++) {
             CaseAchetable currProp = listeDesProp.get(i);
-            String[] ownerANDhouses = map.get(Integer.toString(i)).split(";");
+            String[] ownerANDhouses = map.get(""+i).split(";");
 
             //----- Partie Owner
 
@@ -36,10 +37,10 @@ public class ToolBox {
             // ------ Partie statut Case
 
             if (ownerANDhouses[1].equals("6")) {
-                ((CasePropriete) currProp).setAsJail();
+                currProp.switchHypothequeStatusFree();
             }
             else if (ownerANDhouses[1].equals("7")) {
-                currProp.switchHypothequeStatusFree();
+                ((CasePropriete) currProp).setAsJail();
             }
             else if (currProp instanceof CasePropriete){
                 ((CasePropriete) currProp).setHousesNoPay(Integer.parseInt(ownerANDhouses[1]));
@@ -53,14 +54,14 @@ public class ToolBox {
         Map<String, String> map = new HashMap<String, String>();
         int i = 0;
         for (CaseAchetable proprieteParticuliere : listeDesProp) {
-
+            
             //------OWNER
             if (! proprieteParticuliere.hasOwner()){
-                map.put(Integer.toString(i), "0;0");
+                map.put(""+i, "0;0");
                 i++;
                 continue;
             }
-
+            
             StringBuilder builder = new StringBuilder();
 
             if (proprieteParticuliere.getOwner().getID() == playerID){
@@ -72,6 +73,13 @@ public class ToolBox {
             
             //-----Maisons / Case Neutralisée
 
+            if (proprieteParticuliere.isHypothequed()){
+                builder.append("6");
+                map.put(""+i, builder.toString());
+                i++;
+                continue;
+            }
+
             if (proprieteParticuliere instanceof CasePropriete) {
                 CasePropriete proprieteColoree = (CasePropriete) proprieteParticuliere;
 
@@ -82,19 +90,16 @@ public class ToolBox {
                     builder.append(""+proprieteColoree.getNombreMaisons());
                 }
 
-                map.put(Integer.toString(i), builder.toString());
+                map.put(""+i, builder.toString());
                 i++;
                 continue;
             }
-            
-            if (proprieteParticuliere.isHypothequed()){
-                builder.append("6");
-            }
+   
             else{
                 builder.append("0");
             }
 
-            map.put(Integer.toString(i), builder.toString());
+            map.put(""+i, builder.toString());
             i++;
         }
         return map;

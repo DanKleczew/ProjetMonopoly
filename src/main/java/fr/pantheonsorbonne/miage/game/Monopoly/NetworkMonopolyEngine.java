@@ -51,7 +51,16 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
         }
 
         MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, listeJoueurs, monopoly);
-        host.play();
+        int winnerID = host.play();
+
+        for (String ID : setJoueurs){
+            if (Integer.parseInt(ID) == winnerID){
+                hostFacade.sendGameCommandToPlayer(monopoly, "" + ID, new GameCommand("youWin", "", new HashMap<>()));
+            }
+            else {
+                hostFacade.sendGameCommandToPlayer(monopoly, "" + ID, new GameCommand("youLost"));
+            }
+        }
         System.exit(0);
 
     }

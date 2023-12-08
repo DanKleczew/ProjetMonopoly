@@ -33,14 +33,10 @@ public abstract class MonopolyEngine {
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
                 compteTours++;
-                if (compteTours > 150) {
+                if (compteTours > 200) {
                     for (Player a : plateauComplet.getListeJoueurs()) {
-                        try{
-                            if(a.getBankAccount() > 50){
-                            a.bankAccountModify(-50);
-                            }
-                        } catch (IsBankruptException e){
-                            plateauComplet.deletePlayer(e);
+                        if(a.getBankAccount() > 100){
+                            a.bankAccountModify(-100);
                         }
                     }
                 }
@@ -48,18 +44,10 @@ public abstract class MonopolyEngine {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
-                    // try{
-                    // On rajoute ce try au cas où le robot se tromperait et déciderait de
-                    // removeSquat sans assez d'argent (on ne contrôle pas les bots adverses)
+        
                     randomProp.removeSquat(
                             this.askRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet),
                             plateauComplet);
-                    // }
-                    // catch (IsBankruptException e){
-                    // TODO Problème ici
-                    // System.out.println("NUL");
-                    // plateauComplet.deletePlayer(e);
-                    // }
                 }
 
                 plateauComplet.policeDoYourJob();
@@ -74,8 +62,7 @@ public abstract class MonopolyEngine {
             tourJoueur: do {
                 // C'est avant tout le tour des casseurs
                 if (plateauComplet.hasHouses(currentPlayer)) { // Si le joueur a des maisons
-                    if (Math.random() < (1 / plateauComplet.getLoyerDeBaseProprieteLaPlusChere(currentPlayer))
-                            - (plateauComplet.getNombrePrisons() / 10)) { // Représente la proba qu'une maison casse
+                    if (Math.random() < (1 / this.getProbaCasseurs(currentPlayer))) { 
                         plateauComplet.houseBreak(currentPlayer);
                     }
                 }
@@ -155,6 +142,11 @@ public abstract class MonopolyEngine {
         System.out.println("Victoire du joueur " + winner.getID() + " !");
         System.out.println("Liquidités en fin de partie : " + winner.getBankAccount());
         return winner.getID();
+    }
+
+    private double getProbaCasseurs(Player currentPlayer) {
+        double loyerLePlusCher = plateauComplet.getLoyerDeBaseProprieteLaPlusChere(currentPlayer);
+        return loyerLePlusCher - ((loyerLePlusCher/10.0) * plateauComplet.getNombrePrisons());
     }
 
     private static int sumDes(int[] des) {

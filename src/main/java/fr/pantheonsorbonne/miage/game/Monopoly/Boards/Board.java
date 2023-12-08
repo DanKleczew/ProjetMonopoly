@@ -21,6 +21,9 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public abstract class Board {
+    /* La classe Board a pour objectif de créer le plateau de jeu et de 
+     * fournir toutes les méthodes en rapport avec ses cases et la position des joueurs
+     */
 
     protected final Case[] plateau = new Case[] {
             new CaseNeutre("Départ"),
@@ -72,12 +75,12 @@ public abstract class Board {
             new CasePropriete("Rue de la Paix", 400, TypePropriete.BLEU, new int[] { 50, 200, 600, 1400, 1700, 2000 })
     };
 
-    protected Map<Player, Integer> positionJoueurs = new HashMap<>();
+    private Map<Player, Integer> positionJoueurs = new HashMap<>();
     private int sumDiceThisRound;
-    protected final List<CaseAchetable> allProprietes;
-    protected final List<CasePropriete> allColoredProprietes;
+    private final List<CaseAchetable> allProprietes;
+    private final List<CasePropriete> allColoredProprietes;
 
-    public Board() {
+    protected Board() {
         // Un minimum de DownCasting
         List<CasePropriete> proprietesColorees = new ArrayList<CasePropriete>();
         for (Case caseActuelle : plateau) {
@@ -91,8 +94,8 @@ public abstract class Board {
                 proprietes.add((CaseAchetable) caseActuelle);
             }
         }
-        allProprietes = proprietes;
-        allColoredProprietes = proprietesColorees;
+        this.allProprietes = proprietes;
+        this.allColoredProprietes = proprietesColorees;
     }
 
     // Appelée à chaque lancer de dés (Voir Player.throwDice(Board plateau))
@@ -162,11 +165,6 @@ public abstract class Board {
         return new int[] { nombreMaisons, nombreHotels };
     }
 
-    // Pour les tests
-    public Case[] getPlateau() {
-        return plateau;
-    }
-
     public Case getCaseByIndice(int indice) {
         return plateau[indice];
     }
@@ -200,7 +198,8 @@ public abstract class Board {
         return listeProprietesColorees;
     }
 
-    public double getSommeTotaleLoyerActuelle() {
+    //Somme de tous les loyers demandables à un instant t (pour la probabilité des squatteurs)
+    public int getSommeTotaleLoyerActuelle() {
         int sommeTotaleLoyer = 0;
         for (CaseAchetable proprieteActuelle : this.allProprietes) {
             if (proprieteActuelle.hasOwner()) {
@@ -210,6 +209,7 @@ public abstract class Board {
         return sommeTotaleLoyer;
     }
 
+    //Réduction du temps de Squat restant des prop squattées
     public void policeDoYourJob() {
         List<CasePropriete> listePropCouleur = this.allColoredProprietes;
         for (CasePropriete prop : listePropCouleur) {
@@ -240,7 +240,7 @@ public abstract class Board {
     public void renteDesPrisons() throws IsBankruptException {
         for (CasePropriete propColoree : this.allColoredProprietes) {
             if (propColoree.isAJail()) {
-                propColoree.getOwner().bankAccountModify((int) (propColoree.getEchelleDeLoyer()[0] / 10) + 1);
+                propColoree.getOwner().bankAccountModify((int) (propColoree.getEchelleDeLoyer()[0] / 2) + 1);
             }
         }
     }
