@@ -14,11 +14,10 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.model.Game;
 import fr.pantheonsorbonne.miage.model.GameCommand;
 
-public class RemotePlayerAdapter extends Player{
+public class RemotePlayerAdapter{
     Player delegate;
 
-    public RemotePlayerAdapter(Player joueur) {
-        super(new Random().nextInt(100000000));
+    private RemotePlayerAdapter(Player joueur) {
         this.delegate = joueur;
     }
 
@@ -27,21 +26,28 @@ public class RemotePlayerAdapter extends Player{
 
     public static void main(String[] args) throws IsBankruptException {
 
-        Player dumb = new Dumb(0);
-        RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(dumb);
-
+        Player JOUEUR = new Dumb(new Random().nextInt(100000000));
+        RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(JOUEUR);
 
         playerFacade.waitReady();
-        playerFacade.createNewPlayer("" + remotePlayerAdapter.getID());
+        playerFacade.createNewPlayer("" + remotePlayerAdapter.delegate.getID());
         monopoly = playerFacade.autoJoinGame("Monopoly");
 
         for (;;) {
 
             GameCommand command = playerFacade.receiveGameCommand(monopoly);
             String commandName = command.name();
+            if (commandName.equals("youLost")){
+                System.out.println("I Lost");
+                System.exit(0);
+            }
+            else if(commandName.equals("youWin")){
+                System.out.println("I won !");
+                System.exit(0);
+            }
 
             Map<String, String> banqueDeDonneesEnStringString = command.params();
-            PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString, remotePlayerAdapter);
+            PerfectBoard plateauEphemere = ToolBox.mapToPerfectBoard(banqueDeDonneesEnStringString, remotePlayerAdapter.delegate);
             
             int balanceActuelle = Integer.parseInt(command.body().split(";")[1]);
             remotePlayerAdapter.delegate.setBankAccount(balanceActuelle);
@@ -52,85 +58,75 @@ public class RemotePlayerAdapter extends Player{
             switch (commandName) {
                 case "askBuyProperty":
                     CaseAchetable caseAVendre = (CaseAchetable) plateauEphemere.getCaseByName(command.body().split(";")[0]);
-                    remotePlayerAdapter.askBuyProperty(caseAVendre, plateauEphemere);
+                    remotePlayerAdapter.askBotBuyProperty(caseAVendre, plateauEphemere);
                     break;
                 case "askGetOutOfJail":
-                    remotePlayerAdapter.askGetOutOfJail(plateauEphemere);
+                    remotePlayerAdapter.askBotJail(plateauEphemere);
                     break;
                 case "askRemoveInstantlySquat":
                     CasePropriete caseSquatee = (CasePropriete) plateauEphemere.getCaseByName(command.body().split(";")[0]);
-                    remotePlayerAdapter.askRemoveInstantlySquat(caseSquatee, plateauEphemere);
+                    remotePlayerAdapter.askBotRemoveSquat(caseSquatee, plateauEphemere);
                     break;
                 case "thinkAndAnswer":
-                    remotePlayerAdapter.think(plateauEphemere);
+                    remotePlayerAdapter.thinkBotAndAnswer(plateauEphemere);
                     break;
-                case "youLost":
-                    System.out.println("I, player " + remotePlayerAdapter.delegate.getID() + ", lost.");
-                case "youWin":
-                    System.out.println("I won ! " + remotePlayerAdapter.delegate.getID());
-                default:
-                    System.exit(0);
             }
         }
     }
 
     // --------------------- Méthodes Réaction
 
-    @Override
-    public boolean askGetOutOfJail(PerfectBoard plateauEphemere) {
+    
+    private void askBotJail(PerfectBoard plateauEphemere) {
         boolean res = delegate.askGetOutOfJail(plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesOut" : "NoIn"));
-
-        return false;
     }
 
-    @Override
-    public boolean askBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
+    
+    private void askBotBuyProperty(CaseAchetable caseAVendre, PerfectBoard plateauEphemere) {
 
         boolean res = delegate.askBuyProperty(caseAVendre, plateauEphemere);
+        if (res)
+            System.out.println("I've just bought " +caseAVendre.toString());
         playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesBuy" : "NoBuy"));
-
-        return false;
     }
 
-    @Override
-    public boolean askRemoveInstantlySquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {
-        
+    
+    private void askBotRemoveSquat(CasePropriete proprieteSquatee, PerfectBoard plateauEphemere) {  
         boolean res = delegate.askRemoveInstantlySquat(proprieteSquatee, plateauEphemere);
         playerFacade.sendGameCommandToPlayer(monopoly, "Host", new GameCommand(res ? "YesGetRid" : "NoDoNot"));
 
-        return false;
     }
     
 
     // ---------------------- Méthodes Réflexion
 
-    @Override
-    protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauEphemere) {
+    
+    private Map<TypePropriete, Integer> thinkBotBuyHouses(PerfectBoard plateauEphemere) {
         return delegate.thinkAboutBuyingHouses(plateauEphemere);
     }
 
-    @Override
-    protected Map<TypePropriete, Integer> thinkAboutSellingHouses(PerfectBoard plateauEphemere) {
+    private Map<TypePropriete, Integer> thinkBotSellHouses(PerfectBoard plateauEphemere) {
         return delegate.thinkAboutSellingHouses(plateauEphemere);
     }
 
-    @Override
-    protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauEphemere) {
+    private CaseAchetable[] thinkBotHypotheques(PerfectBoard plateauEphemere) {
         return delegate.thinkAboutHypothequeProprietes(plateauEphemere);
     }
 
-    @Override
-    protected CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauEphemere) {
+    private CasePropriete[] thinkBotJails(PerfectBoard plateauEphemere) {
         return delegate.thinkAboutCreatingJails(plateauEphemere);
     }
 
+
     // ------------------ Méthode de réflexion principale
-    private void think(PerfectBoard plateauEphemere) {
-        Map<TypePropriete, Integer> listeMaisonsAPlacer = this.thinkAboutBuyingHouses(plateauEphemere);
-        Map<TypePropriete, Integer> listeMaisonsARetirer = this.thinkAboutSellingHouses(plateauEphemere);
-        CaseAchetable[] listeCaseAHypothequer = this.thinkAboutHypothequeProprietes(plateauEphemere);
-        CasePropriete[] listeCaseATransformerEnPrison = this.thinkAboutCreatingJails(plateauEphemere);
+
+
+    private void thinkBotAndAnswer(PerfectBoard plateauEphemere) {
+        Map<TypePropriete, Integer> listeMaisonsAPlacer = this.thinkBotBuyHouses(plateauEphemere);
+        Map<TypePropriete, Integer> listeMaisonsARetirer = this.thinkBotSellHouses(plateauEphemere);
+        CaseAchetable[] listeCaseAHypothequer = this.thinkBotHypotheques(plateauEphemere);
+        CasePropriete[] listeCaseATransformerEnPrison = this.thinkBotJails(plateauEphemere);
 
         
         StringBuilder builder = new StringBuilder();
@@ -155,7 +151,9 @@ public class RemotePlayerAdapter extends Player{
         }
         return builder;
     }
+
      // -------------------- Méthodes de transformation en String
+
 
     private String mapTypeIntegerToString(Map<TypePropriete, Integer> mapDesMaisons){
         StringBuilder builderMap = new StringBuilder();

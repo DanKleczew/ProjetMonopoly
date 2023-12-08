@@ -70,10 +70,10 @@ public class PlayerTest {
 
         PerfectBoard plateauFantome = new PerfectBoard(Thierry);
 
-        ((CasePropriete) (plateauFantome.getCase(1))).setOwner(Thierry);
+        ((CasePropriete) (plateauFantome.getCaseByIndice(1))).setOwner(Thierry);
 
         Thierry.thinkAndDo(plateauFantome);
-        CasePropriete Belleville = (CasePropriete) (plateauFantome.getCase(1));
+        CasePropriete Belleville = (CasePropriete) (plateauFantome.getCaseByIndice(1));
         assertEquals(true, Belleville.isHypothequed());
 
     }
@@ -86,5 +86,13 @@ public class PlayerTest {
         int[] desExpected = new int[]{1, 5};
         assertEquals(true, java.util.Arrays.equals(des, desExpected));
         assertEquals(6, plateauFantome.getSommeDesThisRound());
+    }
+    
+    @Test
+    public void setBankAccount(){
+        Player Thierry = new VoidBot(0);
+        Thierry.setBankAccount(19202);
+
+        assertEquals(19202, Thierry.getBankAccount());
     }
 }

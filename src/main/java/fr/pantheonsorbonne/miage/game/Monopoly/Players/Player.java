@@ -80,8 +80,8 @@ public abstract class Player {
     public int getNumberSpecificTypeProperty(TypePropriete type, List<CaseAchetable> OwnedProperties) {
         // Renvoie le nombre de propriétés de (this) d'un TypePropriete particulier
         int countTypePropiete = 0;
-        for (CaseAchetable caseAchete : OwnedProperties) {
-            if (caseAchete.getTypeOuCouleur() == type) {
+        for (CaseAchetable caseAchetee : OwnedProperties) {
+            if (caseAchetee.getTypeOuCouleur() == type) {
                 countTypePropiete++;
             }
         }
