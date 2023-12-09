@@ -2,6 +2,7 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.Random;
 
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
@@ -32,21 +33,17 @@ public abstract class MonopolyEngine {
             Player currentPlayer = plateauComplet.getNextPlayer();
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
-                compteTours++;
-                if (compteTours > 200) {
-                    for (Player a : plateauComplet.getListeJoueurs()) {
-                        if(a.getBankAccount() > 100){
-                            a.bankAccountModify(-100);
-                        }
-                    }
+                if (compteTours++ > 100) {
+                    Board.caseDepartPaie = false;
                 }
+
                 if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) {
                     // Simule la proba des squatteurs
                     CasePropriete randomProp = plateauComplet.getRandomOwnedPropriete();
                     randomProp.setSquat();
         
                     randomProp.removeSquat(
-                            this.askRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet),
+                            this.askPlayerRemoveInstantlySquat(currentPlayer.getID(), randomProp, plateauComplet),
                             plateauComplet);
                 }
 
@@ -88,7 +85,7 @@ public abstract class MonopolyEngine {
                         // Sinon (il est en prison et n'a pas fait un double)
                     } else {
                         // Si il veut payer 50 pour sortir
-                        if (this.askGetOutOfJail(currentPlayer.getID(),
+                        if (this.askPlayerGetOutOfJail(currentPlayer.getID(),
                                 plateauComplet)) {
                             // On le sort
                             currentPlayer.resetTimeOut(true);
@@ -101,7 +98,7 @@ public abstract class MonopolyEngine {
                     }
                     // Quoi qu'il arrive si il était en prison au début du tour
                     // Il thinkAndDo un coup
-                    thinkAndDo(currentPlayer.getID(), plateauComplet);
+                    playerThinkAndDo(currentPlayer.getID(), plateauComplet);
 
                     // Mais impossible qu'il rejoue une deuxième fois (ou joue tout court si il a
                     // payé)
@@ -120,7 +117,7 @@ public abstract class MonopolyEngine {
                 }
                 try {
                     walkAndDoEffect(plateauComplet, currentPlayer, des);
-                    thinkAndDo(currentPlayer.getID(), plateauComplet);
+                    playerThinkAndDo(currentPlayer.getID(), plateauComplet);
 
                 } catch (IsBankruptException e) {
                     // Si l'exception est thrown pendant le .walk (par exemple tombé sur une
@@ -178,19 +175,19 @@ public abstract class MonopolyEngine {
             CaseAchetable caseArriveeAchetable = (CaseAchetable) caseArrivee;
             // On lui demande si ca l'intéresse
             caseArriveeAchetable.buyThePropriete(currentPlayer,
-                    askBuyProperty(currentPlayer.getID(), caseArriveeAchetable, plateauComplet));
+                    askPlayerBuyProperty(currentPlayer.getID(), caseArriveeAchetable, plateauComplet));
         }
 
         // Quoi qu'il arrive, on applique le doCaseEffect après ces deux conditions
         caseArrivee.doCaseEffect(currentPlayer, plateauComplet);
     }
 
-    protected abstract boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet);
+    protected abstract boolean askPlayerGetOutOfJail(int playerID, PerfectBoard plateauComplet);
 
-    protected abstract boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet);
+    protected abstract boolean askPlayerBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet);
 
-    protected abstract boolean askRemoveInstantlySquat(int playerID, CasePropriete proprieteSquatee,
+    protected abstract boolean askPlayerRemoveInstantlySquat(int playerID, CasePropriete proprieteSquatee,
             PerfectBoard plateauComplet);
 
-    protected abstract void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException;
+    protected abstract void playerThinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException;
 }

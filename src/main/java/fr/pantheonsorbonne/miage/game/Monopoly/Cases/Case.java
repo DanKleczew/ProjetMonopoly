@@ -18,6 +18,6 @@ public abstract class Case {
     }
     
     public void doCaseEffect(Player joueur, PerfectBoard plateauComplet) throws IsBankruptException{
-        System.out.println(this.toString());
+        System.out.println(plateauComplet.getCouleur(joueur) + this.toString() + "\u001B[0m");
     }
 }
