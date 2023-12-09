@@ -54,6 +54,10 @@ De plus la vente d'une maison rapporte la moitié de ce qu'a couté son achat
 
 ## Règles supplémentaires :
 
+### Petit ajout :
+
+Au bout de 100 tours généraux, passer par la case départ ne donne plus 200.
+Cette règle a été ajoutée pour éviter les parties infinies, par exemple lorsque l'on fait jouer des robots qui ne font rien et ne font donc que profiter du gain de passage de la case départ.
 ### Casseurs :
 
 Quand c'est à un joueur de lancer les dés, tout d'abord si il a des maisons quelque part sur le plateau, il y a une chance que des casseurs viennent en casser une. Pour cela :
@@ -63,7 +67,7 @@ Par exemple pour les Marrons, la probabilité est de 1/4 car le terrain nu de ru
 
 Ainsi, lorsque c'est au joueur de "réfléchir à ce qu'il veut faire", il peut transformer une ou plusieurs de ses propriétés colorées en prison.
 Celles ci deviennent alors des cases neutres pour tous les joueurs de la partie ; aucun loyer ne peut être demandé.
-Cependant, à la fin d'un tour général (après que tous les joueurs aient joué), les prisons rapportent à leur propriétaire la moitié du loyer terrain nu de la propriété transformée
+Cependant, à la fin d'un tour général (après que tous les joueurs aient joué), les prisons rapportent à leur propriétaire le cinquième du loyer terrain nu de la propriété transformée
 De plus, chaque prison sur le plateau réduit pour tous les joueurs la probabilité qu'une de ses maisons soit cassé de 10%
 
 ### Squatteurs :
