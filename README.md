@@ -80,6 +80,7 @@ Si il refuse, pendant 8 tours, la case est squattée et aucun loyer ne peut êtr
 ## Fin de la partie
 
 La somme d'argent possédée par chaque joueur fluctue selon les cases sur lesquelles il tombe et les choix qu'il fait. Si un joueur DOIT payer une certaine somme mais qu'il ne l'a pas, il paye avec tout ce qui lui reste et est ÉLIMINÉ.
+Si il a été éliminé par un autre joueur, toutes ses propriétés, réinitialisées, reviennent à celui-ci. Sinon, elles sont de nouveau achetables.
 Le gagnant est le dernier joueur en lice.
 
 #Pour le protocole réseau, veuillez lire PROTOCOLE.md
