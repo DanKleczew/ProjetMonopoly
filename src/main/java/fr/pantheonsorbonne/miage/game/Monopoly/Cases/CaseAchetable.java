@@ -7,9 +7,9 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public abstract class CaseAchetable extends Case {
 
-    private int prixAchat;
+    private final int prixAchat;
+    private final TypePropriete typeOuCouleur;
     private Player owner = null;
-    private TypePropriete typeOuCouleur;
     private boolean estHypothequee = false;
 
     public CaseAchetable(String name, int prixAchat, TypePropriete typeOuCouleur) {

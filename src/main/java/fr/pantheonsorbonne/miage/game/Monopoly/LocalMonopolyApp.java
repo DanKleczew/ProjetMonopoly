@@ -15,7 +15,7 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         // int winp1 = 0;
         // int winp2 = 0;
         
-             for (int i = 0; i < 100; i++) {
+             for (int i = 0; i < 1000; i++) {
                 PerfectBoard plateauEnLocal = new PerfectBoard(new MediumBot(0), new MediumBot(1) , new VoidBot(2), new VoidBot(3));
                 LocalMonopolyApp localMonopoly = new LocalMonopolyApp(plateauEnLocal);
                 localMonopoly.play();
@@ -35,26 +35,26 @@ public final class LocalMonopolyApp extends MonopolyEngine {
     // ------------------------------------------
 
     @Override
-    protected boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
+    protected boolean askPlayerGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
 
     return plateauComplet.getPlayerByID(playerID).askGetOutOfJail(plateauComplet);
 
     }
 
     @Override
-    protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
+    protected boolean askPlayerRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
         return plateauComplet.getPlayerByID(playerID).askRemoveInstantlySquat(caseSquatee, plateauComplet);
     }
 
     @Override
-    protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
+    protected boolean askPlayerBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
 
         return plateauComplet.getPlayerByID(playerID).askBuyProperty(caseAchetable, plateauComplet);
 
     }
 
     @Override
-    protected void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
+    protected void playerThinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
         for (Player joueur : plateauComplet.getListeJoueurs()) {
             if (joueur.getID() == playerID) {
                 joueur.thinkAndDo(plateauComplet);

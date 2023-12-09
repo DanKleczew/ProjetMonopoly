@@ -68,7 +68,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     // ------------------------- Overrides
 
     @Override
-    protected boolean askGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
+    protected boolean askPlayerGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID, new GameCommand("askGetOutOfJail",
                 createBody(new CaseNeutre(" "), playerID),
                 ToolBox.perfectBoardToMap(plateauComplet, playerID)));
@@ -79,7 +79,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected boolean askRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
+    protected boolean askPlayerRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID,
                 new GameCommand("askRemoveInstantlySquat",
                         createBody(caseSquatee, playerID),
@@ -91,7 +91,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected boolean askBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
+    protected boolean askPlayerBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
         hostFacade.sendGameCommandToPlayer(
                 monopoly, "" + playerID, new GameCommand("askBuyProperty",
                         createBody(caseAchetable, playerID),
@@ -103,7 +103,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected void thinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
+    protected void playerThinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
         hostFacade.sendGameCommandToPlayer(
                 monopoly, "" + playerID,
                 new GameCommand("thinkAndAnswer",

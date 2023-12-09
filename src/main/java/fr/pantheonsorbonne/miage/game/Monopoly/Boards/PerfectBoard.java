@@ -2,7 +2,9 @@ package fr.pantheonsorbonne.miage.game.Monopoly.Boards;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,18 +28,27 @@ public class PerfectBoard extends Board {
     final private Deck deckChance = new DeckChance();
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
 
+    final private Map<Player, String> couleurDeTexte = new HashMap<>();
+    final private List<String> couleursANSI = new ArrayList<String>(Arrays.asList("\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[36m"));
+
     public PerfectBoard(Player... tableJoueur) {
         super();
         for (Player joueur : tableJoueur) {
             listeJoueurs.add(joueur);
         }
+        int i = 0;
         for (Player joueur : listeJoueurs) {
             setInitialPosition(joueur);
+            couleurDeTexte.put(joueur, couleursANSI.get(i++));
         }
     }
 
     public Deque<Player> getListeJoueurs() {
         return listeJoueurs;
+    }
+
+    public String getCouleur(Player joueur){
+        return couleurDeTexte.get(joueur);
     }
     
     public Player getPlayerByID(int ID){
