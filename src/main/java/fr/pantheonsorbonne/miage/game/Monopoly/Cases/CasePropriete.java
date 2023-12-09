@@ -15,12 +15,14 @@ public class CasePropriete extends CaseAchetable {
     private int toursRestantsSquat = 0;
     private boolean isAJail = false;
 
+    //Constructeur appelé en cas de propriété "basse" (première des MARRON et BLEU, première et deuxième des AUTRES)
     public CasePropriete(String name, int prixAchat, TypePropriete couleur) {
         super(name, prixAchat, couleur);
         this.echelleDeLoyer = couleur.getEchelleDeLoyer();
         this.prixMaisonUnitaire = assignPrixMaisonUnitaire(couleur);
     }
 
+    //Constructeur appelé pour les autres (qui ont des échelles de loyer spécifiques)
     public CasePropriete(String name, int prixAchat, TypePropriete couleur, int[] echelleDeLoyer) {
         super(name, prixAchat, couleur);
         this.echelleDeLoyer = echelleDeLoyer;
@@ -57,6 +59,7 @@ public class CasePropriete extends CaseAchetable {
     public void resetJail(){
         this.isAJail = false;
     }
+
     @Override
     public int getLoyerAPayer(Board plateauComplet) {
         if (this.isAJail() || this.toursRestantsSquat > 0){
@@ -88,8 +91,8 @@ public class CasePropriete extends CaseAchetable {
         if (playerChoice){ //Si le joueur décide de payer une entreprise privée
             this.toursRestantsSquat = 0;
             this.getOwner().bankAccountModify(-200);
-            Random random = new Random();
-            if (random.nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
+            
+            if (new Random().nextInt(10) == 0) { // Manière simple de simuler "Une chance sur 10"
                 this.getOwner().setTimeOut(plateau);
             }
         }

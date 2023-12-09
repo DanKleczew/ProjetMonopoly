@@ -80,7 +80,6 @@ public abstract class CaseAchetable extends Case {
     }
 
 
-
     protected void makePay(Player joueurQuiPaye, Board plateau) throws IsBankruptException{
         if (joueurQuiPaye.equals(this.owner)){ // Le proprio de la case est tombé sur une case à lui
             return;

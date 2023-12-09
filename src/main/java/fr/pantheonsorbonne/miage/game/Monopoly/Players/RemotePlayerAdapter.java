@@ -25,8 +25,8 @@ public class RemotePlayerAdapter{
     static Game monopoly;
 
     public static void main(String[] args) throws IsBankruptException {
-
-        Player JOUEUR = new Dumb(new Random().nextInt(100000000));
+        Player JOUEUR = new Dumb(new Random().nextInt(1000));
+      
         RemotePlayerAdapter remotePlayerAdapter = new RemotePlayerAdapter(JOUEUR);
 
         playerFacade.waitReady();
@@ -72,6 +72,7 @@ public class RemotePlayerAdapter{
                     break;
             }
         }
+        
     }
 
     // --------------------- Méthodes Réaction
