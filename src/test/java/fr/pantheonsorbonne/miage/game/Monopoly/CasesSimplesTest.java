@@ -14,7 +14,7 @@ public class CasesSimplesTest {
     public void caseEffectNeutreTest() throws IsBankruptException{
         CaseNeutre a = new CaseNeutre("Départ");
     
-        assertDoesNotThrow(()->a.doCaseEffect(null, null));
+        assertDoesNotThrow(()->a.doCaseEffect(new VoidBot(0), new PerfectBoard(new VoidBot(0))));
     }
 
     @Test
@@ -35,7 +35,7 @@ public class CasesSimplesTest {
         CaseTaxe taxe = new CaseTaxe("Taxe", 100);
         Player Thierry = new VoidBot(0);
 
-        taxe.doCaseEffect(Thierry, null);
+        taxe.doCaseEffect(Thierry, new PerfectBoard(Thierry));
 
         assertEquals(1400, Thierry.getBankAccount());
     }
@@ -70,5 +70,15 @@ public class CasesSimplesTest {
         plateauFantome.getAllProprietes().get(20).setOwner(Thierry);
         assertEquals(60, plateauFantome.getAllProprietes().get(7).getLoyerAPayer(plateauFantome));
 
+    }
+
+    @Test
+    public void caseCardTest() throws IsBankruptException{
+        Player Thierry = new VoidBot(0);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+
+        
+        assertDoesNotThrow(()->plateauFantome.getCaseByIndice(2).doCaseEffect(Thierry, plateauFantome));
+        assertDoesNotThrow(()->plateauFantome.getCaseByIndice(7).doCaseEffect(Thierry, plateauFantome));
     }
 }
