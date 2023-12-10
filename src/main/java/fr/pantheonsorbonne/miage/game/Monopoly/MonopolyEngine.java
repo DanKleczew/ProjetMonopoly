@@ -2,7 +2,6 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import java.util.Random;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Boards.Board;
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.Case;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
@@ -33,9 +32,11 @@ public abstract class MonopolyEngine {
             Player currentPlayer = plateauComplet.getNextPlayer();
             if (currentPlayer.hasPlayed()) { // On retombe sur un joueur qui a déjà joué càd un tour est fini
                 plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
-                if (compteTours++ > 100) {
-                    Board.caseDepartPaie = false;
+
+                if (plateauComplet.getRichestPlayer().getBankAccount() > compteTours){
+                    plateauComplet.getRichestPlayer().bankAccountModify(-compteTours);
                 }
+                compteTours++;
 
                 if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) {
                     // Simule la proba des squatteurs

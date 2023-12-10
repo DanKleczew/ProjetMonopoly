@@ -12,22 +12,22 @@ public final class LocalMonopolyApp extends MonopolyEngine {
     }
 
     public static void main(String... args) throws IsBankruptException {
-        // int winp1 = 0;
-        // int winp2 = 0;
+         int winp1 = 0;
+         int winp2 = 0;
         
              for (int i = 0; i < 1000; i++) {
                 PerfectBoard plateauEnLocal = new PerfectBoard(new MediumBot(0), new MediumBot(1) , new VoidBot(2), new VoidBot(3));
                 LocalMonopolyApp localMonopoly = new LocalMonopolyApp(plateauEnLocal);
-                localMonopoly.play();
-            //     if (localMonopoly.play() <= 1){
-            //         winp1++;
+                //localMonopoly.play();
+                 if (localMonopoly.play() <= 1){
+                     winp1++;
                  }
-            //     else{
-            //         winp2++;
-            //     }
-              //}
-            //  System.out.println(winp1);
-            //  System.out.println(winp2);
+                 else{
+                     winp2++;
+                }
+              }
+              System.out.println(winp1);
+              System.out.println(winp2);
         System.exit(0);
 
     }
