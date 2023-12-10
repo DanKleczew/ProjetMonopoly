@@ -80,8 +80,6 @@ public abstract class Board {
     private final List<CaseAchetable> allProprietes;
     private final List<CasePropriete> allColoredProprietes;
 
-    public static boolean caseDepartPaie = true;
-
     protected Board() {
         // Un minimum de DownCasting
         List<CasePropriete> proprietesColorees = new ArrayList<CasePropriete>();
@@ -131,8 +129,7 @@ public abstract class Board {
             // C'est à dire on est passé par la case départ
             // Le seul moyen de reculer de trois cases est de piocher la dite carte chance
             // et on ne veut pas qu'il gagne de l'argent dans ce cas
-            if (caseDepartPaie)
-                joueur.bankAccountModify(200);
+            joueur.bankAccountModify(200);
         }
         positionJoueurs.put(joueur, indiceCase);
     }

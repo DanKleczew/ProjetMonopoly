@@ -19,8 +19,10 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
 
 public class PerfectBoard extends Board {
-    /* La classe PerfectBoard permet la manipulation de plus de données que le Board simple :
-     * Elle s'occupe des decks de cartes, du management de la liste des joueurs et 
+    /*
+     * La classe PerfectBoard permet la manipulation de plus de données que le Board
+     * simple :
+     * Elle s'occupe des decks de cartes, du management de la liste des joueurs et
      * des maisons (achat, vente, cassage)
      */
 
@@ -29,7 +31,8 @@ public class PerfectBoard extends Board {
     final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
 
     final private Map<Player, String> couleurDeTexte = new HashMap<>();
-    final private List<String> couleursANSI = new ArrayList<String>(Arrays.asList("\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[36m"));
+    final private List<String> couleursANSI = new ArrayList<String>(
+            Arrays.asList("\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[36m"));
 
     public PerfectBoard(Player... tableJoueur) {
         super();
@@ -47,13 +50,13 @@ public class PerfectBoard extends Board {
         return listeJoueurs;
     }
 
-    public String getCouleur(Player joueur){
+    public String getCouleur(Player joueur) {
         return couleurDeTexte.get(joueur);
     }
-    
-    public Player getPlayerByID(int ID){
-        for (Player joueur : this.listeJoueurs){
-            if (joueur.getID() == ID){
+
+    public Player getPlayerByID(int ID) {
+        for (Player joueur : this.listeJoueurs) {
+            if (joueur.getID() == ID) {
                 return joueur;
             }
         }
@@ -61,21 +64,20 @@ public class PerfectBoard extends Board {
     }
 
     public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
-        if (listeJoueurs.size()>2){
+        if (listeJoueurs.size() > 2) {
             List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
             for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
-                if (exception.getGagnant() != null){
+                if (exception.getGagnant() != null) {
                     proprieteDuPerdant.setOwner(exception.getGagnant());
-                }
-                else {
+                } else {
                     proprieteDuPerdant.resetOwner();
                 }
 
                 if (proprieteDuPerdant.isHypothequed()) {
                     proprieteDuPerdant.switchHypothequeStatusFree();
                 }
-                if (proprieteDuPerdant instanceof CasePropriete){
-                    
+                if (proprieteDuPerdant instanceof CasePropriete) {
+
                     ((CasePropriete) proprieteDuPerdant).resetNombreMaisons();
                     ((CasePropriete) proprieteDuPerdant).resetJail();
                 }
@@ -111,11 +113,8 @@ public class PerfectBoard extends Board {
     // Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs
     // que nécessaire
     public void addNumerousHouses(Map<TypePropriete, Integer> map) throws IsBankruptException {
-        // On parcourt la HashMap
         for (TypePropriete couleur : map.keySet()) {
-            // On crée une Liste pour stocker les cases correspondant à la couleur
             List<CasePropriete> listeDeCaseDeCetteCouleur = this.getProprietesByColor(couleur);
-            // Et un int pour le nombre de maisons à placer
             int nombreMaisonsAPlacer = map.get(couleur);
 
             addNumerousHousesComplexWay(listeDeCaseDeCetteCouleur, nombreMaisonsAPlacer);
@@ -235,7 +234,8 @@ public class PerfectBoard extends Board {
 
         for (int i = listeProprietesColoreesOwned.size() - 1; i >= 0; i--) {
             if (listeProprietesColoreesOwned.get(i).getTypeOuCouleur() == couleur) {
-                //System.out.println("AAAA" + listeProprietesColoreesOwned.get(i).toString() +""+ i);
+                // System.out.println("AAAA" + listeProprietesColoreesOwned.get(i).toString()
+                // +""+ i);
                 listeDeCasesDeCetteCouleur.add(listeProprietesColoreesOwned.get(i));
             }
         }
@@ -265,6 +265,19 @@ public class PerfectBoard extends Board {
         return this.findFirstHousedColor(joueur).get(0).getEchelleDeLoyer()[0];
         // .get(0) car la liste est construite à l'envers du plateau
         // La propriété la plus chère et avec le loyer le plus cher arrive en premier
+    }
+
+    public Player getRichestPlayer() {
+        Player riche = listeJoueurs.peek();
+        int max = 0;
+        for (Player joueur : listeJoueurs) {
+            if (joueur.getBankAccount() > max) {
+                max = joueur.getBankAccount();
+                riche = joueur;
+            }
+        }
+        return riche;
+
     }
 
 }
