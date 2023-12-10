@@ -11,11 +11,11 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
-public class MediumBot extends Player {
+public class CleverBot extends Player {
     int[] tableauBooleanReponse = new int[7];
     private int flagPriorityBuyHouse = 0;
 
-    public MediumBot(int ID) {
+    public CleverBot (int ID) {
         super(ID);
     }
 
