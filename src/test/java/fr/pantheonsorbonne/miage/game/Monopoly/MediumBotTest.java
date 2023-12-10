@@ -1,94 +1,105 @@
-package fr.pantheonsorbonne.miage.game.Monopoly.Players;
+package fr.pantheonsorbonne.miage.game.Monopoly;
 
+import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.Test;
+
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
+import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 
-public class MediumBot extends Player {
-    int[] tableauBooleanReponse = new int[7];
-    private int flagPriorityBuyHouse = 0;
+public class MediumBotTest {
 
-    public MediumBot(int ID) {
-        super(ID);
+    @Test
+    public void askGetOutOfJail() throws IsBankruptException {
+        MediumBot Thierry = new MediumBot(1);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        Thierry.setTimeOut(plateauFantome);
+        assertEquals(Thierry.askGetOutOfJail(plateauFantome), true);
+        Thierry.bankAccountModify(-1500);
+        assertEquals(Thierry.askGetOutOfJail(plateauFantome), false);
     }
 
-    @Override
-    public boolean askGetOutOfJail(PerfectBoard board) {
-        int balance = this.getBankAccount();
-        int countHouse = 0;
-        if (balance < 500) {
-            return false;
-        }
-        List<CaseAchetable> listeDesProp = board.getAllProprietes();
-        for (CaseAchetable caseAchetable : listeDesProp) {
-            if (!(caseAchetable.getOwner() == null)) {
-                countHouse++;
-            }
-        }
-
-        if (countHouse == listeDesProp.size()) {
-            return false;
-        }
-
-        return true;
+    @Test
+    public void askBuyProperty() throws IsBankruptException {
+        MediumBot Thierry = new MediumBot(1);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        CaseAchetable proprieteLibre = new CasePropriete("Boulevard de Belleville", 60, TypePropriete.MARRON);
+        assertEquals(Thierry.askBuyProperty(proprieteLibre, plateauFantome), true);
+        Thierry.bankAccountModify(-1500);
+        assertEquals(Thierry.askBuyProperty(proprieteLibre, plateauFantome), false);
     }
 
-    @Override
-    public boolean askBuyProperty(CaseAchetable proprieteLibre, PerfectBoard plateauComplet) {
-        int balance = this.getBankAccount();
-        if (proprieteLibre.getTypeOuCouleur().equals(TypePropriete.BLEU)) { // si c'est une bleu oui car il va faire
-                                                                            // +200 juste après
-            if (balance >= proprieteLibre.getPrixAchat() + 400) { // au cas ou qlq'un tombe sur une carte steal + 10
-                return true;
-            }
-
+    @Test
+    protected void thinkAboutBuyingHouses() throws IsBankruptException {
+        MediumBot Thierry = new MediumBot(1);
+        MediumBot Thierry2 = new MediumBot(1);
+        PerfectBoard plateauFantome = new PerfectBoard(Thierry, Thierry2);
+        for (CaseAchetable caseAchetable : plateauFantome.getAllColoredProprietes()) {
+            caseAchetable.setOwner(Thierry);
         }
-        if (balance > proprieteLibre.getPrixAchat() + 600) { // pas assez d'argent
-            return true;
-        } else { // on considère que si il reste 200 c'est suffisant
-            return false;
-        }
-    }
-
-    @Override
-    protected Map<TypePropriete, Integer> thinkAboutBuyingHouses(PerfectBoard plateauComplet) {
-        int moneyICanSpend = this.getBankAccount() - 600;
-        Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
-        List<CaseAchetable> listeDesProp = plateauComplet.getAllProprietes();
-        int countHouse = 0;
-        for (CaseAchetable caseAchetable : listeDesProp) {
-            if ((caseAchetable.hasOwner())) {
-                countHouse++;
-            }
-        }
-        if (countHouse > listeDesProp.size() - 2) {
-            return listeDeSouhaits;
-        }
-        Map<TypePropriete, Integer> listeDeSouhaitTresRentable = new HashMap<>();
-        Map<TypePropriete, Integer> listeDeSouhaitRentable = new HashMap<>();
-        Map<TypePropriete, Integer> listeDeSouhaitPeuRentable = new HashMap<>();
-        flagPriorityBuyHouse = 0;
-        listeDeSouhaitTresRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 3, 4, 3,
-                flagPriorityBuyHouse);
-        if (flagPriorityBuyHouse == 1) {
-            listeDeSouhaitRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 2, 5, 6,
-                    flagPriorityBuyHouse);
-        }
-        if (flagPriorityBuyHouse == 2) {
-            listeDeSouhaitPeuRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 0, 1, 7,
-                    flagPriorityBuyHouse);
-        }
-        listeDeSouhaits = mergeTwoMapColor(listeDeSouhaits, listeDeSouhaitTresRentable);
-        listeDeSouhaits = mergeTwoMapColor(listeDeSouhaits, listeDeSouhaitRentable);
-        listeDeSouhaits = mergeTwoMapColor(listeDeSouhaits, listeDeSouhaitPeuRentable);
-        return listeDeSouhaits;
+        Thierry.thinkAndDo(plateauFantome);
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(5).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(6).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(7).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(8).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(9).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(10).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(11).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(12).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(13).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(14).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(15).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(16).getNombreMaisons());
+        Thierry.thinkAndDo(plateauFantome);
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(5).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(6).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(7).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(8).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(9).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(10).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(11).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(12).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(13).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(14).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(15).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(16).getNombreMaisons());
+        Thierry.thinkAndDo(plateauFantome);
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(5).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(6).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(7).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(8).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(9).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(10).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(11).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(12).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(13).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(14).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(15).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(16).getNombreMaisons());
+        Thierry.thinkAndDo(plateauFantome);
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(5).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(6).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(7).getNombreMaisons());
+        assertEquals(2, plateauFantome.getAllColoredProprietes().get(8).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(9).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(10).getNombreMaisons());
+        assertEquals(2, plateauFantome.getAllColoredProprietes().get(11).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(12).getNombreMaisons());
+        assertEquals(1, plateauFantome.getAllColoredProprietes().get(13).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(14).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(15).getNombreMaisons());
+        assertEquals(0, plateauFantome.getAllColoredProprietes().get(16).getNombreMaisons());
     }
 
     public Map<TypePropriete, Integer> mapBuyHouseForSpecificColor(PerfectBoard plateauComplet, int moneyICanSpend,
@@ -185,20 +196,24 @@ public class MediumBot extends Player {
     protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet) {
         int money = this.getBankAccount();
         int moneyMinimum = 300;
-            List<CasePropriete> listeHypothequeNonRentableProprietes = new ArrayList<CasePropriete>();
-            List<CasePropriete> listeHypothequeRentableProprietes = new ArrayList<CasePropriete>();
-            List<CasePropriete> listeHypothequeTresRentableProprietes = new ArrayList<CasePropriete>();
+        List<CasePropriete> listeHypothequeNonRentableProprietes = new ArrayList<CasePropriete>();
+        List<CasePropriete> listeHypothequeRentableProprietes = new ArrayList<CasePropriete>();
+        List<CasePropriete> listeHypothequeTresRentableProprietes = new ArrayList<CasePropriete>();
         if (money < moneyMinimum) {
 
-            listeHypothequeNonRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 0, 1, 7);
+            listeHypothequeNonRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                    moneyMinimum, 0, 1, 7);
             if (money < moneyMinimum) {
-                listeHypothequeRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 5, 2, 6);
+                listeHypothequeRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                        moneyMinimum, 5, 2, 6);
             }
             if (money < moneyMinimum) {
-                listeHypothequeTresRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 3, 4, 4);
+                listeHypothequeTresRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                        moneyMinimum, 3, 4, 4);
             }
-            
-            CasePropriete[] proprietesList = mergeListIntoTable(listeHypothequeNonRentableProprietes,listeHypothequeRentableProprietes,listeHypothequeTresRentableProprietes);
+
+            CasePropriete[] proprietesList = mergeListIntoTable(listeHypothequeNonRentableProprietes,
+                    listeHypothequeRentableProprietes, listeHypothequeTresRentableProprietes);
             return proprietesList;
         } else {
             return new CaseAchetable[0];
@@ -233,24 +248,22 @@ public class MediumBot extends Player {
         return listTransformJails;
     }
 
-    public CasePropriete[] mergeListIntoTable(List<CasePropriete>list1,List<CasePropriete>list2,List<CasePropriete>list3){
+    public CasePropriete[] mergeListIntoTable(List<CasePropriete>... list1) {
         List<CasePropriete> combinedList = new ArrayList<>();
-        combinedList.addAll(list1);
-        combinedList.addAll(list2);
-        combinedList.addAll(list3);
-        
-        CasePropriete [] finalList = new CasePropriete[combinedList.size()];
+        for (List<CasePropriete> list : list1) {
+            combinedList.addAll(list);
+        }
+        CasePropriete[] finalList = new CasePropriete[combinedList.size()];
         finalList = combinedList.toArray(finalList);
         return finalList;
     }
-
-
 
     @Override
     protected CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauComplet) {
         List<CasePropriete> listTransformJails = new ArrayList<CasePropriete>();
         List<CaseAchetable> listeDesProp = plateauComplet.getAllProprietes();
         int countHouse = 0;
+        // int countNbTrioCarte = 0;
         boolean countOwner[] = new boolean[8];
         for (int i = 0; i < countOwner.length; i++) {
             countOwner[i] = true;
@@ -309,6 +322,7 @@ public class MediumBot extends Player {
 
     @Override
     public boolean askRemoveInstantlySquat(CasePropriete ProprieteSquatee, PerfectBoard plateauComplet) {
+        System.out.println(this.getBankAccount());
         if (ProprieteSquatee.getTypeOuCouleur().equals(TypePropriete.ORANGE)
                 || ProprieteSquatee.getTypeOuCouleur().equals(TypePropriete.JAUNE)
                 || ProprieteSquatee.getTypeOuCouleur().equals(TypePropriete.ROUGE)) {
@@ -322,6 +336,4 @@ public class MediumBot extends Player {
         return false;
     }
 
-
 }
-
