@@ -84,8 +84,9 @@ public class PerfectBoardTest {
         Player t1 = new VoidBot(0);
         Player t2 = new VoidBot(1);
         Player t3 = new VoidBot(2);
+        Player t4 = new VoidBot(3);
 
-        PerfectBoard pb = new PerfectBoard(t1, t2, t3);
+        PerfectBoard pb = new PerfectBoard(t1, t2, t3, t4);
 
         pb.getAllColoredProprietes().get(0).setOwner(t3);
         pb.getAllColoredProprietes().get(0).switchHypothequeStatus();
@@ -97,6 +98,19 @@ public class PerfectBoardTest {
         assertEquals(false,  pb.getAllColoredProprietes().get(0).isHypothequed());
         assertEquals(false,  pb.getAllColoredProprietes().get(0).hasOwner());
         assertEquals(pb.getAllColoredProprietes().get(0).getNombreMaisons(), 0);
+
+        pb.getAllColoredProprietes().get(0).setOwner(t2);
+        pb.getAllColoredProprietes().get(0).switchHypothequeStatus();
+        pb.getAllColoredProprietes().get(0).setHousesNoPay(5);
+
+        
+        IsBankruptException e = new IsBankruptException(t2);
+        e.setGagnant(t1);
+        pb.deletePlayer(e);
+
+        assertEquals(t1, pb.getAllColoredProprietes().get(0).getOwner());
+        assertEquals(0, pb.getAllColoredProprietes().get(0).getNombreMaisons());
+        assertEquals(false,  pb.getAllColoredProprietes().get(0).isHypothequed());
     }
 
     @Test 
@@ -165,4 +179,15 @@ public class PerfectBoardTest {
         assertEquals(1650, t1.getBankAccount());
     }
 
+    @Test 
+    public void getRichestPlayerTest() throws IsBankruptException{
+        Player t1 = new VoidBot(0);
+        Player t2 = new VoidBot(1);
+
+        t1.bankAccountModify(1000);
+
+        PerfectBoard p = new PerfectBoard(t1, t2);
+
+        assertEquals(t1, p.getRichestPlayer());
+    }
 }
