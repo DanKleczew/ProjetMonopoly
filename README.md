@@ -1,6 +1,6 @@
 # Règles
 
-Le jeu se joue à au moins deux joueurs et comporte un maitre du jeu non joueur, appelé Banquier.
+Le jeu se joue de deux à quatre joueurs et comporte un maitre du jeu non joueur, le Host.
 
 ## Mise en place
 
