@@ -27,10 +27,10 @@ public class CardSteal implements Card {
             listeDeJoueurs[i] = (Player) plateauComplet.getListeJoueurs().toArray()[i];
         }
         
-        for (Player joueurCourrant : listeDeJoueurs) {
+        for (Player joueurCourant : listeDeJoueurs) {
             try {
-                if (!joueurGagnant.equals(joueurCourrant)) {
-                    joueurCourrant.transaction(joueurGagnant, stealAmount);
+                if (!joueurGagnant.equals(joueurCourant)) {
+                    joueurCourant.transaction(joueurGagnant, stealAmount);
                 }
             }
             catch (IsBankruptException exception){

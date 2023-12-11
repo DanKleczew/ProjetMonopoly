@@ -20,6 +20,14 @@ public enum TypePropriete {
         this.echelleDeLoyer = null;
     }
 
+    /* L'échelle de loyer associée à un TypePropriete
+    permet de ne pas répéter plusieurs fois ces valeurs
+    dans la déclaration des cases.
+    Les deux premières cases des triplés colorés ont toujours 
+    la même échelle de loyer, celle-ci.
+    Pour la troisième (deuxième pour les MARRON et BLEU), 
+    voir le constructeur de CasePropriete
+    */
     TypePropriete(int nbProprietes, int[] echelleDeLoyer) {
         this.nombreProprietesDeCeType = nbProprietes;
         this.echelleDeLoyer = echelleDeLoyer;
