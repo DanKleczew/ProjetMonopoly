@@ -16,7 +16,7 @@ public class CleverBotTest {
     @Test
     public void askGetOutOfJailTest() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         Thierry.setTimeOut(plateauFantome);
         assertEquals(Thierry.askGetOutOfJail(plateauFantome), true);
         Thierry.bankAccountModify(-1500);
@@ -26,7 +26,7 @@ public class CleverBotTest {
     @Test
     public void askBuyPropertyTest() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         CaseAchetable proprieteLibre = new CasePropriete("Boulevard de Belleville", 60, TypePropriete.MARRON);
         assertEquals(Thierry.askBuyProperty(proprieteLibre, plateauFantome), true);
         Thierry.bankAccountModify(-1500);
@@ -36,7 +36,7 @@ public class CleverBotTest {
     @Test
     protected void thinkAboutBuyingHousesTest() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         Thierry.bankAccountModify(1000000);
         Thierry.thinkAndDo(plateauFantome);
         for (int i = 0 ; i<plateauFantome.getAllColoredProprietes().size(); i++) {
@@ -121,7 +121,7 @@ public class CleverBotTest {
     @Test
    protected void thinkAboutSellingHousesTest() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         Thierry.thinkAndDo(plateauFantome);
         assertEquals(0, plateauFantome.getAllColoredProprietes().get(8).getNombreMaisons());
         assertEquals(0, plateauFantome.getAllColoredProprietes().get(9).getNombreMaisons());
@@ -158,7 +158,7 @@ public class CleverBotTest {
     @Test
     protected void thinkAboutHypothequeProprietes() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         for (CaseAchetable caseAchetable : plateauFantome.getAllColoredProprietes()) {
             caseAchetable.setOwner(Thierry);
         }
@@ -185,7 +185,7 @@ public class CleverBotTest {
     protected void thinkAboutCreatingJails() throws IsBankruptException {
         CleverBot Thierry = new CleverBot(1);
         CleverBot Thierry2 = new CleverBot(2);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry,Thierry2);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry, Thierry2));
         for (CaseAchetable caseAchetable : plateauFantome.getAllColoredProprietes()) {
             caseAchetable.setOwner(Thierry);
         }
@@ -200,7 +200,7 @@ public class CleverBotTest {
     @Test
     public void askRemoveInstantlySquat() {
         CleverBot Thierry = new CleverBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         for (CaseAchetable caseAchetable : plateauFantome.getAllColoredProprietes()) {
             caseAchetable.setOwner(Thierry);
         }

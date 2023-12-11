@@ -14,19 +14,21 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.PlayersManager;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 import fr.pantheonsorbonne.miage.model.Game;
 import fr.pantheonsorbonne.miage.model.GameCommand;
 
 public class NetworkMonopolyEngine extends MonopolyEngine {
 
-    private static final int NUMBER_PLAYERS = 2;
+    private static final int NUMBER_PLAYERS = 4;
 
     private final HostFacade hostFacade;
     private final Game monopoly;
+    private static PlayersManager ensembleDesJoueurs;
 
-    protected NetworkMonopolyEngine(HostFacade hostFacade, Player[] listeJoueurs, Game monopoly) {
-        super(new PerfectBoard(listeJoueurs));
+    protected NetworkMonopolyEngine(HostFacade hostFacade, PlayersManager ensembleDesJoueurs, Game monopoly) {
+        super(new PerfectBoard(ensembleDesJoueurs), ensembleDesJoueurs);
         this.hostFacade = hostFacade;
         this.monopoly = monopoly;
     }
@@ -49,8 +51,8 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
             //On appelera jamais les méthodes des bots de la liste, ce sont juste des flags avec un id = à celui du joueur
             i++;
         }
-
-        MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, listeJoueurs, monopoly);
+        ensembleDesJoueurs = new PlayersManager(listeJoueurs);
+        MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, ensembleDesJoueurs, monopoly);
         int winnerID = host.play();
 
         for (String ID : setJoueurs){
@@ -68,9 +70,9 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     // ------------------------- Overrides
 
     @Override
-    protected boolean askPlayerGetOutOfJail(int playerID, PerfectBoard plateauComplet) {
+    protected boolean askPlayerGetOutOfJail(int playerID, PerfectBoard plateauComplet, PlayersManager ensembleDesJoueurs) {
         hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID, new GameCommand("askGetOutOfJail",
-                createBody(new CaseNeutre(" "), playerID),
+                createBody(new CaseNeutre(" "), playerID, ensembleDesJoueurs),
                 ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
@@ -79,10 +81,10 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected boolean askPlayerRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet) {
+    protected boolean askPlayerRemoveInstantlySquat(int playerID, CasePropriete caseSquatee, PerfectBoard plateauComplet, PlayersManager ensembleDesJoueurs) {
         hostFacade.sendGameCommandToPlayer(monopoly, "" + playerID,
                 new GameCommand("askRemoveInstantlySquat",
-                        createBody(caseSquatee, playerID),
+                        createBody(caseSquatee, playerID, ensembleDesJoueurs),
                         ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
@@ -91,10 +93,10 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected boolean askPlayerBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet) {
+    protected boolean askPlayerBuyProperty(int playerID, CaseAchetable caseAchetable, PerfectBoard plateauComplet, PlayersManager ensembleDesJoueurs) {
         hostFacade.sendGameCommandToPlayer(
                 monopoly, "" + playerID, new GameCommand("askBuyProperty",
-                        createBody(caseAchetable, playerID),
+                        createBody(caseAchetable, playerID, ensembleDesJoueurs),
                         ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponse = hostFacade.receiveGameCommand(monopoly);
@@ -103,11 +105,11 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
     @Override
-    protected void playerThinkAndDo(int playerID, PerfectBoard plateauComplet) throws IsBankruptException {
+    protected void playerThinkAndDo(int playerID, PerfectBoard plateauComplet, PlayersManager ensembleDesJoueurs) throws IsBankruptException {
         hostFacade.sendGameCommandToPlayer(
                 monopoly, "" + playerID,
                 new GameCommand("thinkAndAnswer",
-                        createBody(new CaseNeutre(" "), playerID),
+                        createBody(new CaseNeutre(" "), playerID, ensembleDesJoueurs),
                         ToolBox.perfectBoardToMap(plateauComplet, playerID)));
 
         GameCommand reponseComplexe = hostFacade.receiveGameCommand(monopoly);
@@ -129,7 +131,7 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
         }
         ///
 
-        plateauComplet.getPlayerByID(playerID)
+        ensembleDesJoueurs.getPlayerByID(playerID)
                 .thinkAndDo(stringToMapTypeInt(decoupageReponseComplexe[0]),
                         stringToMapTypeInt(decoupageReponseComplexe[1]),
                         hypotheques,
@@ -167,11 +169,11 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
     }
 
 
-    private String createBody(Case caseEnQuestion, int playerID) {
+    private String createBody(Case caseEnQuestion, int playerID, PlayersManager ensembleDesJoueurs) {
 
         return caseEnQuestion.toString() + ";" +
-                plateauComplet.getPlayerByID(playerID).getBankAccount() + ";"
-                + plateauComplet.getPositionJoueur(plateauComplet.getPlayerByID(playerID));
+                ensembleDesJoueurs.getPlayerByID(playerID).getBankAccount() + ";"
+                + plateauComplet.getPositionJoueur(ensembleDesJoueurs.getPlayerByID(playerID));
     }
 
 }

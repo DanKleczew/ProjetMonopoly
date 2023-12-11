@@ -18,7 +18,7 @@ public class DeckTest {
 
     @Test
     public void piocherCaisseTest(){
-        Deck deck = new DeckCaisse();
+        Deck deck = new DeckCaisse(null);
         Set<Card> a = new HashSet<Card>();
         for(int i = 0; i<15; i++){
             Card newCard = deck.piocher();
@@ -30,7 +30,7 @@ public class DeckTest {
 
     @Test
     public void piocherChanceTest(){
-        Deck deck = new DeckCaisse();
+        Deck deck = new DeckCaisse(null);
         Set<Card> a = new HashSet<Card>();
         for(int i = 0; i<15; i++){
             Card newCard = deck.piocher();

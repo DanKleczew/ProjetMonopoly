@@ -14,12 +14,13 @@ public class LocalMonopolyAppTest {
     @Test
     public void allTest(){
         Player t1 = new VoidBot(0);
-        PerfectBoard pb = new PerfectBoard(t1);
+        PlayersManager liste = new PlayersManager(t1);
+        PerfectBoard pb = new PerfectBoard(liste);
 
-        LocalMonopolyApp lma = new LocalMonopolyApp(pb);
-        assertEquals( false, lma.askPlayerGetOutOfJail(0, pb));
-        assertEquals(false, lma.askPlayerBuyProperty(0, new CasePropriete("a", 100, TypePropriete.MARRON), pb));
-        assertEquals( false, lma.askPlayerRemoveInstantlySquat(0, new CasePropriete("a", 100, TypePropriete.MARRON), pb));
-        assertDoesNotThrow(()->lma.playerThinkAndDo(0, pb));
+        LocalMonopolyApp lma = new LocalMonopolyApp(pb, liste);
+        assertEquals( false, lma.askPlayerGetOutOfJail(0, pb, liste));
+        assertEquals(false, lma.askPlayerBuyProperty(0, new CasePropriete("a", 100, TypePropriete.MARRON), pb, liste));
+        assertEquals( false, lma.askPlayerRemoveInstantlySquat(0, new CasePropriete("a", 100, TypePropriete.MARRON), pb, liste));
+        assertDoesNotThrow(()->lma.playerThinkAndDo(0, pb, liste));
     }
 }

@@ -15,9 +15,11 @@ public class ToolBoxTest {
 
     @Test
     public void perfectBoardToMapTest() {
-        PerfectBoard plateauFantome = new PerfectBoard();
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(1);
+        PlayersManager list = new PlayersManager(Thierry, Didier);
+        PerfectBoard plateauFantome = new PerfectBoard(list);
+        
         plateauFantome.getAllColoredProprietes().get(0).setOwner(Thierry);
         plateauFantome.getAllColoredProprietes().get(1).setOwner(Thierry);
         plateauFantome.getAllColoredProprietes().get(2).setOwner(Thierry);

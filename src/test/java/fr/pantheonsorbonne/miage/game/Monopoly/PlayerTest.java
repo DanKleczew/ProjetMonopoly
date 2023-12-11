@@ -53,7 +53,7 @@ public class PlayerTest {
     @Test
     public void timeOutReduction() throws IsBankruptException {
         Player Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         Thierry.setTimeOut(plateauFantome);
         assertEquals(3, Thierry.getTimeOut());
@@ -68,7 +68,7 @@ public class PlayerTest {
     public void sellProprietesTest() throws IsBankruptException {
         Player Thierry = new Dumb(0);
 
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         ((CasePropriete) (plateauFantome.getCaseByIndice(1))).setOwner(Thierry);
 
@@ -81,7 +81,7 @@ public class PlayerTest {
     @Test 
     public void throwDiceTest(){
         Player Thierry = new Dumb(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         int[] des = Thierry.throwDice(plateauFantome, 0);
         int[] desExpected = new int[]{1, 5};
         assertEquals(true, java.util.Arrays.equals(des, desExpected));

@@ -14,7 +14,7 @@ public class VoidBotTest {
     public void thoughts() throws IsBankruptException {
 
         VoidBot Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         plateauFantome.getAllColoredProprietes().get(0).setOwner(Thierry);
         plateauFantome.getAllColoredProprietes().get(1).setOwner(Thierry);
         plateauFantome.getAllColoredProprietes().get(2).setOwner(Thierry);
@@ -32,7 +32,7 @@ public class VoidBotTest {
     public void askRemoveInstantlySquat() {
         
         VoidBot Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         CasePropriete caseSquatee = new CasePropriete("a", 1, TypePropriete.MARRON);
 
         assertEquals(false, Thierry.askRemoveInstantlySquat(caseSquatee, plateauFantome));

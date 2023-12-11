@@ -19,7 +19,7 @@ public class CardVoierieTest{
     public void testCardEffect() throws IsBankruptException {
         Player Thierry = new VoidBot(1);
 
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         CasePropriete Belleville = plateauFantome.getAllColoredProprietes().get(0);
         CasePropriete Lecourbe = plateauFantome.getAllColoredProprietes().get(1);
         Belleville.setOwner(Thierry);
@@ -40,7 +40,7 @@ public class CardVoierieTest{
     @Test
     public void testCardEffectThrow() throws IsBankruptException{
         Player Thierry = new VoidBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         
         CasePropriete Belleville = plateauFantome.getAllColoredProprietes().get(0);
         CasePropriete Lecourbe = plateauFantome.getAllColoredProprietes().get(1);

@@ -8,6 +8,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.PlayersManager;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.VoidBot;
 
 public class ToolBox {
@@ -16,7 +17,7 @@ public class ToolBox {
 
     public static PerfectBoard mapToPerfectBoard(Map<String, String> map, Player moi) {
         Player pasMoi = new VoidBot(-1);
-        PerfectBoard plateauEphemere = new PerfectBoard();
+        PerfectBoard plateauEphemere = new PerfectBoard(new PlayersManager(moi, pasMoi));
         List<CaseAchetable> listeDesProp = plateauEphemere.getAllProprietes();
         for (int i = 0; i < listeDesProp.size(); i++) {
             CaseAchetable currProp = listeDesProp.get(i);

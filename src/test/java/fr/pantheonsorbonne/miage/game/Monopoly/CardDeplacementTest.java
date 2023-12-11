@@ -3,7 +3,6 @@ package fr.pantheonsorbonne.miage.game.Monopoly;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
 import org.junit.jupiter.api.Test;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
@@ -20,7 +19,7 @@ public class CardDeplacementTest{
     public void cardEffectTest() throws IsBankruptException {
 
         Player Thierry = new VoidBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         Card carte;
         

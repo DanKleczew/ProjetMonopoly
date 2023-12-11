@@ -17,7 +17,7 @@ public class DumbTest {
     @Test
     public void askGetOutOfJailTest() throws IsBankruptException {
         Player Thierry = new Dumb(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         assertEquals(true, Thierry.askGetOutOfJail(plateauFantome));
 
         Thierry.bankAccountModify(-1450);
@@ -27,7 +27,7 @@ public class DumbTest {
     @Test
     public void askBuyProperty() throws IsBankruptException {
         Player Thierry = new Dumb(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         assertEquals(true, Thierry.askBuyProperty(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
     }
 
@@ -36,7 +36,7 @@ public class DumbTest {
         Player Thierry = new Dumb(0);
         Player Didier = new VoidBot(0);
 
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry, Didier));
 
         plateauFantome.getAllColoredProprietes().get(20).setOwner(Thierry);
         plateauFantome.getAllColoredProprietes().get(21).setOwner(Thierry);
@@ -71,7 +71,7 @@ public class DumbTest {
     @Test
     public void thinkAboutHypothequeProprietes() throws IsBankruptException {
         Player Thierry = new Dumb(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         List<CaseAchetable> allProprietes = plateauFantome.getAllProprietes();
         allProprietes.get(1).setOwner(Thierry);
@@ -95,7 +95,7 @@ public class DumbTest {
     @Test 
     public void askRemoveInstantlySquatTest() throws IsBankruptException{
         Player Thierry = new Dumb(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         assertEquals(false, Thierry.askRemoveInstantlySquat(plateauFantome.getAllColoredProprietes().get(0), plateauFantome));
 

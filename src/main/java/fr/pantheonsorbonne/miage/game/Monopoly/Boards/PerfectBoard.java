@@ -1,9 +1,7 @@
 package fr.pantheonsorbonne.miage.game.Monopoly.Boards;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,78 +10,40 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Card;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.Deck;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckCaisse;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cards.DeckChance;
-import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CasePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.TypePropriete;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.IsBankruptException;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.Player;
+import fr.pantheonsorbonne.miage.game.Monopoly.Players.PlayersManager;
 
 public class PerfectBoard extends Board {
     /*
      * La classe PerfectBoard permet la manipulation de plus de données que le Board
      * simple :
-     * Elle s'occupe des decks de cartes, du management de la liste des joueurs et
+     * Elle s'occupe des decks de cartes, et
      * des maisons (achat, vente, cassage)
      */
 
-    final private Deck deckCaisse = new DeckCaisse();
-    final private Deck deckChance = new DeckChance();
-    final private Deque<Player> listeJoueurs = new ArrayDeque<Player>();
-
+    final private Deck deckCaisse;
+    final private Deck deckChance;
+    
     final private Map<Player, String> couleurDeTexte = new HashMap<>();
     final private List<String> couleursANSI = new ArrayList<String>(
             Arrays.asList("\u001B[31m", "\u001B[32m", "\u001B[33m", "\u001B[36m"));
 
-    public PerfectBoard(Player... tableJoueur) {
-        super();
-        for (Player joueur : tableJoueur) {
-            listeJoueurs.add(joueur);
-        }
+    public PerfectBoard(PlayersManager ensembleDesJoueurs) {
+        this.deckCaisse = new DeckCaisse(ensembleDesJoueurs);
+        this.deckChance = new DeckChance();
+
         int i = 0;
-        for (Player joueur : listeJoueurs) {
-            setInitialPosition(joueur);
+        for (Player joueur : ensembleDesJoueurs.getListeJoueurs()) {
+            this.setInitialPosition(joueur);
             couleurDeTexte.put(joueur, couleursANSI.get(i++));
         }
     }
 
-    public Deque<Player> getListeJoueurs() {
-        return listeJoueurs;
-    }
-
     public String getCouleur(Player joueur) {
         return couleurDeTexte.get(joueur);
-    }
-
-    public Player getPlayerByID(int ID) {
-        for (Player joueur : this.listeJoueurs) {
-            if (joueur.getID() == ID) {
-                return joueur;
-            }
-        }
-        return null;
-    }
-
-    public void deletePlayer(IsBankruptException exception) throws IsBankruptException {
-        if (listeJoueurs.size() > 2) {
-            List<CaseAchetable> listeProprietesPerdant = this.getOwnedProperties(exception.getPerdant());
-            for (CaseAchetable proprieteDuPerdant : listeProprietesPerdant) {
-                if (exception.getGagnant() != null) {
-                    proprieteDuPerdant.setOwner(exception.getGagnant());
-                } else {
-                    proprieteDuPerdant.resetOwner();
-                }
-
-                if (proprieteDuPerdant.isHypothequed()) {
-                    proprieteDuPerdant.switchHypothequeStatusFree();
-                }
-                if (proprieteDuPerdant instanceof CasePropriete) {
-
-                    ((CasePropriete) proprieteDuPerdant).resetNombreMaisons();
-                    ((CasePropriete) proprieteDuPerdant).resetJail();
-                }
-            }
-        }
-        listeJoueurs.remove(exception.getPerdant());
     }
 
     public Card pickAChanceCard() {
@@ -94,21 +54,7 @@ public class PerfectBoard extends Board {
         return (deckCaisse.piocher());
     }
 
-    public Player getNextPlayer() {
-        Player nextPlayer;
-        listeJoueurs.add(nextPlayer = listeJoueurs.poll());
-        return nextPlayer;
-    }
-
-    public void resetPlayingStatusAllPlayers() {
-        for (Player joueur : listeJoueurs) {
-            joueur.switchPlayingStatus();
-        }
-    }
-
-    public boolean isGameFinished() {
-        return listeJoueurs.size() == 1;
-    }
+    
 
     // Ajoute n maisons sur les propriétés d'une couleur donnée, autant de couleurs
     // que nécessaire

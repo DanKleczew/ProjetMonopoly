@@ -24,10 +24,11 @@ public class CaseProprieteTest {
         CasePropriete a = new CasePropriete("Boulevard", 200 , TypePropriete.BLEU);
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(1);
+        PlayersManager liste = new PlayersManager(Thierry, Didier);
         a.setOwner(Thierry);
         a.setSquat();
 
-        a.doCaseEffect(Didier, new PerfectBoard(Didier, Thierry));
+        a.doCaseEffect(Didier, new PerfectBoard(liste));
 
         assertEquals(1500, Didier.getBankAccount());
     }
@@ -37,7 +38,8 @@ public class CaseProprieteTest {
         CasePropriete a = new CasePropriete("Boulevard", 200 , TypePropriete.BLEU);
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(1);
-        PerfectBoard plateaufantome = new PerfectBoard(Thierry, Didier);
+        PlayersManager liste = new PlayersManager(Thierry, Didier);
+        PerfectBoard plateaufantome = new PerfectBoard(liste);
 
         a.setOwner(Thierry);
 
@@ -58,6 +60,7 @@ public class CaseProprieteTest {
         CasePropriete a = new CasePropriete("Boulevard", 200 , TypePropriete.BLEU);
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(1);
+        PlayersManager liste = new PlayersManager(Thierry, Didier);
         a.setOwner(Thierry);
         a.setSquat();
 
@@ -65,7 +68,7 @@ public class CaseProprieteTest {
             a.policeJob();
         }
 
-        a.doCaseEffect(Didier, new PerfectBoard(Thierry, Didier));
+        a.doCaseEffect(Didier, new PerfectBoard(liste));
         assertEquals(1465, Didier.getBankAccount());
     }   
 
@@ -94,7 +97,7 @@ public class CaseProprieteTest {
     public void getLoyerAPayerTest() throws IsBankruptException{
 
         Player Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         CaseAchetable a = plateauFantome.getAllProprietes().get(0);
         CaseAchetable b = plateauFantome.getAllProprietes().get(1);
         

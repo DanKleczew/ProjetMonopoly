@@ -15,7 +15,7 @@ public class CardWinLoseTest{
         Player Thierry2 = new VoidBot(2);
         Player Thierry3 = new VoidBot(3);
         Player Thierry4 = new VoidBot(4);
-        PerfectBoard plateau2 = new PerfectBoard(Thierry1,Thierry2,Thierry3,Thierry4);
+        PerfectBoard plateau2 = new PerfectBoard(new PlayersManager(Thierry1,Thierry2,Thierry3,Thierry4));
         Card carte = new CardWinLose(100);
         Card carte2 = new CardWinLose(-100);
         carte.cardEffect(Thierry4, plateau2);

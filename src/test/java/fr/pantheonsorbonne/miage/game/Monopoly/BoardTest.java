@@ -17,7 +17,7 @@ public class BoardTest {
     @Test
     public void getOwnedPropertiesTest() throws IsBankruptException{
         Player joueur = new VoidBot(0);
-        PerfectBoard plateau = new PerfectBoard(joueur);
+        PerfectBoard plateau = new PerfectBoard(new PlayersManager(joueur));
         CaseAchetable caseRandom =  plateau.getAllProprietes().get(1);
         
         caseRandom.setOwner(joueur);
@@ -33,7 +33,7 @@ public class BoardTest {
     @Test 
     public void setSpecificPositionTest(){
         Player Thierry = new VoidBot(0);
-        Board plateauFantome = new PerfectBoard(Thierry);
+        Board plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
         assertEquals(0, plateauFantome.getPositionJoueur(Thierry));
         plateauFantome.setSpecificPosition(Thierry, 12);
         assertEquals(12, plateauFantome.getPositionJoueur(Thierry));
@@ -41,7 +41,7 @@ public class BoardTest {
 
     @Test 
     public void getNombrePrisonsTest(){
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
 
         ((CasePropriete) plateauFantome.getCaseByName("Boulevard de Belleville")).setAsJail();
 
@@ -50,7 +50,7 @@ public class BoardTest {
 
     @Test
     public void getSommeTotaleLoyerActuelleTest(){
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
 
         ((CasePropriete) plateauFantome.getCaseByIndice(1)).setOwner(new VoidBot(0));
         ((CasePropriete) plateauFantome.getCaseByIndice(1)).setHousesNoPay(3);
@@ -63,7 +63,7 @@ public class BoardTest {
 
     @Test
     public void policeDoYourJobTest(){
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
         ((CasePropriete) plateauFantome.getCaseByIndice(1)).setSquat();
         ((CasePropriete) plateauFantome.getCaseByIndice(1)).setOwner(new VoidBot(0));
 
@@ -80,7 +80,7 @@ public class BoardTest {
     @Test
     public void getRandomOwnedProprieteTest(){
         Player Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
         ((CasePropriete) plateauFantome.getCaseByIndice(1)).setOwner(Thierry);
 
         assertEquals("Boulevard de Belleville", plateauFantome.getRandomOwnedPropriete().toString());
@@ -89,7 +89,7 @@ public class BoardTest {
     @Test 
     public void renteDesPrisonsTest() throws IsBankruptException{
         Player Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
         ((CasePropriete) plateauFantome.getCaseByIndice(39)).setOwner(Thierry);
         ((CasePropriete) plateauFantome.getCaseByIndice(39)).setAsJail();
         plateauFantome.renteDesPrisons();

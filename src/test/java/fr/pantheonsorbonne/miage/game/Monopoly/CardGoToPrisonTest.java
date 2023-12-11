@@ -12,7 +12,7 @@ public class CardGoToPrisonTest {
     @Test
     public void TestCardEffect() throws IsBankruptException {
         Player Thierry = new Dumb(1);
-        PerfectBoard plateau2 = new PerfectBoard(Thierry);
+        PerfectBoard plateau2 = new PerfectBoard(new PlayersManager(Thierry));
         Card prison = new CardGoToPrison();
         prison.cardEffect(Thierry, plateau2);
         Thierry.resetTimeOut(Thierry.askGetOutOfJail(plateau2));

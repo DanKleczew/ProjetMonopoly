@@ -13,7 +13,7 @@ public class CaseAchetableTest {
     @Test
     public void getPrixAchatTest(){
 
-        PerfectBoard plateauFantome = new PerfectBoard();
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager());
 
         assertEquals(60, plateauFantome.getAllProprietes().get(0).getPrixAchat());
     }   
@@ -21,7 +21,7 @@ public class CaseAchetableTest {
     @Test
     public void switchHypothequeStatusTest() throws IsBankruptException{
         Player Thierry = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry);
+        PerfectBoard plateauFantome = new PerfectBoard(new PlayersManager(Thierry));
 
         plateauFantome.getAllColoredProprietes().get(0).setOwner(Thierry);
 
@@ -40,12 +40,13 @@ public class CaseAchetableTest {
     public void doCaseEffectTest() throws IsBankruptException{
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(1);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
+        PlayersManager liste = new PlayersManager(Thierry, Didier);
+        PerfectBoard plateauFantome = new PerfectBoard(liste);
 
         plateauFantome.getAllColoredProprietes().get(0).setOwner(Didier);
         
 
-        plateauFantome.getAllColoredProprietes().get(0).doCaseEffect(Thierry, plateauFantome);
+        plateauFantome.getAllColoredProprietes().get(0).doCaseEffect(Thierry, plateauFantome );
 
         assertEquals(1498, Thierry.getBankAccount());
 
@@ -59,11 +60,12 @@ public class CaseAchetableTest {
     public void makePayTest() throws IsBankruptException{
         Player Thierry = new VoidBot(0);
         Player Didier = new VoidBot(0);
-        PerfectBoard plateauFantome = new PerfectBoard(Thierry, Didier);
+        PlayersManager liste = new PlayersManager(Thierry, Didier);
+        PerfectBoard plateauFantome = new PerfectBoard(liste);
         CaseAchetable propriete = plateauFantome.getAllColoredProprietes().get(11);
 
         propriete.setOwner(Didier);
-        propriete.doCaseEffect(Thierry, plateauFantome);
+        propriete.doCaseEffect(Thierry, plateauFantome );
         propriete.doCaseEffect(Didier, plateauFantome);
 
         assertEquals(1482, Thierry.getBankAccount());

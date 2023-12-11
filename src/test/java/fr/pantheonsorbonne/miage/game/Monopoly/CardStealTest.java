@@ -19,8 +19,9 @@ public class CardStealTest{
         Player Thierry2 = new VoidBot(2);
         Player Thierry3 = new VoidBot(3);
         Player Thierry4 = new VoidBot(4);
-        PerfectBoard plateau2 = new PerfectBoard(Thierry1,Thierry2,Thierry3,Thierry4);
-        Card carte = new CardSteal(100);
+        PlayersManager liste = new PlayersManager(Thierry1, Thierry2, Thierry3, Thierry4);
+        PerfectBoard plateau2 = new PerfectBoard(liste);
+        Card carte = new CardSteal(100, liste);
         carte.cardEffect(Thierry1, plateau2);
         assertEquals (1800, Thierry1.getBankAccount());
         assertEquals (1400, Thierry2.getBankAccount());
@@ -32,16 +33,16 @@ public class CardStealTest{
     public void testCardEffectLose() throws IsBankruptException{
         Player Thierry = new VoidBot(1);
         Player Thierry2 = new VoidBot(2);
-
-        PerfectBoard plateaufantome = new PerfectBoard(Thierry, Thierry2);
-        Card carte = new CardSteal(100);
+        PlayersManager liste = new PlayersManager(Thierry, Thierry2);
+        PerfectBoard plateaufantome = new PerfectBoard(liste);
+        Card carte = new CardSteal(100, liste);
         Thierry2.bankAccountModify(-1499);
         carte.cardEffect(Thierry, plateaufantome);
         
         Deque<Player> listeJoueurExpected = new ArrayDeque<Player>();
         listeJoueurExpected.add(Thierry);
 
-        assertArrayEquals(listeJoueurExpected.toArray(), plateaufantome.getListeJoueurs().toArray());
+        assertArrayEquals(listeJoueurExpected.toArray(), liste.getListeJoueurs().toArray());
     }
 
 }
