@@ -15,7 +15,7 @@ public class CleverBot extends Player {
     int[] tableauBooleanReponse = new int[7];
     private int flagPriorityBuyHouse = 0;
 
-    public CleverBot (int ID) {
+    public CleverBot(int ID) {
         super(ID);
     }
 
@@ -74,16 +74,13 @@ public class CleverBot extends Player {
         Map<TypePropriete, Integer> listeDeSouhaitTresRentable = new HashMap<>();
         Map<TypePropriete, Integer> listeDeSouhaitRentable = new HashMap<>();
         Map<TypePropriete, Integer> listeDeSouhaitPeuRentable = new HashMap<>();
-        flagPriorityBuyHouse = 0;
-        listeDeSouhaitTresRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 3, 4, 3,
-                flagPriorityBuyHouse);
-        if (flagPriorityBuyHouse == 1) {
-            listeDeSouhaitRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 2, 5, 6,
-                    flagPriorityBuyHouse);
+        this.flagPriorityBuyHouse = 0;
+        listeDeSouhaitTresRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 3, 4, 3);
+        if (this.flagPriorityBuyHouse == 1) {
+            listeDeSouhaitRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 2, 5, 6);
         }
-        if (flagPriorityBuyHouse == 2) {
-            listeDeSouhaitPeuRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 0, 1, 7,
-                    flagPriorityBuyHouse);
+        if (this.flagPriorityBuyHouse == 2) {
+            listeDeSouhaitPeuRentable = mapBuyHouseForSpecificColor(plateauComplet, moneyICanSpend, 0, 1, 7);
         }
         listeDeSouhaits = mergeTwoMapColor(listeDeSouhaits, listeDeSouhaitTresRentable);
         listeDeSouhaits = mergeTwoMapColor(listeDeSouhaits, listeDeSouhaitRentable);
@@ -91,9 +88,10 @@ public class CleverBot extends Player {
         return listeDeSouhaits;
     }
 
-    public Map<TypePropriete, Integer> mapBuyHouseForSpecificColor(PerfectBoard plateauComplet, int moneyICanSpend,
-            int numColor1, int numColor2, int numColor3, int flagPriorityBuyHouse) {
-        flagPriorityBuyHouse++;
+
+    private Map<TypePropriete, Integer> mapBuyHouseForSpecificColor(PerfectBoard plateauComplet, int moneyICanSpend,
+            int numColor1, int numColor2, int numColor3) {
+        this.flagPriorityBuyHouse++;
         Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
         boucleDesCouleurs: for (TypePropriete couleur : TypePropriete.values()) {
             if (couleur.ordinal() == numColor1 || couleur.ordinal() == numColor2 || couleur.ordinal() == numColor3) {
@@ -108,7 +106,7 @@ public class CleverBot extends Player {
                     }
                 }
                 if (casesDeCetteCouleur.get(casesDeCetteCouleur.size() - 1).getNombreMaisons() < 5) {
-                    flagPriorityBuyHouse--;
+                    this.flagPriorityBuyHouse--;
                     if (casesDeCetteCouleur.get(0).getPrixMaisonUnitaire() < moneyICanSpend) {
                         listeDeSouhaits.put(couleur, 1);
                         moneyICanSpend += -casesDeCetteCouleur.get(0).getPrixMaisonUnitaire();
@@ -120,7 +118,7 @@ public class CleverBot extends Player {
         return listeDeSouhaits;
     }
 
-    public Map<TypePropriete, Integer> mergeTwoMapColor(Map<TypePropriete, Integer> map1,
+    private Map<TypePropriete, Integer> mergeTwoMapColor(Map<TypePropriete, Integer> map1,
             Map<TypePropriete, Integer> map2) {
         for (Map.Entry<TypePropriete, Integer> entry : map2.entrySet()) {
             TypePropriete k = entry.getKey();
@@ -141,6 +139,7 @@ public class CleverBot extends Player {
         if (money < minimumMoney) {
             listeDeSouhaitPeuRentable = mapSellingHouseForSpecificColor(plateauComplet, money, minimumMoney, 0, 1, 7);
         }
+
         if (money < minimumMoney) {
             listeDeSouhaitRentable = mapSellingHouseForSpecificColor(plateauComplet, money, minimumMoney, 6, 2, 5);
         }
@@ -153,27 +152,31 @@ public class CleverBot extends Player {
         return listeDeSouhaits;
     }
 
-    public Map<TypePropriete, Integer> mapSellingHouseForSpecificColor(PerfectBoard plateauComplet, int moneyIHave,
+    private Map<TypePropriete, Integer> mapSellingHouseForSpecificColor(PerfectBoard plateauComplet, int moneyIHave,
             int minimumMoneyINedd, int numColor1, int numColor2, int numColor3) {
         Map<TypePropriete, Integer> listeDeSouhaits = new HashMap<>();
-        boucleDesCouleurs: for (TypePropriete couleur : TypePropriete.values()) {
+        BreakPoint: for (TypePropriete couleur : TypePropriete.values()) {
+            int indiceCaseCouleur = -1;
             if (couleur.ordinal() == numColor1 || couleur.ordinal() == numColor2 || couleur.ordinal() == numColor3) {
+
                 List<CasePropriete> casesDeCetteCouleur2 = plateauComplet.getProprietesByColor(couleur);
-                for (CasePropriete propCol : casesDeCetteCouleur2) {
-                    if (propCol.hasOwner()) {
-                        if (!propCol.getOwner().equals(this)) {
-                            continue boucleDesCouleurs;
+
+                for (int i = 0; i < casesDeCetteCouleur2.size(); i++) {
+                    indiceCaseCouleur++;
+                    if (casesDeCetteCouleur2.get(indiceCaseCouleur).hasOwner()) {
+                        if ((casesDeCetteCouleur2.get(indiceCaseCouleur).getOwner().getID() == this.getID())) {
+                            if (casesDeCetteCouleur2.get(indiceCaseCouleur).getNombreMaisons() > 0) {
+                                if (moneyIHave < minimumMoneyINedd) {
+                                    moneyIHave += casesDeCetteCouleur2.get(0).getPrixMaisonUnitaire() / 2;
+                                    listeDeSouhaits.put(couleur, 1);
+                                } else {
+                                    break BreakPoint;
+                                }
+                            }
+                            continue;
                         }
                     } else {
-                        continue boucleDesCouleurs;
-                    }
-                }
-                if (casesDeCetteCouleur2.get(casesDeCetteCouleur2.size() - 1).getNombreMaisons() > 0) {
-                    if (moneyIHave < minimumMoneyINedd) {
-                        moneyIHave += casesDeCetteCouleur2.get(0).getPrixMaisonUnitaire() / 2;
-                        listeDeSouhaits.put(couleur, 1);
-                    } else {
-                        break boucleDesCouleurs;
+                        continue;
                     }
                 }
             }
@@ -185,42 +188,63 @@ public class CleverBot extends Player {
     protected CaseAchetable[] thinkAboutHypothequeProprietes(PerfectBoard plateauComplet) {
         int money = this.getBankAccount();
         int moneyMinimum = 300;
-            List<CasePropriete> listeHypothequeNonRentableProprietes = new ArrayList<CasePropriete>();
-            List<CasePropriete> listeHypothequeRentableProprietes = new ArrayList<CasePropriete>();
-            List<CasePropriete> listeHypothequeTresRentableProprietes = new ArrayList<CasePropriete>();
+        Map<CasePropriete, Integer> listeHypothequeNonRentableProprietes = new HashMap<>();
+        Map<CasePropriete, Integer> listeHypothequeRentableProprietes = new HashMap<>();
+        Map<CasePropriete, Integer> listeHypothequeTresRentableProprietes = new HashMap<>();
         if (money < moneyMinimum) {
 
-            listeHypothequeNonRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 0, 1, 7);
+            listeHypothequeNonRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                    moneyMinimum, 0, 1, 7);
+            money += getSommeHashMapHypothequeHouse(listeHypothequeNonRentableProprietes);
+
             if (money < moneyMinimum) {
-                listeHypothequeRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 5, 2, 6);
+                listeHypothequeRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                        moneyMinimum, 5, 2, 6);
+                money += getSommeHashMapHypothequeHouse(listeHypothequeRentableProprietes);
             }
             if (money < moneyMinimum) {
-                listeHypothequeTresRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money, moneyMinimum, 3, 4, 4);
+                listeHypothequeTresRentableProprietes = thinkAboutHypothequeSpecificProperties(plateauComplet, money,
+                        moneyMinimum, 3, 4, 4);
+                money += getSommeHashMapHypothequeHouse(listeHypothequeTresRentableProprietes);
             }
-            
-            CasePropriete[] proprietesList = mergeListIntoTable(listeHypothequeNonRentableProprietes,listeHypothequeRentableProprietes,listeHypothequeTresRentableProprietes);
+
+            CasePropriete[] proprietesList = mergeListIntoTable(listeHypothequeNonRentableProprietes,
+                    listeHypothequeRentableProprietes, listeHypothequeTresRentableProprietes);
             return proprietesList;
         } else {
             return new CaseAchetable[0];
         }
     }
 
-    public List<CasePropriete> thinkAboutHypothequeSpecificProperties(PerfectBoard plateauComplet, int moneyIHave,
+    private int getSommeHashMapHypothequeHouse(Map<CasePropriete, Integer> map) {
+        int somme = 0;
+        for (Map.Entry<CasePropriete, Integer> entry : map.entrySet()) {
+            Integer v = entry.getValue();
+            somme += v;
+        }
+
+        return somme;
+    }
+
+    private Map<CasePropriete, Integer> thinkAboutHypothequeSpecificProperties(PerfectBoard plateauComplet,
+            int moneyIHave,
             int minimumMoneyINedd, int numColor1, int numColor2, int numColor3) {
-        List<CasePropriete> listTransformJails = new ArrayList<CasePropriete>();
+        Map<CasePropriete, Integer> listTransformJails = new HashMap<>();
         brackPoint: for (TypePropriete couleur : TypePropriete.values()) {
+            if (moneyIHave < minimumMoneyINedd) {
+                if (couleur.ordinal() == numColor1 || couleur.ordinal() == numColor2
+                        || couleur.ordinal() == numColor3) {
+                    List<CasePropriete> casesDeCetteCouleur = plateauComplet.getProprietesByColor(couleur);
+                    for (CasePropriete propCol : casesDeCetteCouleur) {
+                        if (propCol.hasOwner()) {
+                            if (propCol.getOwner().equals(this)) {
+                                if (!propCol.isAJail()) {
+                                    if (!propCol.isHypothequed()) {
+                                        moneyIHave += propCol.getPrixAchat() / 2;
+                                        listTransformJails.put(propCol, propCol.getPrixAchat() / 2);
+                                    }
 
-            if (couleur.ordinal() == numColor1 || couleur.ordinal() == numColor2 || couleur.ordinal() == numColor3) {
-                List<CasePropriete> casesDeCetteCouleur = plateauComplet.getProprietesByColor(couleur);
-                for (CasePropriete propCol : casesDeCetteCouleur) {
-                    if (propCol.hasOwner()) {
-                        if (!propCol.getOwner().equals(this)) {
-                            if (!propCol.isAJail()) {
-                                if (!propCol.isHypothequed()) {
-                                    moneyIHave += propCol.getPrixAchat() / 2;
-                                    listTransformJails.add(propCol);
                                 }
-
                             }
                         }
                     }
@@ -233,23 +257,29 @@ public class CleverBot extends Player {
         return listTransformJails;
     }
 
-    public CasePropriete[] mergeListIntoTable(List<CasePropriete>list1,List<CasePropriete>list2,List<CasePropriete>list3){
-        List<CasePropriete> combinedList = new ArrayList<>();
-        combinedList.addAll(list1);
-        combinedList.addAll(list2);
-        combinedList.addAll(list3);
-        
-        CasePropriete [] finalList = new CasePropriete[combinedList.size()];
-        finalList = combinedList.toArray(finalList);
+    private CasePropriete[] mergeListIntoTable(Map<CasePropriete, Integer> list1, Map<CasePropriete, Integer> list2,
+            Map<CasePropriete, Integer> list3) {
+
+        Map<CasePropriete, Integer> combinedMap = new HashMap<>();
+        combinedMap.putAll(list1);
+        combinedMap.putAll(list2);
+        combinedMap.putAll(list3);
+
+        CasePropriete[] finalList = new CasePropriete[combinedMap.size()];
+        int indiceMap = 0;
+        for (Map.Entry<CasePropriete, Integer> entry : combinedMap.entrySet()) {
+            CasePropriete v = entry.getKey();
+            finalList[indiceMap] = v;
+            indiceMap++;
+        }
         return finalList;
     }
 
-
-
     @Override
     protected CasePropriete[] thinkAboutCreatingJails(PerfectBoard plateauComplet) {
+
         List<CasePropriete> listTransformJails = new ArrayList<CasePropriete>();
-        List<CaseAchetable> listeDesProp = plateauComplet.getAllProprietes();
+        List<CasePropriete> listeDesProp = plateauComplet.getAllColoredProprietes();
         int countHouse = 0;
         boolean countOwner[] = new boolean[8];
         for (int i = 0; i < countOwner.length; i++) {
@@ -257,7 +287,7 @@ public class CleverBot extends Player {
         }
         int indiceBoolean = 0;
         for (CaseAchetable caseAchetable : listeDesProp) {
-            if (!(caseAchetable.getOwner() == null)) {
+            if (caseAchetable.hasOwner()) {
                 countHouse++;
             }
         }
@@ -286,8 +316,10 @@ public class CleverBot extends Player {
                     List<CasePropriete> casesDeCetteCouleur = plateauComplet.getProprietesByColor(couleur);
                     for (CasePropriete propCol : casesDeCetteCouleur) {
                         if (propCol.hasOwner()) {
+
                             if (propCol.getOwner().equals(this)) {
                                 if (!propCol.isAJail()) {
+
                                     if (countOwner[indiceBoolean] == false) {
                                         listTransformJails.add(propCol);
                                     }
@@ -322,6 +354,4 @@ public class CleverBot extends Player {
         return false;
     }
 
-
 }
-
