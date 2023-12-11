@@ -1,3 +1,9 @@
+# ATTENTION 
+Voici le lien FILEX pour télécharger la vidéo explicative : https://filex-ng.univ-paris1.fr/get?id=6577822371834005d7a3cb1e
+
+## La branche avec la bonne version du projet est "avanceesRisquees" ! 
+
+
 # Règles
 
 Le jeu se joue de deux à quatre joueurs et comporte un maitre du jeu non joueur, le Host.
