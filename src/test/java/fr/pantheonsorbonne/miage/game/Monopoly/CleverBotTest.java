@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;²
+import fr.pantheonsorbonne.miage.game.Monopoly.Boards.PerfectBoard;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 import fr.pantheonsorbonne.miage.game.Monopoly.Cases.CaseAchetable;
