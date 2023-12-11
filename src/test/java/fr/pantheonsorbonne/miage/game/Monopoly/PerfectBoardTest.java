@@ -179,15 +179,4 @@ public class PerfectBoardTest {
         assertEquals(1650, t1.getBankAccount());
     }
 
-    @Test 
-    public void getRichestPlayerTest() throws IsBankruptException{
-        Player t1 = new VoidBot(0);
-        Player t2 = new VoidBot(1);
-
-        t1.bankAccountModify(1000);
-
-        PerfectBoard p = new PerfectBoard(t1, t2);
-
-        assertEquals(t1, p.getRichestPlayer());
-    }
 }

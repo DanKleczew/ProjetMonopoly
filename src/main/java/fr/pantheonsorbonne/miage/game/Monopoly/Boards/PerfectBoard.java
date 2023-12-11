@@ -267,17 +267,4 @@ public class PerfectBoard extends Board {
         // La propriété la plus chère et avec le loyer le plus cher arrive en premier
     }
 
-    public Player getRichestPlayer() {
-        Player riche = listeJoueurs.peek();
-        int max = 0;
-        for (Player joueur : listeJoueurs) {
-            if (joueur.getBankAccount() > max) {
-                max = joueur.getBankAccount();
-                riche = joueur;
-            }
-        }
-        return riche;
-
-    }
-
 }
