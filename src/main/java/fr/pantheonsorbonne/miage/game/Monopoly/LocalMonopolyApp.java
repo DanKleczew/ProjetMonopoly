@@ -11,25 +11,16 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         super(plateauComplet, ensembleDesJoueurs);
     }
 
-    public static void main(String... args) throws IsBankruptException, InterruptedException {
+    public static void main(String... args) throws IsBankruptException {
 
-        int i = 0;
-        int j = 0;
-        for (int k = 0; k<1000; k++){
+
         PlayersManager ensembleDesJoueurs = new PlayersManager(new CleverBot(0), new CleverBot(1) , new Dumb(2), new Dumb(3));
         PerfectBoard plateauEnLocal = new PerfectBoard(ensembleDesJoueurs);
        
         MonopolyEngine localMonopoly = new LocalMonopolyApp(plateauEnLocal, ensembleDesJoueurs);
         
-        if (localMonopoly.play()<=1){
-            i++;
-        }
-        else {
-            j++;
-        }
+        localMonopoly.play();
         
-        }
-        System.out.println(i + "  vs  " + j);
         System.exit(0);
 
     }

@@ -73,12 +73,9 @@ public abstract class MonopolyEngine {
                     }
                     // Quoi qu'il arrive si il était en prison au début du tour
                     // Il thinkAndDo un coup
-                    try{
-                        playerThinkAndDo(currentPlayer.getID(), plateauComplet, ensembleDesJoueurs);
-                    }
-                    catch (IsBankruptException e){
-                        ensembleDesJoueurs.deletePlayer(e, plateauComplet);
-                    }
+                    
+                    playerThinkAndDo(currentPlayer.getID(), plateauComplet, ensembleDesJoueurs);
+                    
                     // Mais impossible qu'il rejoue une deuxième fois (ou joue tout court si il a
                     // payé)
                     break tourJoueur;
@@ -89,6 +86,7 @@ public abstract class MonopolyEngine {
                             e.setGagnant(((CaseAchetable) caseFinale).getOwner());
                         };
                         ensembleDesJoueurs.deletePlayer(e, plateauComplet);
+                        break tourJoueur;
                     }
                    
                 }
@@ -99,7 +97,6 @@ public abstract class MonopolyEngine {
                 thisDiceThrowSeed = random.nextInt(100000);
                 des = currentPlayer.throwDice(plateauComplet, thisDiceThrowSeed);
                 if (compteurRepetitionTour == 3 && des[0] == des[1]) {
-                    System.out.println("Triple doubles ! En prison !");
                     currentPlayer.setTimeOut(plateauComplet);
                     break tourJoueur;
                 }
