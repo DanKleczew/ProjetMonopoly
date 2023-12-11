@@ -27,7 +27,7 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         else {
             j++;
         }
-        Thread.sleep(2000);
+        
         }
         System.out.println(i + "  vs  " + j);
         System.exit(0);

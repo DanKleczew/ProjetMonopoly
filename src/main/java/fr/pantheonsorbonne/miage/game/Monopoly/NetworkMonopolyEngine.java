@@ -25,7 +25,6 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
 
     private final HostFacade hostFacade;
     private final Game monopoly;
-    private static PlayersManager ensembleDesJoueurs;
 
     protected NetworkMonopolyEngine(HostFacade hostFacade, PlayersManager ensembleDesJoueurs, Game monopoly) {
         super(new PerfectBoard(ensembleDesJoueurs), ensembleDesJoueurs);
@@ -51,8 +50,8 @@ public class NetworkMonopolyEngine extends MonopolyEngine {
             //On appelera jamais les méthodes des bots de la liste, ce sont juste des flags avec un id = à celui du joueur
             i++;
         }
-        ensembleDesJoueurs = new PlayersManager(listeJoueurs);
-        MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, ensembleDesJoueurs, monopoly);
+        
+        MonopolyEngine host = new NetworkMonopolyEngine(hostFacade, new PlayersManager(listeJoueurs), monopoly);
         int winnerID = host.play();
 
         for (String ID : setJoueurs){

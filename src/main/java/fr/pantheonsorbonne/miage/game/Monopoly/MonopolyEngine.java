@@ -14,7 +14,7 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Players.PlayersManager;
 public abstract class MonopolyEngine {
 
     protected final PerfectBoard plateauComplet;
-    protected final PlayersManager ensembleDesJoueurs;
+    protected PlayersManager ensembleDesJoueurs;
     private int compteTours = 0;
     private static final double SQUATT_PROBA_DENOMINATEUR = 20000.00;
     // La probabilité qu'un squatteur apparaisse est de (Somme Totale des Loyers
@@ -52,20 +52,13 @@ public abstract class MonopolyEngine {
                     thisDiceThrowSeed = random.nextInt(1000000000);
                     des = currentPlayer.throwDice(plateauComplet, thisDiceThrowSeed);
                     // Si il fait un double
-                    if (des[0] == des[1]) {
-                        try {
+                    try {
+                        if (des[0] == des[1]) {
+                            currentPlayer.resetTimeOut(true);
                             walkAndDoEffect(plateauComplet, currentPlayer, des);
-
-                            // Si ca le fait perdre on catch l'exception
-                        } catch (IsBankruptException e) {
-                            Case caseFinale = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
-                            if (caseFinale instanceof CaseAchetable){
-                                e.setGagnant(((CaseAchetable) caseFinale).getOwner());
-                            };
-                            ensembleDesJoueurs.deletePlayer(e, plateauComplet);
-                        }
+                         
                         // Sinon (il est en prison et n'a pas fait un double)
-                    } else {
+                        } else {
                         // Si il veut payer 50 pour sortir
                         if (this.askPlayerGetOutOfJail(currentPlayer.getID(),
                                 plateauComplet, ensembleDesJoueurs)) {
@@ -81,17 +74,24 @@ public abstract class MonopolyEngine {
                     // Quoi qu'il arrive si il était en prison au début du tour
                     // Il thinkAndDo un coup
                     try{
-                    playerThinkAndDo(currentPlayer.getID(), plateauComplet, ensembleDesJoueurs);
+                        playerThinkAndDo(currentPlayer.getID(), plateauComplet, ensembleDesJoueurs);
                     }
                     catch (IsBankruptException e){
                         ensembleDesJoueurs.deletePlayer(e, plateauComplet);
                     }
-
                     // Mais impossible qu'il rejoue une deuxième fois (ou joue tout court si il a
                     // payé)
                     break tourJoueur;
+                    }
+                    catch (IsBankruptException e) {
+                        Case caseFinale = plateauComplet.getCaseByIndice(plateauComplet.getPositionJoueur(currentPlayer));
+                        if (caseFinale instanceof CaseAchetable){
+                            e.setGagnant(((CaseAchetable) caseFinale).getOwner());
+                        };
+                        ensembleDesJoueurs.deletePlayer(e, plateauComplet);
+                    }
+                   
                 }
-
                 // Si il n'est pas en prison :
 
                 compteurRepetitionTour++;
@@ -99,6 +99,7 @@ public abstract class MonopolyEngine {
                 thisDiceThrowSeed = random.nextInt(100000);
                 des = currentPlayer.throwDice(plateauComplet, thisDiceThrowSeed);
                 if (compteurRepetitionTour == 3 && des[0] == des[1]) {
+                    System.out.println("Triple doubles ! En prison !");
                     currentPlayer.setTimeOut(plateauComplet);
                     break tourJoueur;
                 }
