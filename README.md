@@ -85,4 +85,4 @@ La somme d'argent possédée par chaque joueur fluctue selon les cases sur lesqu
 Si il a été éliminé par un autre joueur, toutes ses propriétés, réinitialisées, reviennent à celui-ci. Sinon, elles sont de nouveau achetables.
 Le gagnant est le dernier joueur en lice.
 
-#Pour le protocole réseau, veuillez lire PROTOCOLE.md
+# Pour le protocole réseau, veuillez lire PROTOCOLE.md
