@@ -148,9 +148,8 @@ public abstract class MonopolyEngine {
                 joueur.bankAccountModify(-(compteTours/4));
             }
         }
-        
+
         compteTours++;
-        System.out.println("Perte de "+ compteTours/4);
 
         if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) {
             // Simule la proba des squatteurs
