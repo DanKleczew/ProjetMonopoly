@@ -12,22 +12,6 @@ import fr.pantheonsorbonne.miage.game.Monopoly.Cases.*;
 import fr.pantheonsorbonne.miage.game.Monopoly.Players.*;
 
 public class PerfectBoardTest {
-    @Test
-    void testGetListeJoueurs() {
-        // getter
-    }
-
-    @Test
-    void testGetNextPlayer() {
-        // getter
-    }
-
-    @Test
-    void testGetSommeDesThisRound() {
-        // Player Thierry = new Manual(1);
-        // PerfectBoard plateau = new PerfectBoard();
-        // hmm c'est du random donc peut pas vraiment tester ...
-    }
 
     @Test
     void testIsGameFinished() throws IsBankruptException {
