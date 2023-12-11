@@ -16,7 +16,7 @@ public final class LocalMonopolyApp extends MonopolyEngine {
         int winner2 = 0;
 
 
-        for  (int i = 0; i < 100; i++){
+        for  (int i = 0; i < 2000; i++){
         PerfectBoard plateauEnLocal = new PerfectBoard(new CleverBot(0), new CleverBot(1) , new VoidBot(2), new VoidBot(3));
         LocalMonopolyApp localMonopoly = new LocalMonopolyApp(plateauEnLocal);
         
