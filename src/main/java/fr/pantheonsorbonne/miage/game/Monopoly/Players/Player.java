@@ -130,9 +130,10 @@ public abstract class Player {
     //thinkAndDo appelé par le LocalEngine qui peut se permettre de demander ici au joueur ce qu'il veut faire
     public void thinkAndDo(PerfectBoard plateauComplet) throws IsBankruptException {
         plateauComplet.addNumerousHouses(thinkAboutBuyingHouses(plateauComplet));
+        this.transformToJails(thinkAboutCreatingJails(plateauComplet)); 
         plateauComplet.sellNumerousHouses(thinkAboutSellingHouses(plateauComplet));
         this.sellProprietes(thinkAboutHypothequeProprietes(plateauComplet));
-        this.transformToJails(thinkAboutCreatingJails(plateauComplet)); 
+
     }
 
     //thinkAndDo appelé par le networkEngine après avoir recueilli les infos auprès du joueur via le réseau
