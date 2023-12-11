@@ -56,9 +56,9 @@ De plus la vente d'une maison rapporte la moitié de ce qu'a couté son achat
 
 ### Petit ajout :
 
-Après le tour de tous les joueurs, le plus riche perd le numéro du tour d'argent (au tour 37, 37$)
+Après le tour de tous les joueurs, chaque joueur perd le numéro du tour divisé par 4 d'argent (au tour 20, 5 $ de perdu par tous). 
 Cette règle a été ajoutée pour éviter les parties infinies, par exemple lorsque l'on fait jouer des robots qui ne font rien et ne font donc que profiter du gain de passage de la case départ.
-De plus, cela favorise la stratégie puisqu'elle punit en début de partie les joueurs qui jouent trop prudemment et n'achètent rien.
+De plus, cela favorise la stratégie puisqu'elle punit les joueurs qui ne font rien à long terme.
 
 ### Casseurs :
 
