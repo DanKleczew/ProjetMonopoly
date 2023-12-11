@@ -143,9 +143,12 @@ public abstract class MonopolyEngine {
     private void finDeTourGeneral() throws IsBankruptException{
         plateauComplet.resetPlayingStatusAllPlayers(); // On remet en false le a joué
 
-        if (plateauComplet.getRichestPlayer().getBankAccount() > compteTours){
-            plateauComplet.getRichestPlayer().bankAccountModify(-compteTours);
+        for (Player joueur : plateauComplet.getListeJoueurs()){
+            if (joueur.getBankAccount() > compteTours/4){
+                joueur.bankAccountModify(-(compteTours/4));
+            }
         }
+
         compteTours++;
 
         if (Math.random() < plateauComplet.getSommeTotaleLoyerActuelle() / SQUATT_PROBA_DENOMINATEUR) {
